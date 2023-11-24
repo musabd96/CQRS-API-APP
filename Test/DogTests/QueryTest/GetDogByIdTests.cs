@@ -1,4 +1,5 @@
-﻿using Application.Queries.Dogs.GetById;
+﻿using Application.Queries.Dogs;
+using Application.Queries.Dogs.GetById;
 using Infrastructure.Database;
 
 namespace Test.DogTests.QueryTest
@@ -8,13 +9,15 @@ namespace Test.DogTests.QueryTest
     {
         private GetDogByIdQueryHandler _handler;
         private MockDatabase _mockDatabase;
+        private MockDatabase _originalDatabase;
 
         [SetUp]
         public void SetUp()
         {
-            // Initialize the handler and mock database before each test
-            _mockDatabase = new MockDatabase();
-            _handler = new GetDogByIdQueryHandler(_mockDatabase);
+            // Initialize the original database and create a clone for each test
+            _originalDatabase = new MockDatabase();
+            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
+            _handler = new GetDogByIdQueryHandler(_originalDatabase);
         }
 
         [Test]
@@ -29,7 +32,6 @@ namespace Test.DogTests.QueryTest
             var result = await _handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
             Assert.That(result.Id, Is.EqualTo(dogId));
         }
 
