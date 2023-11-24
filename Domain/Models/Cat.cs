@@ -1,7 +1,8 @@
-﻿
-namespace Domain.Models.Animal
+﻿using Domain.Models.Animal;
+
+namespace Domain.Models
 {
-    internal class Cat : AnimalModel
+    public class Cat : AnimalModel
     {
         public string Meow()
         {
