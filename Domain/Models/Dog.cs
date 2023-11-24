@@ -4,9 +4,7 @@ namespace Domain.Models
 {
     public class Dog : AnimalModel
     {
-        public string Bark()
-        {
-            return "This animal barks";
-        }
+        public override string TypeOfAnimal => "Dog";
+        public override string animalCanDo => "This animal can bark";
     }
 }
