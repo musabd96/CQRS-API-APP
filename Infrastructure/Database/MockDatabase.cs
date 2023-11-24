@@ -9,6 +9,11 @@ namespace Infrastructure.Database
             get { return allDogs; }
             set { allDogs = value; }
         }
+        public List<Cat> Cats
+        {
+            get { return allCats; }
+            set { allCats = value; }
+        }
 
 
         private static List<Dog> allDogs = new()
@@ -21,12 +26,23 @@ namespace Infrastructure.Database
             new Dog { Id = new Guid("12345678-1234-5678-1234-567812345678"), Name = "TestDogForUnitTests"}
         };
 
+        private static List<Cat> allCats = new()
+        {
+            new Cat { Id = Guid.NewGuid(), Name = "Steven"},
+            new Cat { Id = Guid.NewGuid(), Name = "Alpin"},
+            new Cat { Id = Guid.NewGuid(), Name = "Nelson"},
+            new Cat { Id = new Guid("12345678-1234-5678-1234-567812345670"), Name = "TestDogForUnitTests"},
+            new Cat { Id = new Guid("12345678-1234-5678-1234-567812345671"), Name = "TestDogForUnitTests"},
+            new Cat { Id = new Guid("12345678-1234-5678-1234-567812345678"), Name = "TestDogForUnitTests"}
+        };
+
 
         public object Clone()
         {
             MockDatabase clone = new MockDatabase
             {
-                Dogs = new List<Dog>(Dogs)
+                Dogs = new List<Dog>(Dogs),
+                Cats = new List<Cat>(Cats)
             };
 
             return clone;
