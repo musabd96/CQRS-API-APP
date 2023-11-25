@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Queries.Dogs;
 
-namespace Test.DogTests.QueryTest
+namespace Test.QueryTests.Dogs
 {
     [TestFixture]
     public class GetAllDogsTests

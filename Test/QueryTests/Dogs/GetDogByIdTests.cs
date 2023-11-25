@@ -2,7 +2,7 @@
 using Application.Queries.Dogs.GetById;
 using Infrastructure.Database;
 
-namespace Test.DogTests.QueryTest
+namespace Test.QueryTests.Dogs
 {
     [TestFixture]
     public class GetDogByIdTests
