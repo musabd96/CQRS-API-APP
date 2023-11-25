@@ -1,4 +1,7 @@
-﻿using Application.Queries.Cats.GetById;
+﻿using Application.Commands.Cats;
+using Application.Commands.Dogs;
+using Application.Dtos;
+using Application.Queries.Cats.GetById;
 using Application.Queries.Cats.GettAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +32,14 @@ namespace API.Controllers.CatsController
         public async Task<IActionResult> GetCatById(Guid catId)
         {
             return Ok(await _mediator.Send(new GetCatByIdQuery(catId)));
+        }
+
+        // Create a new cat 
+        [HttpPost]
+        [Route("addNewCat")]
+        public async Task<IActionResult> AddCat([FromBody] CatDto newCat)
+        {
+            return Ok(await _mediator.Send(new AddCatCommand(newCat)));
         }
     }
 }
