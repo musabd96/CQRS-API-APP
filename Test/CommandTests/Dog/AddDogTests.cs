@@ -1,23 +1,24 @@
-﻿
-
-using Application.Commands.Dogs;
+﻿using Application.Commands.Dogs;
+using Application.Commands.Dogs.DeleteDog;
 using Application.Dtos;
 using Infrastructure.Database;
 
-namespace Test.DogTests.CommandTest
+namespace Test.CommandTest.Dogs
 {
     [TestFixture]
-    public class AddDogCommandHandlerTests
+    public class AddDogTests
     {
         private AddDogCommandHandler _handler;
         private MockDatabase _mockDatabase;
+        private MockDatabase _originalDatabase;
 
         [SetUp]
         public void SetUp()
         {
-            // Initialize the handler and mock database before each test
-            _mockDatabase = new MockDatabase();
-            _handler = new Application.Commands.Dogs.AddDogCommandHandler(_mockDatabase);
+            // Initialize the original database and create a clone for each test
+            _originalDatabase = new MockDatabase();
+            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
+            _handler = new AddDogCommandHandler(_originalDatabase);
         }
 
         [Test]

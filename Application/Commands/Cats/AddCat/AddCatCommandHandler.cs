@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Application.Commands.Dogs;
+using Domain.Models;
 using Infrastructure.Database;
 using MediatR;
 
@@ -13,8 +14,7 @@ namespace Application.Commands.Cats
             _mockDatabase = mockDatabase;
         }
 
-
-        Task<Cat> IRequestHandler<AddCatCommand, Cat>.Handle(AddCatCommand request, CancellationToken cancellationToken)
+        public Task<Cat> Handle(AddCatCommand request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(request.NewCat.Name))
             {

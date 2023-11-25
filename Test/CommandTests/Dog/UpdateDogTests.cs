@@ -1,24 +1,24 @@
-﻿using Application.Commands.Dogs;
-using Application.Commands.Dogs.DeleteDog;
-using Application.Commands.Dogs.UpdateDog;
+﻿using Application.Commands.Dogs.UpdateDog;
 using Application.Dtos;
-using Domain.Models;
+using Application.Queries.Dogs.GetById;
 using Infrastructure.Database;
 
-namespace Test.DogTests.CommandTest
+namespace Test.CommandTest.Dogs
 {
     [TestFixture]
-    public class UpdateDog
+    public class UpdateDogTests
     {
         private UpdateDogByIdCommandHandler _handler;
         private MockDatabase _mockDatabase;
+        private MockDatabase _originalDatabase;
 
         [SetUp]
         public void SetUp()
         {
-            // Initialize the handler and mock database before each test
-            _mockDatabase = new MockDatabase();
-            _handler = new UpdateDogByIdCommandHandler(_mockDatabase);
+            // Initialize the original database and create a clone for each test
+            _originalDatabase = new MockDatabase();
+            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
+            _handler = new UpdateDogByIdCommandHandler(_originalDatabase);
         }
 
         [Test]
@@ -57,12 +57,6 @@ namespace Test.DogTests.CommandTest
             // Assert
             Assert.IsNull(result, "The result should be null for an invalid dog ID.");
         }
-
-
-
-
-
-
 
     }
 }
