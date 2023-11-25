@@ -1,5 +1,5 @@
-﻿using Application.Queries.Cats.GettAll;
-using Application.Queries.Dogs.GetAll;
+﻿using Application.Queries.Cats.GetById;
+using Application.Queries.Cats.GettAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +21,14 @@ namespace API.Controllers.CatsController
         public async Task<IActionResult> GetAllDogs()
         {
             return Ok(await _mediator.Send(new GetAllCatsQuery()));
+        }
+
+        // Get a cat by Id
+        [HttpGet]
+        [Route("getCatById/{catId}")]
+        public async Task<IActionResult> GetCatById(Guid catId)
+        {
+            return Ok(await _mediator.Send(new GetCatByIdQuery(catId)));
         }
     }
 }
