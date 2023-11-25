@@ -22,4 +22,9 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Command Tests\Cat\" />
+    <Folder Include="QueryTests\Cat\" />
+  </ItemGroup>
+
 </Project>
