@@ -7,6 +7,7 @@ using Application.Dtos;
 using Application.Commands.Birds.AddBird;
 using Application.Commands.Birds.UpdateBird;
 using Application.Commands.Birds.DeleteBird;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers.BirdsController
 {
@@ -22,7 +23,7 @@ namespace API.Controllers.BirdsController
 
         // Get all birds from database
         [HttpGet]
-        [Route("getAllBirds")]
+        [Route("getAllBirds"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllBirds()
         {
             return Ok(await _mediator.Send(new GetAllBirdsQuery()));
