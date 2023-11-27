@@ -6,5 +6,6 @@ namespace Domain.Models
     {
         public override string TypeOfAnimal => "Bird";
         public override string animalCanDo => "This animal can fly";
+        public bool LikesToPlay { get; set; }
     }
 }
