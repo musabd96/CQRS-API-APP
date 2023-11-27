@@ -14,11 +14,11 @@ namespace API.Controllers.AuthController
     {
         public static User user = new User();
         private readonly IConfiguration _configuration;
-        public AuthController(IConfiguration configuration) 
+        public AuthController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        
+
         [HttpPost("register")]
         public ActionResult<User> Register(UserDto request)
         {
@@ -33,12 +33,12 @@ namespace API.Controllers.AuthController
         [HttpPost("login")]
         public ActionResult<User> Login(UserDto request)
         {
-            if(user.Username != request.Username )
+            if (user.Username != request.Username)
             {
                 return BadRequest("User not found");
             }
 
-            if(!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             {
                 return BadRequest("Password is wrong!");
             }
@@ -54,15 +54,15 @@ namespace API.Controllers.AuthController
                 new Claim(ClaimTypes.Role, "Admin"),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _configuration.GetSection("JWTToken:Token").Value!));
+            var key = Encoding.ASCII.GetBytes(
+                _configuration["JWTToken:Token"]!);
 
 
             var token = new JwtSecurityToken
             (
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             );
 
             var tokenHandler = new JwtSecurityTokenHandler();
