@@ -27,8 +27,8 @@ namespace Test.CommandTests.Cat
         {
             // Arrange
             var catId = new Guid("12345678-1234-5678-1234-567812345678");
-            var updatedName = new CatDto { Name = "NewCatName" };
-
+            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false };
+            
             var command = new UpdateCatByIdCommand(updatedName, catId);
 
             //Act
