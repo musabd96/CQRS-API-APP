@@ -33,12 +33,12 @@ namespace Infrastructure.Database
 
         private static List<Cat> allCats = new()
         {
-            new Cat { Id = Guid.NewGuid(), Name = "Steven"},
-            new Cat { Id = Guid.NewGuid(), Name = "Alpin"},
-            new Cat { Id = Guid.NewGuid(), Name = "Nelson"},
-            new Cat { Id = new Guid("12345678-1234-5678-1234-567812345670"), Name = "TestCatForUnitTests"},
-            new Cat { Id = new Guid("12345678-1234-5678-1234-567812345671"), Name = "TestCatForUnitTests"},
-            new Cat { Id = new Guid("12345678-1234-5678-1234-567812345678"), Name = "TestCatForUnitTests"}
+            new Cat { Id = Guid.NewGuid(), Name = "Steven", LikesToPlay = true},
+            new Cat { Id = Guid.NewGuid(), Name = "Alpin", LikesToPlay = true},
+            new Cat { Id = Guid.NewGuid(), Name = "Nelson", LikesToPlay = true},
+            new Cat { Id = new Guid("12345678-1234-5678-1234-567812345670"), Name = "TestCatForUnitTests", LikesToPlay = true},
+            new Cat { Id = new Guid("12345678-1234-5678-1234-567812345671"), Name = "TestCatForUnitTests", LikesToPlay = true},
+            new Cat { Id = new Guid("12345678-1234-5678-1234-567812345678"), Name = "TestCatForUnitTests", LikesToPlay = true}
         };
 
         private static List<Bird> allBirds = new()
