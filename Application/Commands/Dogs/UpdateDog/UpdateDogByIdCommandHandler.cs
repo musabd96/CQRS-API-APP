@@ -19,6 +19,7 @@ namespace Application.Commands.Dogs.UpdateDog
             if (dogToUpdate != null)
             {
                 dogToUpdate.Name = request.UpdatedDog.Name;
+                dogToUpdate.LikesToPlay = request.UpdatedDog.LikesToPlay;
                 return Task.FromResult(dogToUpdate);
             }
 

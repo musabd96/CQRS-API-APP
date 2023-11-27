@@ -26,7 +26,7 @@ namespace Test.CommandTest.Dogs
         {
             // Arrange
             var dogId = new Guid("12345678-1234-5678-1234-567812345678");
-            var updatedName = new DogDto { Name = "NewDogName" };
+            var updatedName = new DogDto { Name = "NewDogName", LikesToPlay = false };
 
             var command = new UpdateDogByIdCommand(updatedName, dogId);
 
