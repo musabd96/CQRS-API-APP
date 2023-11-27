@@ -43,12 +43,12 @@ namespace Infrastructure.Database
 
         private static List<Bird> allBirds = new()
         {
-            new Bird { Id = Guid.NewGuid(), Name = "Alex"},
-            new Bird { Id = Guid.NewGuid(), Name = "Sofia"},
-            new Bird { Id = Guid.NewGuid(), Name = "Max"},
-            new Bird { Id = new Guid("12345678-1234-5678-1234-567812345670"), Name = "TestCatForUnitTests"},
-            new Bird { Id = new Guid("12345678-1234-5678-1234-567812345671"), Name = "TestCatForUnitTests"},
-            new Bird { Id = new Guid("12345678-1234-5678-1234-567812345678"), Name = "TestCatForUnitTests"}
+            new Bird { Id = Guid.NewGuid(), Name = "Alex", LikesToPlay = true},
+            new Bird { Id = Guid.NewGuid(), Name = "Sofia", LikesToPlay = true},
+            new Bird { Id = Guid.NewGuid(), Name = "Max", LikesToPlay = true},
+            new Bird { Id = new Guid("12345678-1234-5678-1234-567812345670"), Name = "TestCatForUnitTests", LikesToPlay = true},
+            new Bird { Id = new Guid("12345678-1234-5678-1234-567812345671"), Name = "TestCatForUnitTests", LikesToPlay = true},
+            new Bird { Id = new Guid("12345678-1234-5678-1234-567812345678"), Name = "TestCatForUnitTests", LikesToPlay = true}
         };
 
 

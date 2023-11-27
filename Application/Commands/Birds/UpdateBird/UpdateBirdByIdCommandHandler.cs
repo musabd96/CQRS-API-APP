@@ -20,6 +20,7 @@ namespace Application.Commands.Birds.UpdateBird
             if (birdToUpdate != null)
             {
                 birdToUpdate.Name = request.UpdatedBird.Name;
+                birdToUpdate.LikesToPlay = request.UpdatedBird.LikesToPlay;
                 return Task.FromResult(birdToUpdate);
             }
 

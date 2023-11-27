@@ -25,7 +25,7 @@ namespace Test.CommandTests.Bird
         {
             // Arrange
             var birdId = new Guid("12345678-1234-5678-1234-567812345678");
-            var updatedName = new BirdDto { Name = "NewBirdName" };
+            var updatedName = new BirdDto { Name = "NewBirdName", LikesToPlay = false };
 
             var command = new UpdateBirdByIdCommand(updatedName, birdId);
 
