@@ -9,7 +9,7 @@ namespace Test.QueryTests.Cats
     public class GetAllCatsTests
     {
         private GetAllCatsQueryhandler _handler;
-        private MockDatabase _mockDatabase;
+        private MockDatabase? _mockDatabase;
         private MockDatabase _originalDatabase;
 
         [SetUp]
@@ -18,7 +18,7 @@ namespace Test.QueryTests.Cats
             // Initialize the original database and create a clone for each test
             _originalDatabase = new MockDatabase();
             _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new GetAllCatsQueryhandler(_mockDatabase);
+            _handler = new GetAllCatsQueryhandler(_mockDatabase!);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace Test.QueryTests.Cats
             // Arrange
             // Set up the database to simulate an invalid scenario (e.g., set it to null or throw an exception)
             _mockDatabase = null;
-            _handler = new GetAllCatsQueryhandler(_mockDatabase);
+            _handler = new GetAllCatsQueryhandler(_mockDatabase!);
 
             // Act
             List<Cat> result = await _handler.Handle(new GetAllCatsQuery(), CancellationToken.None);

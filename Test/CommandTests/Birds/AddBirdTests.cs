@@ -9,15 +9,13 @@ namespace Test.CommandTests.Bird
     {
         private AddBirdCommandHandler _handler;
         private MockDatabase _mockDatabase;
-        private MockDatabase _originalDatabase;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _originalDatabase = new MockDatabase();
-            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new AddBirdCommandHandler(_originalDatabase);
+            _mockDatabase = new MockDatabase();
+            _handler = new AddBirdCommandHandler(_mockDatabase);
         }
 
 
@@ -31,10 +29,9 @@ namespace Test.CommandTests.Bird
             var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            var newBirdInDatabase = _mockDatabase.Birds.FirstOrDefault(bird => bird.Name == "NewBird");
+            Assert.IsNotNull(_mockDatabase.Birds.FirstOrDefault(bird => bird.Name == "NewBird"));
+            Assert.That(_mockDatabase.Birds.FirstOrDefault(bird => bird.Name == "NewBird").Name, Is.EqualTo("NewBird"));
 
-            Assert.IsNotNull(newBirdInDatabase);
-            Assert.That(newBirdInDatabase.Name, Is.EqualTo("NewBird"));
         }
 
         [Test]

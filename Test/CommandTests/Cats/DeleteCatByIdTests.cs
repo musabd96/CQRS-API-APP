@@ -1,6 +1,4 @@
 ﻿using Application.Commands.Cats.DeleteCat;
-using Application.Commands.Dogs.DeleteDog;
-using Application.Queries.Dogs.GetById;
 using Infrastructure.Database;
 
 namespace Test.CommandTests.Cat
@@ -10,15 +8,13 @@ namespace Test.CommandTests.Cat
     {
         private DeleteCatByIdCommandHandler _handler;
         private MockDatabase _mockDatabase;
-        private MockDatabase _originalDatabase;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _originalDatabase = new MockDatabase();
-            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new DeleteCatByIdCommandHandler(_originalDatabase);
+            _mockDatabase = new MockDatabase();
+            _handler = new DeleteCatByIdCommandHandler(_mockDatabase);
         }
 
         [Test]

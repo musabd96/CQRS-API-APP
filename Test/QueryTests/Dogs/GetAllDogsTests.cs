@@ -9,7 +9,7 @@ namespace Test.QueryTests.Dogs
     public class GetAllDogsTests
     {
         private GetAllDogsQueryHandler _handler;
-        private MockDatabase _mockDatabase;
+        private MockDatabase? _mockDatabase;
         private MockDatabase _originalDatabase;
 
         [SetUp]
@@ -18,7 +18,7 @@ namespace Test.QueryTests.Dogs
             // Initialize the original database and create a clone for each test
             _originalDatabase = new MockDatabase();
             _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new GetAllDogsQueryHandler(_mockDatabase);
+            _handler = new GetAllDogsQueryHandler(_mockDatabase!);
         }
 
 
@@ -41,7 +41,7 @@ namespace Test.QueryTests.Dogs
             // Arrange
             // Set up the database to simulate an invalid scenario (e.g., set it to null or throw an exception)
             _mockDatabase = null;
-            _handler = new GetAllDogsQueryHandler(_mockDatabase);
+            _handler = new GetAllDogsQueryHandler(_mockDatabase!);
 
             // Act
             List<Dog> result = await _handler.Handle(new GetAllDogsQuery(), CancellationToken.None);

@@ -8,7 +8,7 @@ namespace Test.QueryTests.Birds
     public class GetAllBirdsTests
     {
         private GetAllBirdsQueryHandler _handler;
-        private MockDatabase _mockDatabase;
+        private MockDatabase? _mockDatabase;
         private MockDatabase _originalDatabase;
 
         [SetUp]
@@ -17,7 +17,7 @@ namespace Test.QueryTests.Birds
             // Initialize the original database and create a clone for each test
             _originalDatabase = new MockDatabase();
             _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new GetAllBirdsQueryHandler(_mockDatabase);
+            _handler = new GetAllBirdsQueryHandler(_mockDatabase!);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace Test.QueryTests.Birds
             // Arrange
             // Set up the database to simulate an invalid scenario (e.g., set it to null or throw an exception)
             _mockDatabase = null;
-            _handler = new GetAllBirdsQueryHandler(_mockDatabase);
+            _handler = new GetAllBirdsQueryHandler(_mockDatabase!);
 
             // Act
             List<Bird> result = await _handler.Handle(new GetAllBirdsQuery(), CancellationToken.None);
