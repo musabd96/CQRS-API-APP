@@ -8,15 +8,13 @@ namespace Test.QueryTests.Cats
     {
         private GetCatByIdQueryHandler _handler;
         private MockDatabase _mockDatabase;
-        private MockDatabase _originalDatabase;
 
         [SetUp]
         public void SetUp()
         {
-            // Initialize the original database and create a clone for each test
-            _originalDatabase = new MockDatabase();
-            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new GetCatByIdQueryHandler(_originalDatabase);
+            /// Initialize the original database and create a clone for each test
+            _mockDatabase = new MockDatabase();
+            _handler = new GetCatByIdQueryHandler(_mockDatabase);
         }
 
         [Test]

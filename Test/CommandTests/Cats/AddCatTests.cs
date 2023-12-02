@@ -1,6 +1,5 @@
 ﻿using Application.Commands.Cats;
 using Application.Dtos;
-using Application.Queries.Dogs.GetById;
 using Infrastructure.Database;
 
 namespace Test.CommandTests.Cat
@@ -10,15 +9,13 @@ namespace Test.CommandTests.Cat
     {
         private AddCatCommandHandler _handler;
         private MockDatabase _mockDatabase;
-        private MockDatabase _originalDatabase;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _originalDatabase = new MockDatabase();
-            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new AddCatCommandHandler(_originalDatabase);
+            _mockDatabase = new MockDatabase();
+            _handler = new AddCatCommandHandler(_mockDatabase);
         }
 
         [Test]
@@ -31,10 +28,8 @@ namespace Test.CommandTests.Cat
             var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            var newCatInDatabase = _mockDatabase.Cats.FirstOrDefault(cat => cat.Name == "NewCat");
-
-            Assert.IsNotNull(newCatInDatabase);
-            Assert.That(newCatInDatabase.Name, Is.EqualTo("NewCat"));
+            Assert.IsNotNull(_mockDatabase.Cats.FirstOrDefault(cat => cat.Name == "NewCat"));
+            Assert.That(_mockDatabase.Cats.FirstOrDefault(cat => cat.Name == "NewCat").Name, Is.EqualTo("NewCat"));
         }
 
         [Test]

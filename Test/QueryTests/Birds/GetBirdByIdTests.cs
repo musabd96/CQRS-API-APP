@@ -8,15 +8,13 @@ namespace Test.QueryTests.Birds
     {
         private GetBirdByIdQueryHandler _handler;
         private MockDatabase _mockDatabase;
-        private MockDatabase _originalDatabase;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _originalDatabase = new MockDatabase();
-            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new GetBirdByIdQueryHandler(_originalDatabase);
+            _mockDatabase = new MockDatabase();
+            _handler = new GetBirdByIdQueryHandler(_mockDatabase);
         }
 
         [Test]
