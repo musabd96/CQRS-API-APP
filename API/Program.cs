@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
 using Microsoft.Extensions.Options;
+using Infrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,9 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddApplication().AddInfrastructure();
+
+// Register AppDbContext
+builder.Services.AddDbContext<AppDbContext>();
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>

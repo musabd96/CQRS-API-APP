@@ -24,5 +24,22 @@ namespace Infrastructure.Database
             // Call the SeedAnimals method to populate the data
             AnimalSeeder.SeedAnimals(modelBuilder);
         }
+
+        public AppDbContext Clone()
+        {
+            // Create a new instance of AppDbContext
+            var clone = new AppDbContext();
+
+            // Copy data from the original context to the clone
+            clone.Database.EnsureCreated();
+            clone.Dogs.AddRange(Dogs.ToList());
+            clone.Cats.AddRange(Cats.ToList());
+            clone.Birds.AddRange(Birds.ToList());
+
+            // Note: You may need to handle other DbSet properties if you have more in your actual DbContext
+
+            return clone;
+        }
+
     }
 }

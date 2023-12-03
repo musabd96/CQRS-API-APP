@@ -1,25 +1,31 @@
 ﻿using Domain.Models;
 using Infrastructure.Database;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.Birds.GetAll
 {
     public class GetAllBirdsQueryHandler : IRequestHandler<GetAllBirdsQuery, List<Bird>>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly AppDbContext? _dbContext;
 
-        public GetAllBirdsQueryHandler(MockDatabase mockDatabase)
+        public GetAllBirdsQueryHandler(AppDbContext appDbContext)
         {
-            _mockDatabase = mockDatabase;
+            _dbContext = appDbContext;
         }
-        public Task<List<Bird>> Handle(GetAllBirdsQuery request, CancellationToken cancellationToken)
+        public async Task<List<Bird>> Handle(GetAllBirdsQuery request, CancellationToken cancellationToken)
         {
-            if (_mockDatabase == null)
+            if (_dbContext == null)
             {
-                return Task.FromResult<List<Bird>>(null);
+                // Handle the case where _dbContext is null, perhaps by returning an empty list or logging an error.
+                return null!;
             }
-            List<Bird> allBirdsFromMockDatabase = _mockDatabase.Birds ?? new List<Bird>();
-            return Task.FromResult(allBirdsFromMockDatabase);
+            else
+            {
+                List<Bird> allBirdsFromMockDatabase = await _dbContext.Birds.ToListAsync(cancellationToken);
+                return allBirdsFromMockDatabase;
+            }
+
         }
     }
 }
