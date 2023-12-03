@@ -31,6 +31,7 @@ namespace Infrastructure.Database
             var clone = new AppDbContext();
 
             // Copy data from the original context to the clone
+            clone.Database.EnsureCreated();
             clone.Dogs.AddRange(Dogs.ToList());
             clone.Cats.AddRange(Cats.ToList());
             clone.Birds.AddRange(Birds.ToList());
