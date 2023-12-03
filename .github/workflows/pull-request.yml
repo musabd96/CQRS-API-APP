@@ -8,19 +8,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: root_password
-          MYSQL_DATABASE: API_Animals
-          MYSQL_USER: nageye
-          MYSQL_PASSWORD: mustafa0909
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
