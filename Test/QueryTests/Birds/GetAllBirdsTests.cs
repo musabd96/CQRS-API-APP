@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Infrastructure.Database;
 using Application.Queries.Birds.GetAll;
+using Microsoft.EntityFrameworkCore;
 
 namespace Test.QueryTests.Birds
 {
@@ -8,27 +9,29 @@ namespace Test.QueryTests.Birds
     public class GetAllBirdsTests
     {
         private GetAllBirdsQueryHandler _handler;
-        private MockDatabase? _mockDatabase;
-        private MockDatabase _originalDatabase;
+        private AppDbContext _dbContext;
+        private AppDbContext _originalDatabase;
 
         [SetUp]
         public void SetUp()
         {
-            // Initialize the original database and create a clone for each test
-            _originalDatabase = new MockDatabase();
-            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new GetAllBirdsQueryHandler(_mockDatabase!);
+            // Initialize the original database for each test
+            _originalDatabase = new AppDbContext();
+            _dbContext = _originalDatabase.Clone();
+            _handler = new GetAllBirdsQueryHandler(_dbContext);
         }
+
 
         [Test]
         public async Task Handle_Valid_ReturnsAllBirds()
         {
             // Arrange
-            List<Bird> expectedBirds = _originalDatabase.Birds;
+            List<Bird> expectedBirds = await _originalDatabase.Birds.ToListAsync();
+            List<Bird> _dbContext1 = await _dbContext.Birds.ToListAsync();
 
             // Act
             List<Bird> result = await _handler.Handle(new GetAllBirdsQuery(), CancellationToken.None);
-
+            Console.WriteLine(_dbContext1.Count);
             // Assert
             CollectionAssert.AreEqual(expectedBirds, result);
         }
@@ -38,8 +41,8 @@ namespace Test.QueryTests.Birds
         {
             // Arrange
             // Set up the database to simulate an invalid scenario (e.g., set it to null or throw an exception)
-            _mockDatabase = null;
-            _handler = new GetAllBirdsQueryHandler(_mockDatabase!);
+            _dbContext = null!;
+            _handler = new GetAllBirdsQueryHandler(_dbContext);
 
             // Act
             List<Bird> result = await _handler.Handle(new GetAllBirdsQuery(), CancellationToken.None);
