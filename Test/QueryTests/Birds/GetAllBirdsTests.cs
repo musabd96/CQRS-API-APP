@@ -42,7 +42,7 @@ namespace Test.QueryTests.Birds
             // Arrange
             // Set up the database to simulate an invalid scenario (e.g., set it to null or throw an exception)
             _dbContext = null!;
-            _handler = new GetAllBirdsQueryHandler(_dbContext);
+            _handler = new GetAllBirdsQueryHandler(null);
 
             // Act
             List<Bird> result = await _handler.Handle(new GetAllBirdsQuery(), CancellationToken.None);
