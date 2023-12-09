@@ -1,6 +1,8 @@
 ﻿using Domain.Models;
 using Infrastructure.Database;
 using Application.Queries.Birds.GetAll;
+using Moq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Test.QueryTests.Birds
 {
@@ -8,44 +10,87 @@ namespace Test.QueryTests.Birds
     public class GetAllBirdsTests
     {
         private GetAllBirdsQueryHandler _handler;
-        private MockDatabase? _mockDatabase;
-        private MockDatabase _originalDatabase;
+        private GetAllBirdsQuery _request;
+        private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
-            // Initialize the original database and create a clone for each test
-            _originalDatabase = new MockDatabase();
-            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new GetAllBirdsQueryHandler(_mockDatabase!);
+            _dbContextMock = new Mock<AppDbContext>();
+            _handler = new GetAllBirdsQueryHandler(_dbContextMock.Object);
+            _request = new GetAllBirdsQuery();
+        }
+
+        private void SetupMockDbSet(List<Bird> birdsList)
+        {
+            var mockDbSet = new Mock<DbSet<Bird>>();
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Provider).Returns(birdsList.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Expression).Returns(birdsList.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.ElementType).Returns(birdsList.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.GetEnumerator()).Returns(() => birdsList.AsQueryable().GetEnumerator());
+            mockDbSet.As<IAsyncEnumerable<Bird>>().Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<Bird>(birdsList.GetEnumerator()));
+
+            _dbContextMock.Setup(x => x.Birds).Returns(mockDbSet.Object);
         }
 
         [Test]
-        public async Task Handle_Valid_ReturnsAllBirds()
+        public async Task Handle_ValidRequest_ReturnsListOfBirds()
         {
             // Arrange
-            List<Bird> expectedBirds = _originalDatabase.Birds;
+            var birdsList = new List<Bird>
+            {
+                new Bird { Id = Guid.NewGuid(), Name = "Sparrow" },
+                new Bird { Id = Guid.NewGuid(), Name = "Robin" }
+            };
+
+            SetupMockDbSet(birdsList);
 
             // Act
-            List<Bird> result = await _handler.Handle(new GetAllBirdsQuery(), CancellationToken.None);
+            var result = await _handler.Handle(_request, CancellationToken.None);
 
             // Assert
-            CollectionAssert.AreEqual(expectedBirds, result);
+            Assert.IsNotNull(result);
+            Assert.That(result.Count, Is.EqualTo(birdsList.Count));
         }
 
         [Test]
-        public async Task Handle_InvalidDatabase_ReturnsNullOrEmptyList()
+        public void Handle_EmptyList_ThrowsInvalidOperationException()
         {
             // Arrange
-            // Set up the database to simulate an invalid scenario (e.g., set it to null or throw an exception)
-            _mockDatabase = null;
-            _handler = new GetAllBirdsQueryHandler(_mockDatabase!);
+            var emptyBirdsList = new List<Bird>();
+            SetupMockDbSet(emptyBirdsList);
 
             // Act
-            List<Bird> result = await _handler.Handle(new GetAllBirdsQuery(), CancellationToken.None);
+            var result = _handler.Handle(_request, CancellationToken.None);
 
             // Assert
-            Assert.IsNull(result);
+            Assert.ThrowsAsync<InvalidOperationException>(() => result);
+        }
+
+    }
+
+    // TestAsyncEnumerator is a simple implementation of IAsyncEnumerator<T> for testing.
+    internal class TestAsyncEnumerator<T> : IAsyncEnumerator<T>
+    {
+        private readonly IEnumerator<T> _enumerator;
+
+        public TestAsyncEnumerator(IEnumerator<T> enumerator)
+        {
+            _enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
+        }
+
+        public ValueTask<bool> MoveNextAsync()
+        {
+            return new ValueTask<bool>(_enumerator.MoveNext());
+        }
+
+        public T Current => _enumerator.Current;
+
+        public ValueTask DisposeAsync()
+        {
+            _enumerator.Dispose();
+            return new ValueTask();
         }
     }
 }
