@@ -3,9 +3,7 @@ using Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
-using System.Net;
-using Microsoft.Extensions.Options;
+using Infrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +59,9 @@ builder.Services.AddAuthentication(options =>
             builder.Configuration["JWTToken:Token"]!)),
     };
 });
+
+// Register AppDbContext
+builder.Services.AddDbContext<AppDbContext>();
 
 var app = builder.Build();
 
