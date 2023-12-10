@@ -1,7 +1,6 @@
 ﻿using Domain.Models;
 using Infrastructure.Database;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.Birds.GetAll
 {
@@ -13,23 +12,11 @@ namespace Application.Queries.Birds.GetAll
         {
             _dbContext = dbContext;
         }
-        public async Task<List<Bird>> Handle(GetAllBirdsQuery request, CancellationToken cancellationToken)
+        public Task<List<Bird>> Handle(GetAllBirdsQuery request, CancellationToken cancellationToken)
         {
-            List<Bird> allBirdsFromMockDatabase = await _dbContext.Birds
-                .ToListAsync(cancellationToken);
+            List<Bird> allBirdsFromMockDatabase = _dbContext.Birds.ToList();
 
-
-            if (allBirdsFromMockDatabase == null || !allBirdsFromMockDatabase.Any())
-            {
-                // Throw an exception if the list is empty
-                throw new InvalidOperationException("No birds found");
-            }
-            else
-            {
-                return allBirdsFromMockDatabase;
-            }
+            return Task.FromResult(allBirdsFromMockDatabase);
         }
-
-
     }
 }
