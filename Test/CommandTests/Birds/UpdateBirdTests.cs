@@ -2,7 +2,7 @@
 using Application.Dtos;
 using Infrastructure.Database;
 
-namespace Test.CommandTests.Bird
+namespace Test.CommandTests.Birds
 {
     [TestFixture]
     public class UpdateBirdTests
