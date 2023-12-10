@@ -39,7 +39,7 @@ namespace API.Controllers.BirdsController
 
         // Create a new bird 
         [HttpPost]
-        [Route("addNewBird"), Authorize(Roles = "Admin")]
+        [Route("addNewBird")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> AddBird([FromBody] BirdDto newBird)
         {
             return Ok(await _mediator.Send(new AddBirdCommand(newBird)));

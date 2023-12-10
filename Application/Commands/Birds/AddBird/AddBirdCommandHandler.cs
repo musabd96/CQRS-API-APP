@@ -6,29 +6,35 @@ namespace Application.Commands.Birds.AddBird
 {
     public class AddBirdCommandHandler : IRequestHandler<AddBirdCommand, Bird>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly AppDbContext _dbContext;
 
-        public AddBirdCommandHandler(MockDatabase mockDatabase)
+        public AddBirdCommandHandler(AppDbContext dbContext)
         {
-            _mockDatabase = mockDatabase;
+            _dbContext = dbContext;
         }
 
         public Task<Bird> Handle(AddBirdCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(request.NewBird.Name))
+            if (string.IsNullOrWhiteSpace(request.NewBird.Name) || request.NewBird.Name == "string")
             {
-                return Task.FromResult<Bird>(null);
+                return Task.FromResult<Bird>(null!);
+            }
+            else
+            {
+                Bird birdToCreate = new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = request.NewBird.Name,
+                    LikesToPlay = request.NewBird.LikesToPlay
+                };
+
+                _dbContext.Birds.Add(birdToCreate);
+                _dbContext.SaveChangesAsync();
+
+                return Task.FromResult(birdToCreate);
             }
 
-            Bird birdToCreate = new()
-            {
-                Id = Guid.NewGuid(),
-                Name = request.NewBird.Name
-            };
 
-            _mockDatabase.Birds.Add(birdToCreate);
-
-            return Task.FromResult(birdToCreate);
         }
     }
 }

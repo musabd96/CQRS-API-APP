@@ -1,7 +1,7 @@
 ﻿using Application.Commands.Birds.DeleteBird;
 using Infrastructure.Database;
 
-namespace Test.CommandTests.Bird
+namespace Test.CommandTests.Birds
 {
     [TestFixture]
     public class DeleteBirdByIdTests
