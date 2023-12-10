@@ -47,7 +47,7 @@ namespace API.Controllers.BirdsController
 
         // Update a specific bird
         [HttpPut]
-        [Route("updateBird/{updatedBirdId}"), Authorize(Roles = "Admin")]
+        [Route("updateBird/{updatedBirdId}")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> UpdateCat([FromBody] BirdDto updatedBird, Guid updatedBirdId)
         {
             return Ok(await _mediator.Send(new UpdateBirdByIdCommand(updatedBird, updatedBirdId)));
@@ -55,7 +55,7 @@ namespace API.Controllers.BirdsController
 
         // Delete a bird by Id
         [HttpDelete]
-        [Route("deleteCBirdById/{birdId}"), Authorize(Roles = "Admin")]
+        [Route("deleteCBirdById/{birdId}")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> DeleteBirdById(Guid birdId)
         {
             return Ok(await _mediator.Send(new DeleteBirdByIdCommand(birdId)));

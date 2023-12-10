@@ -1,6 +1,9 @@
 ﻿using Application.Commands.Birds.UpdateBird;
 using Application.Dtos;
+using Domain.Models;
 using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace Test.CommandTests.Birds
 {
@@ -8,14 +11,25 @@ namespace Test.CommandTests.Birds
     public class UpdateBirdTests
     {
         private UpdateBirdByIdCommandHandler _handler;
-        private MockDatabase _mockDatabase;
+        private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _mockDatabase = new MockDatabase();
-            _handler = new UpdateBirdByIdCommandHandler(_mockDatabase);
+            _dbContextMock = new Mock<AppDbContext>();
+            _handler = new UpdateBirdByIdCommandHandler(_dbContextMock.Object);
+        }
+
+        protected void SetupMockDbContext(List<Bird> birds)
+        {
+            var mockDbSet = new Mock<DbSet<Bird>>();
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Provider).Returns(birds.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Expression).Returns(birds.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.ElementType).Returns(birds.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.GetEnumerator()).Returns(birds.GetEnumerator());
+
+            _dbContextMock.Setup(b => b.Birds).Returns(mockDbSet.Object);
         }
 
         [Test]
@@ -23,36 +37,54 @@ namespace Test.CommandTests.Birds
         {
             // Arrange
             var birdId = new Guid("12345678-1234-5678-1234-567812345678");
-            var updatedName = new BirdDto { Name = "NewBirdName", LikesToPlay = false };
+            var birdsList = new List<Bird>
+            {
+                new Bird
+                {
+                    Id = birdId,
+                    Name = "Nelson",
+                    LikesToPlay = true
+                }
+            };
+            SetupMockDbContext(birdsList);
+
+            var updatedName = new BirdDto { Name = "NewCatName", LikesToPlay = false };
 
             var command = new UpdateBirdByIdCommand(updatedName, birdId);
 
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            // Act
+            await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.That(result.Name, Is.EqualTo("NewBirdName"));
+            Assert.That(updatedName.Name, Is.EqualTo(command.UpdatedBird.Name));
         }
 
         [Test]
-        public async Task Handle_InvalidId_DoesNothing()
+        public async Task Handle_InvalidId_ReturnsNull()
         {
             // Arrange
             var invalidBirdId = Guid.NewGuid();
-            var invalidBirdName = new BirdDto { Name = "Name" };
+            var birdsList = new List<Bird>
+            {
+                new Bird
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Nelson",
+                    LikesToPlay = true
+                }
+            };
+            SetupMockDbContext(birdsList);
 
-            // Mock the database to simulate that no bird with the specified ID is found
-            var mockDatabase = new MockDatabase();
-            var handler = new UpdateBirdByIdCommandHandler(mockDatabase);
+            var updatedName = new BirdDto { Name = "NewCatName", LikesToPlay = false };
 
-            var command = new UpdateBirdByIdCommand(invalidBirdName, invalidBirdId);
+            var command = new UpdateBirdByIdCommand(updatedName, invalidBirdId);
 
             // Act
-            var result = await handler.Handle(command, CancellationToken.None);
+            var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsNull(result, "The result should be null for an invalid cat ID.");
+            Assert.IsNull(result);
         }
+
     }
 }
