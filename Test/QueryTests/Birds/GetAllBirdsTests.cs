@@ -21,17 +21,15 @@ namespace Test.QueryTests.Birds
             _request = new GetAllBirdsQuery();
         }
 
-        private void SetupMockDbSet(List<Bird> birdsList)
+        protected void SetupMockDbContext(List<Bird> birds)
         {
             var mockDbSet = new Mock<DbSet<Bird>>();
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Provider).Returns(birdsList.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Expression).Returns(birdsList.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.ElementType).Returns(birdsList.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.GetEnumerator()).Returns(() => birdsList.AsQueryable().GetEnumerator());
-            mockDbSet.As<IAsyncEnumerable<Bird>>().Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
-                .Returns(new TestAsyncEnumerator<Bird>(birdsList.GetEnumerator()));
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Provider).Returns(birds.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Expression).Returns(birds.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.ElementType).Returns(birds.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.GetEnumerator()).Returns(birds.GetEnumerator());
 
-            _dbContextMock.Setup(x => x.Birds).Returns(mockDbSet.Object);
+            _dbContextMock.Setup(b => b.Birds).Returns(mockDbSet.Object);
         }
 
         [Test]
@@ -44,7 +42,7 @@ namespace Test.QueryTests.Birds
                 new Bird { Id = Guid.NewGuid(), Name = "Robin" }
             };
 
-            SetupMockDbSet(birdsList);
+            SetupMockDbContext(birdsList);
 
             // Act
             var result = await _handler.Handle(_request, CancellationToken.None);
@@ -55,18 +53,19 @@ namespace Test.QueryTests.Birds
         }
 
         [Test]
-        public void Handle_EmptyList_ThrowsInvalidOperationException()
+        public async Task Handle_EmptyList_ReturnsEmptyList()
         {
             // Arrange
             var emptyBirdsList = new List<Bird>();
-            SetupMockDbSet(emptyBirdsList);
+            SetupMockDbContext(emptyBirdsList);
 
             // Act
-            var result = _handler.Handle(_request, CancellationToken.None);
+            var result = await _handler.Handle(_request, CancellationToken.None);
 
             // Assert
-            Assert.ThrowsAsync<InvalidOperationException>(() => result);
+            Assert.IsEmpty(result);
         }
+
 
     }
 }
