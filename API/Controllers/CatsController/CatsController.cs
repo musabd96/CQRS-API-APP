@@ -1,8 +1,6 @@
 ﻿using Application.Commands.Cats;
 using Application.Commands.Cats.DeleteCat;
 using Application.Commands.Cats.UpdateCat;
-using Application.Commands.Dogs.DeleteDog;
-using Application.Commands.Dogs.UpdateDog;
 using Application.Dtos;
 using Application.Queries.Cats.GetById;
 using Application.Queries.Cats.GettAll;
@@ -40,7 +38,7 @@ namespace API.Controllers.CatsController
 
         // Create a new cat 
         [HttpPost]
-        [Route("addNewCat"), Authorize(Roles = "Admin")]
+        [Route("addNewCat")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> AddCat([FromBody] CatDto newCat)
         {
             return Ok(await _mediator.Send(new AddCatCommand(newCat)));
@@ -48,7 +46,7 @@ namespace API.Controllers.CatsController
 
         // Update a specific cat
         [HttpPut]
-        [Route("updateCat/{updatedCatId}"), Authorize(Roles = "Admin")]
+        [Route("updateCat/{updatedCatId}")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> UpdateCat([FromBody] CatDto updatedCat, Guid updatedCatId)
         {
             return Ok(await _mediator.Send(new UpdateCatByIdCommand(updatedCat, updatedCatId)));
@@ -56,7 +54,7 @@ namespace API.Controllers.CatsController
 
         // Delete a cat by Id
         [HttpDelete]
-        [Route("deleteCatById/{catId}"), Authorize(Roles = "Admin")]
+        [Route("deleteCatById/{catId}")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> DeleteCatById(Guid catId)
         {
             return Ok(await _mediator.Send(new DeleteCatByIdCommand(catId)));

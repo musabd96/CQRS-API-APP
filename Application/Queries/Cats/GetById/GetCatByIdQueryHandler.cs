@@ -6,16 +6,22 @@ namespace Application.Queries.Cats.GetById
 {
     public class GetCatByIdQueryHandler : IRequestHandler<GetCatByIdQuery, Cat>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly AppDbContext _dbContext;
 
-        public GetCatByIdQueryHandler(MockDatabase mockDatabase)
+        public GetCatByIdQueryHandler(AppDbContext dbContext)
         {
-            _mockDatabase = mockDatabase;
+            _dbContext = dbContext;
         }
 
         public Task<Cat> Handle(GetCatByIdQuery request, CancellationToken cancellationToken)
         {
-            Cat wantedCat = _mockDatabase.Cats.FirstOrDefault(Cat => Cat.Id == request.Id)!;
+            Cat wantedCat = _dbContext.Cats.FirstOrDefault(Cat => Cat.Id == request.Id)!;
+
+            if (wantedCat == null)
+            {
+                // Return null if the cat is not found
+                return Task.FromResult<Cat>(null!);
+            }
             return Task.FromResult(wantedCat);
         }
     }

@@ -1,35 +1,52 @@
-﻿using Application.Commands.Cats;
+﻿using Application.Commands.Birds.AddBird;
+using Application.Commands.Cats;
 using Application.Dtos;
+using Domain.Models;
 using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 
-namespace Test.CommandTests.Cat
+namespace Test.CommandTests.Cats
 {
     [TestFixture]
     public class AddCatTests
     {
         private AddCatCommandHandler _handler;
-        private MockDatabase _mockDatabase;
+        private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _mockDatabase = new MockDatabase();
-            _handler = new AddCatCommandHandler(_mockDatabase);
+            _dbContextMock = new Mock<AppDbContext>();
+            _handler = new AddCatCommandHandler(_dbContextMock.Object);
+        }
+
+        protected void SetupMockDbContext(List<Cat> cats)
+        {
+            var mockDbSet = new Mock<DbSet<Cat>>();
+            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.Provider).Returns(cats.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.Expression).Returns(cats.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.ElementType).Returns(cats.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.GetEnumerator()).Returns(cats.GetEnumerator());
+
+            _dbContextMock.Setup(c => c.Cats).Returns(mockDbSet.Object);
         }
 
         [Test]
         public async Task Handle_ValidCommand_AddNewCat()
         {
             // Arrange
+            var cats = new List<Cat>();
+            SetupMockDbContext(cats);
+
             var command = new AddCatCommand(new CatDto { Name = "NewCat" });
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(_mockDatabase.Cats.FirstOrDefault(cat => cat.Name == "NewCat"));
-            Assert.That(_mockDatabase.Cats.FirstOrDefault(cat => cat.Name == "NewCat").Name, Is.EqualTo("NewCat"));
+            Assert.That(result.Name, Is.EqualTo("NewCat"));
         }
 
         [Test]

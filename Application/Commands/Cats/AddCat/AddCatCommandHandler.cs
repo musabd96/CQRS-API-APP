@@ -7,27 +7,29 @@ namespace Application.Commands.Cats
 {
     public class AddCatCommandHandler : IRequestHandler<AddCatCommand, Cat>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly AppDbContext _dbContext;
 
-        public AddCatCommandHandler(MockDatabase mockDatabase)
+        public AddCatCommandHandler(AppDbContext dbContext)
         {
-            _mockDatabase = mockDatabase;
+            _dbContext = dbContext;
         }
 
         public Task<Cat> Handle(AddCatCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(request.NewCat.Name))
+            if (string.IsNullOrWhiteSpace(request.NewCat.Name) || request.NewCat.Name == "string")
             {
-                return Task.FromResult<Cat>(null);
+                return Task.FromResult<Cat>(null!);
             }
 
             Cat catToCreate = new()
             {
                 Id = Guid.NewGuid(),
-                Name = request.NewCat.Name
+                Name = request.NewCat.Name,
+                LikesToPlay = request.NewCat.LikesToPlay
             };
 
-            _mockDatabase.Cats.Add(catToCreate);
+            _dbContext.Cats.Add(catToCreate);
+            _dbContext.SaveChangesAsync();
 
             return Task.FromResult(catToCreate);
         }

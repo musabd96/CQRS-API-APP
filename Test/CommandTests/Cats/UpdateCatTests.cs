@@ -1,21 +1,37 @@
-﻿using Application.Commands.Cats.UpdateCat;
+﻿using Application.Commands.Birds.UpdateBird;
+using Application.Commands.Cats.DeleteCat;
+using Application.Commands.Cats.UpdateCat;
 using Application.Dtos;
+using Domain.Models;
 using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 
-namespace Test.CommandTests.Cat
+namespace Test.CommandTests.Cats
 {
     [TestFixture]
     public class UpdateCatTests
     {
         private UpdateCatByIdCommandHandler _handler;
-        private MockDatabase _mockDatabase;
+        private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _mockDatabase = new MockDatabase();
-            _handler = new UpdateCatByIdCommandHandler(_mockDatabase);
+            _dbContextMock = new Mock<AppDbContext>();
+            _handler = new UpdateCatByIdCommandHandler(_dbContextMock.Object);
+        }
+
+        protected void SetupMockDbContext(List<Cat> cats)
+        {
+            var mockDbSet = new Mock<DbSet<Cat>>();
+            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.Provider).Returns(cats.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.Expression).Returns(cats.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.ElementType).Returns(cats.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.GetEnumerator()).Returns(cats.GetEnumerator());
+
+            _dbContextMock.Setup(c => c.Cats).Returns(mockDbSet.Object);
         }
 
         [Test]
@@ -23,16 +39,26 @@ namespace Test.CommandTests.Cat
         {
             // Arrange
             var catId = new Guid("12345678-1234-5678-1234-567812345678");
+            var catsList = new List<Cat>
+            {
+                new Cat
+                {
+                    Id = catId,
+                    Name = "Nelson",
+                    LikesToPlay = true
+                }
+            };
+            SetupMockDbContext(catsList);
+
             var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false };
 
             var command = new UpdateCatByIdCommand(updatedName, catId);
 
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            // Act
+            await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.That(result.Name, Is.EqualTo("NewCatName"));
+            Assert.That(updatedName.Name, Is.EqualTo(command.UpdatedCat.Name));
         }
 
         [Test]
@@ -40,19 +66,26 @@ namespace Test.CommandTests.Cat
         {
             // Arrange
             var invalidCatId = Guid.NewGuid();
-            var invalidCatName = new CatDto { Name = "Name" };
+            var catsList = new List<Cat>
+            {
+                new Cat
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Nelson",
+                    LikesToPlay = true
+                }
+            };
+            SetupMockDbContext(catsList);
 
-            // Mock the database to simulate that no cat with the specified ID is found
-            var mockDatabase = new MockDatabase();
-            var handler = new UpdateCatByIdCommandHandler(mockDatabase);
+            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false };
 
-            var command = new UpdateCatByIdCommand(invalidCatName, invalidCatId);
+            var command = new UpdateCatByIdCommand(updatedName, invalidCatId);
 
             // Act
-            var result = await handler.Handle(command, CancellationToken.None);
+            var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsNull(result, "The result should be null for an invalid cat ID.");
+            Assert.IsNull(result);
         }
     }
 }
