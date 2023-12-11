@@ -1,6 +1,11 @@
-﻿using Application.Commands.Dogs;
+﻿using Application.Commands.Birds.AddBird;
+using Application.Commands.Dogs;
 using Application.Dtos;
+using Application.Queries.Dogs.GetById;
+using Domain.Models;
 using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace Test.CommandTest.Dogs
 {
@@ -8,30 +13,40 @@ namespace Test.CommandTest.Dogs
     public class AddDogTests
     {
         private AddDogCommandHandler _handler;
-        private MockDatabase _mockDatabase;
+        private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
-            // Initialize the original database and create a clone for each test
-            _mockDatabase = new MockDatabase();
-            _handler = new AddDogCommandHandler(_mockDatabase);
+            _dbContextMock = new Mock<AppDbContext>();
+            _handler = new AddDogCommandHandler(_dbContextMock.Object);
+        }
+
+        protected void SetupMockDbContext(List<Dog> dogs)
+        {
+            var mockDbSet = new Mock<DbSet<Dog>>();
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Provider).Returns(dogs.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Expression).Returns(dogs.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.ElementType).Returns(dogs.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.GetEnumerator()).Returns(dogs.GetEnumerator());
+
+            _dbContextMock.Setup(d => d.Dogs).Returns(mockDbSet.Object);
         }
 
         [Test]
         public async Task Handle_ValidCommand_AddNewDog()
         {
             // Arrange
+            var dogs = new List<Dog>();
+            SetupMockDbContext(dogs);
+
             var command = new AddDogCommand(new DogDto { Name = "NewDog" });
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            var newDogInDatabase = _mockDatabase.Dogs.FirstOrDefault(dog => dog.Name == "NewDog");
-
-            Assert.IsNotNull(newDogInDatabase);
-            Assert.That(newDogInDatabase.Name, Is.EqualTo("NewDog"));
+            Assert.That(result.Name, Is.EqualTo("NewDog"));
         }
 
         [Test]

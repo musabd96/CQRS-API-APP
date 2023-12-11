@@ -1,6 +1,10 @@
-﻿using Application.Commands.Dogs.UpdateDog;
+﻿using Application.Commands.Birds.UpdateBird;
+using Application.Commands.Dogs.UpdateDog;
 using Application.Dtos;
+using Domain.Models;
 using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace Test.CommandTest.Dogs
 {
@@ -8,14 +12,25 @@ namespace Test.CommandTest.Dogs
     public class UpdateDogTests
     {
         private UpdateDogByIdCommandHandler _handler;
-        private MockDatabase _mockDatabase;
+        private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _mockDatabase = new MockDatabase();
-            _handler = new UpdateDogByIdCommandHandler(_mockDatabase);
+            _dbContextMock = new Mock<AppDbContext>();
+            _handler = new UpdateDogByIdCommandHandler(_dbContextMock.Object);
+        }
+
+        protected void SetupMockDbContext(List<Dog> dogs)
+        {
+            var mockDbSet = new Mock<DbSet<Dog>>();
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Provider).Returns(dogs.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Expression).Returns(dogs.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.ElementType).Returns(dogs.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.GetEnumerator()).Returns(dogs.GetEnumerator());
+
+            _dbContextMock.Setup(d => d.Dogs).Returns(mockDbSet.Object);
         }
 
         [Test]
@@ -23,16 +38,26 @@ namespace Test.CommandTest.Dogs
         {
             // Arrange
             var dogId = new Guid("12345678-1234-5678-1234-567812345678");
+            var dogsList = new List<Dog>
+            {
+                new Dog
+                {
+                    Id = dogId,
+                    Name = "Nelson",
+                    LikesToPlay = true
+                }
+            };
+            SetupMockDbContext(dogsList);
+
             var updatedName = new DogDto { Name = "NewDogName", LikesToPlay = false };
 
             var command = new UpdateDogByIdCommand(updatedName, dogId);
 
-            //Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            // Act
+            await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.That(result.Name, Is.EqualTo("NewDogName"));
+            Assert.That(updatedName.Name, Is.EqualTo(command.UpdatedDog.Name));
         }
 
         [Test]
@@ -40,19 +65,26 @@ namespace Test.CommandTest.Dogs
         {
             // Arrange
             var invalidDogId = Guid.NewGuid();
-            var invalidDogName = new DogDto { Name = "Name" };
+            var dogsList = new List<Dog>
+            {
+                new Dog
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Nelson",
+                    LikesToPlay = true
+                }
+            };
+            SetupMockDbContext(dogsList);
 
-            // Mock the database to simulate that no dog with the specified ID is found
-            var mockDatabase = new MockDatabase();
-            var handler = new UpdateDogByIdCommandHandler(mockDatabase);
+            var updatedName = new DogDto { Name = "NewDogName", LikesToPlay = false };
 
-            var command = new UpdateDogByIdCommand(invalidDogName, invalidDogId);
+            var command = new UpdateDogByIdCommand(updatedName, invalidDogId);
 
             // Act
-            var result = await handler.Handle(command, CancellationToken.None);
+            var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsNull(result, "The result should be null for an invalid dog ID.");
+            Assert.IsNull(result);
         }
 
     }

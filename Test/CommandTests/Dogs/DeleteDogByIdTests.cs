@@ -1,5 +1,10 @@
-﻿using Application.Commands.Dogs.DeleteDog;
+﻿using Application.Commands.Birds.DeleteBird;
+using Application.Commands.Dogs;
+using Application.Commands.Dogs.DeleteDog;
+using Domain.Models;
 using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace Test.CommandTest.Dogs
 {
@@ -7,21 +12,39 @@ namespace Test.CommandTest.Dogs
     public class DeleteDogByIdTest
     {
         private DeleteDogByIdCommandHandler _handler;
-        private MockDatabase _mockDatabase;
+        private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
-            // Initialize the original database and create a clone for each test
-            _mockDatabase = new MockDatabase();
-            _handler = new DeleteDogByIdCommandHandler(_mockDatabase);
+            _dbContextMock = new Mock<AppDbContext>();
+            _handler = new DeleteDogByIdCommandHandler(_dbContextMock.Object);
+        }
+
+        protected void SetupMockDbContext(List<Dog> dogs)
+        {
+            var mockDbSet = new Mock<DbSet<Dog>>();
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Provider).Returns(dogs.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Expression).Returns(dogs.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.ElementType).Returns(dogs.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.GetEnumerator()).Returns(dogs.GetEnumerator());
+
+            _dbContextMock.Setup(d => d.Dogs).Returns(mockDbSet.Object);
         }
 
         [Test]
         public async Task Handle_ValidId_DeletesDog()
         {
             // Arrange
-            var dogId = new Guid("12345678-1234-5678-1234-567812345670");
+            var dogId = new Guid("12345678-1234-5678-1234-567812345678");
+            var dog = new List<Dog>
+            {
+                new Dog
+                {
+                    Id = dogId
+                }
+            };
+            SetupMockDbContext(dog);
 
             var command = new DeleteDogByIdCommand(dogId);
 
@@ -38,6 +61,8 @@ namespace Test.CommandTest.Dogs
         {
             // Arrange
             var invalidDogId = Guid.NewGuid();
+            var dog = new List<Dog>();
+            SetupMockDbContext(dog);
 
             var command = new DeleteDogByIdCommand(invalidDogId);
 

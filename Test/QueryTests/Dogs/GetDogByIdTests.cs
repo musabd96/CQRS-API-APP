@@ -1,6 +1,9 @@
 ﻿using Application.Queries.Birds.GetById;
 using Application.Queries.Dogs.GetById;
+using Domain.Models;
 using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace Test.QueryTests.Dogs
 {
@@ -8,14 +11,24 @@ namespace Test.QueryTests.Dogs
     public class GetDogByIdTests
     {
         private GetDogByIdQueryHandler _handler;
-        private MockDatabase _mockDatabase;
+        private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
-            // Initialize the original database and create a clone for each test
-            _mockDatabase = new MockDatabase();
-            _handler = new GetDogByIdQueryHandler(_mockDatabase);
+            _dbContextMock = new Mock<AppDbContext>();
+            _handler = new GetDogByIdQueryHandler(_dbContextMock.Object);
+        }
+
+        protected void SetupMockDbContext(List<Dog> dogs)
+        {
+            var mockDbSet = new Mock<DbSet<Dog>>();
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Provider).Returns(dogs.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Expression).Returns(dogs.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.ElementType).Returns(dogs.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.GetEnumerator()).Returns(dogs.GetEnumerator());
+
+            _dbContextMock.Setup(d => d.Dogs).Returns(mockDbSet.Object);
         }
 
         [Test]
@@ -23,6 +36,12 @@ namespace Test.QueryTests.Dogs
         {
             // Arrange
             var dogId = new Guid("12345678-1234-5678-1234-567812345678");
+            var dog = new List<Dog>
+            {
+                new Dog { Id = dogId }
+            };
+
+            SetupMockDbContext(dog);
 
             var query = new GetDogByIdQuery(dogId);
 
@@ -38,6 +57,9 @@ namespace Test.QueryTests.Dogs
         {
             // Arrange
             var invalidDogId = Guid.NewGuid();
+
+            // Empty list to simulate no matching bird
+            SetupMockDbContext(new List<Dog>());
 
             var query = new GetDogByIdQuery(invalidDogId);
 

@@ -7,29 +7,35 @@ namespace Application.Commands.Dogs
 {
     public sealed class AddDogCommandHandler : IRequestHandler<AddDogCommand, Dog>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly AppDbContext _dbContext;
 
-        public AddDogCommandHandler(MockDatabase mockDatabase)
+        public AddDogCommandHandler(AppDbContext dbContext)
         {
-            _mockDatabase = mockDatabase;
+            _dbContext = dbContext;
         }
 
         public Task<Dog> Handle(AddDogCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(request.NewDog.Name))
+            if (string.IsNullOrWhiteSpace(request.NewDog.Name) || request.NewDog.Name == "string")
             {
-                return Task.FromResult<Dog>(null);
+                return Task.FromResult<Dog>(null!);
+            }
+            else
+            {
+                Dog dogToCreate = new()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = request.NewDog.Name,
+                    LikesToPlay = request.NewDog.LikesToPlay
+                };
+
+                _dbContext.Dogs.Add(dogToCreate);
+                _dbContext.SaveChangesAsync();
+
+                return Task.FromResult(dogToCreate);
             }
 
-            Dog dogToCreate = new()
-            {
-                Id = Guid.NewGuid(),
-                Name = request.NewDog.Name
-            };
 
-            _mockDatabase.Dogs.Add(dogToCreate);
-
-            return Task.FromResult(dogToCreate);
         }
     }
 }

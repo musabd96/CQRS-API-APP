@@ -7,19 +7,15 @@ namespace Application.Queries.Dogs
 {
     public sealed class GetAllDogsQueryHandler : IRequestHandler<GetAllDogsQuery, List<Dog>>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly AppDbContext _dbContext;
 
-        public GetAllDogsQueryHandler(MockDatabase mockDatabase)
+        public GetAllDogsQueryHandler(AppDbContext dbContext)
         {
-            _mockDatabase = mockDatabase;
+            _dbContext = dbContext;
         }
         public Task<List<Dog>> Handle(GetAllDogsQuery request, CancellationToken cancellationToken)
         {
-            if (_mockDatabase == null)
-            {
-                return Task.FromResult<List<Dog>>(null);
-            }
-            List<Dog> allDogsFromMockDatabase = _mockDatabase.Dogs ?? new List<Dog>();
+            List<Dog> allDogsFromMockDatabase = _dbContext.Dogs.ToList();
             return Task.FromResult(allDogsFromMockDatabase);
         }
 

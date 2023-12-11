@@ -2,6 +2,9 @@
 using Domain.Models;
 using Infrastructure.Database;
 using Application.Queries.Dogs;
+using Moq;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
 
 namespace Test.QueryTests.Dogs
 {
@@ -9,16 +12,26 @@ namespace Test.QueryTests.Dogs
     public class GetAllDogsTests
     {
         private GetAllDogsQueryHandler _handler;
-        private MockDatabase? _mockDatabase;
-        private MockDatabase _originalDatabase;
+        private GetAllDogsQuery _request;
+        private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
-            // Initialize the original database and create a clone for each test
-            _originalDatabase = new MockDatabase();
-            _mockDatabase = _originalDatabase.Clone() as MockDatabase;
-            _handler = new GetAllDogsQueryHandler(_mockDatabase!);
+            _dbContextMock = new Mock<AppDbContext>();
+            _handler = new GetAllDogsQueryHandler(_dbContextMock.Object);
+            _request = new GetAllDogsQuery();
+        }
+
+        protected void SetupMockDbContext(List<Dog> dogs)
+        {
+            var mockDbSet = new Mock<DbSet<Dog>>();
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Provider).Returns(dogs.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Expression).Returns(dogs.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.ElementType).Returns(dogs.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.GetEnumerator()).Returns(dogs.GetEnumerator());
+
+            _dbContextMock.Setup(d => d.Dogs).Returns(mockDbSet.Object);
         }
 
 
@@ -26,28 +39,34 @@ namespace Test.QueryTests.Dogs
         public async Task Handle_Valid_ReturnsAllDogs()
         {
             // Arrange
-            List<Dog> expectedDogs = _originalDatabase.Dogs;
+            var dogsList = new List<Dog>
+            {
+                new Dog { Id = Guid.NewGuid(), Name = "Sparrow" },
+                new Dog { Id = Guid.NewGuid(), Name = "Robin" }
+            };
+
+            SetupMockDbContext(dogsList);
 
             // Act
-            List<Dog> result = await _handler.Handle(new GetAllDogsQuery(), CancellationToken.None);
+            var result = await _handler.Handle(_request, CancellationToken.None);
 
             // Assert
-            CollectionAssert.AreEqual(expectedDogs, result);
+            Assert.IsNotNull(result);
+            Assert.That(result.Count, Is.EqualTo(dogsList.Count));
         }
 
         [Test]
         public async Task Handle_InvalidDatabase_ReturnsNullOrEmptyList()
         {
             // Arrange
-            // Set up the database to simulate an invalid scenario (e.g., set it to null or throw an exception)
-            _mockDatabase = null;
-            _handler = new GetAllDogsQueryHandler(_mockDatabase!);
+            var emptyDogsList = new List<Dog>();
+            SetupMockDbContext(emptyDogsList);
 
             // Act
-            List<Dog> result = await _handler.Handle(new GetAllDogsQuery(), CancellationToken.None);
+            var result = await _handler.Handle(_request, CancellationToken.None);
 
             // Assert
-            Assert.IsNull(result);
+            Assert.IsEmpty(result);
         }
     }
 }
