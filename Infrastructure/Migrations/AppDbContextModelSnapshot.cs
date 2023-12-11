@@ -39,39 +39,21 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("01859fba-5ba5-46ac-8ca9-d5d3d46cacf4"),
+                            Id = new Guid("6896c286-5c6a-410c-890b-bc545f5abf95"),
                             LikesToPlay = true,
                             Name = "Alex"
                         },
                         new
                         {
-                            Id = new Guid("35bf024b-c32e-4b31-a6e2-c0e380cc9687"),
+                            Id = new Guid("fe1e729f-5f16-4ea2-b4d6-c222243ff7f2"),
                             LikesToPlay = true,
                             Name = "Sofia"
                         },
                         new
                         {
-                            Id = new Guid("febb0644-b1a1-4a00-8475-031de8c804db"),
+                            Id = new Guid("5d1efa42-8167-490c-bc07-2bd58533422d"),
                             LikesToPlay = true,
                             Name = "Max"
-                        },
-                        new
-                        {
-                            Id = new Guid("12345678-1234-5678-1234-567812345670"),
-                            LikesToPlay = true,
-                            Name = "TestCatForUnitTests"
-                        },
-                        new
-                        {
-                            Id = new Guid("12345678-1234-5678-1234-567812345671"),
-                            LikesToPlay = true,
-                            Name = "TestCatForUnitTests"
-                        },
-                        new
-                        {
-                            Id = new Guid("12345678-1234-5678-1234-567812345678"),
-                            LikesToPlay = true,
-                            Name = "TestCatForUnitTests"
                         });
                 });
 
@@ -95,39 +77,21 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("832b4c46-0526-427f-a5b4-6abc7da249a8"),
+                            Id = new Guid("5f12b18d-6eb7-493c-b45e-183cb0e51664"),
                             LikesToPlay = true,
                             Name = "Steven"
                         },
                         new
                         {
-                            Id = new Guid("4e4d7f8d-3a40-406c-86d3-c6bd8ecf1409"),
+                            Id = new Guid("779afd2b-e15b-4ff3-8031-1c2ad640fd1d"),
                             LikesToPlay = true,
                             Name = "Alpin"
                         },
                         new
                         {
-                            Id = new Guid("2a3afce9-9b7a-4f9f-a35a-70696d102b75"),
+                            Id = new Guid("5cc357e5-8c47-4f93-b187-ff525ad0ad7a"),
                             LikesToPlay = true,
                             Name = "Nelson"
-                        },
-                        new
-                        {
-                            Id = new Guid("12345678-1234-5678-1234-567812345670"),
-                            LikesToPlay = true,
-                            Name = "TestCatForUnitTests"
-                        },
-                        new
-                        {
-                            Id = new Guid("12345678-1234-5678-1234-567812345671"),
-                            LikesToPlay = true,
-                            Name = "TestCatForUnitTests"
-                        },
-                        new
-                        {
-                            Id = new Guid("12345678-1234-5678-1234-567812345678"),
-                            LikesToPlay = true,
-                            Name = "TestCatForUnitTests"
                         });
                 });
 
@@ -151,39 +115,21 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("08ed2ab4-1e22-4278-b388-b20a467b2b7a"),
+                            Id = new Guid("f671a50c-029f-4af1-a1d8-fb2baad286b3"),
                             LikesToPlay = true,
                             Name = "Björn"
                         },
                         new
                         {
-                            Id = new Guid("d8626e6f-b081-4e5a-bad0-31ef15ffe272"),
+                            Id = new Guid("7b5dd4f5-c8d3-4b98-a824-b04d3267d4ea"),
                             LikesToPlay = true,
                             Name = "Patrik"
                         },
                         new
                         {
-                            Id = new Guid("586f8b42-7222-4afd-a9aa-fcfe2e22740c"),
+                            Id = new Guid("cd581596-8954-430b-bc0a-25f559392794"),
                             LikesToPlay = true,
                             Name = "Alfred"
-                        },
-                        new
-                        {
-                            Id = new Guid("12345678-1234-5678-1234-567812345670"),
-                            LikesToPlay = true,
-                            Name = "TestDogForUnitTests"
-                        },
-                        new
-                        {
-                            Id = new Guid("12345678-1234-5678-1234-567812345671"),
-                            LikesToPlay = true,
-                            Name = "TestDogForUnitTests"
-                        },
-                        new
-                        {
-                            Id = new Guid("12345678-1234-5678-1234-567812345678"),
-                            LikesToPlay = true,
-                            Name = "TestDogForUnitTests"
                         });
                 });
 

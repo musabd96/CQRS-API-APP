@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedAnimals : Migration
+    public partial class IntialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -82,12 +82,9 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "LikesToPlay", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("01859fba-5ba5-46ac-8ca9-d5d3d46cacf4"), true, "Alex" },
-                    { new Guid("12345678-1234-5678-1234-567812345670"), true, "TestCatForUnitTests" },
-                    { new Guid("12345678-1234-5678-1234-567812345671"), true, "TestCatForUnitTests" },
-                    { new Guid("12345678-1234-5678-1234-567812345678"), true, "TestCatForUnitTests" },
-                    { new Guid("35bf024b-c32e-4b31-a6e2-c0e380cc9687"), true, "Sofia" },
-                    { new Guid("febb0644-b1a1-4a00-8475-031de8c804db"), true, "Max" }
+                    { new Guid("5d1efa42-8167-490c-bc07-2bd58533422d"), true, "Max" },
+                    { new Guid("6896c286-5c6a-410c-890b-bc545f5abf95"), true, "Alex" },
+                    { new Guid("fe1e729f-5f16-4ea2-b4d6-c222243ff7f2"), true, "Sofia" }
                 });
 
             migrationBuilder.InsertData(
@@ -95,12 +92,9 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "LikesToPlay", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("12345678-1234-5678-1234-567812345670"), true, "TestCatForUnitTests" },
-                    { new Guid("12345678-1234-5678-1234-567812345671"), true, "TestCatForUnitTests" },
-                    { new Guid("12345678-1234-5678-1234-567812345678"), true, "TestCatForUnitTests" },
-                    { new Guid("2a3afce9-9b7a-4f9f-a35a-70696d102b75"), true, "Nelson" },
-                    { new Guid("4e4d7f8d-3a40-406c-86d3-c6bd8ecf1409"), true, "Alpin" },
-                    { new Guid("832b4c46-0526-427f-a5b4-6abc7da249a8"), true, "Steven" }
+                    { new Guid("5cc357e5-8c47-4f93-b187-ff525ad0ad7a"), true, "Nelson" },
+                    { new Guid("5f12b18d-6eb7-493c-b45e-183cb0e51664"), true, "Steven" },
+                    { new Guid("779afd2b-e15b-4ff3-8031-1c2ad640fd1d"), true, "Alpin" }
                 });
 
             migrationBuilder.InsertData(
@@ -108,12 +102,9 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "LikesToPlay", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("08ed2ab4-1e22-4278-b388-b20a467b2b7a"), true, "Björn" },
-                    { new Guid("12345678-1234-5678-1234-567812345670"), true, "TestDogForUnitTests" },
-                    { new Guid("12345678-1234-5678-1234-567812345671"), true, "TestDogForUnitTests" },
-                    { new Guid("12345678-1234-5678-1234-567812345678"), true, "TestDogForUnitTests" },
-                    { new Guid("586f8b42-7222-4afd-a9aa-fcfe2e22740c"), true, "Alfred" },
-                    { new Guid("d8626e6f-b081-4e5a-bad0-31ef15ffe272"), true, "Patrik" }
+                    { new Guid("7b5dd4f5-c8d3-4b98-a824-b04d3267d4ea"), true, "Patrik" },
+                    { new Guid("cd581596-8954-430b-bc0a-25f559392794"), true, "Alfred" },
+                    { new Guid("f671a50c-029f-4af1-a1d8-fb2baad286b3"), true, "Björn" }
                 });
         }
 

@@ -55,7 +55,7 @@ namespace API.Controllers.BirdsController
 
         // Delete a bird by Id
         [HttpDelete]
-        [Route("deleteCBirdById/{birdId}")/*, Authorize(Roles = "Admin")*/]
+        [Route("deleteBirdById/{birdId}")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> DeleteBirdById(Guid birdId)
         {
             return Ok(await _mediator.Send(new DeleteBirdByIdCommand(birdId)));
