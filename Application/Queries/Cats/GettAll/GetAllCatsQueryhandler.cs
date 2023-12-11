@@ -7,21 +7,17 @@ namespace Application.Queries.Cats
 {
     public class GetAllCatsQueryhandler : IRequestHandler<GetAllCatsQuery, List<Cat>>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly AppDbContext _dbContext;
 
-        public GetAllCatsQueryhandler(MockDatabase mockDatabase)
+        public GetAllCatsQueryhandler(AppDbContext dbContext)
         {
-            _mockDatabase = mockDatabase;
+            _dbContext = dbContext;
         }
 
         public Task<List<Cat>> Handle(GetAllCatsQuery request, CancellationToken cancellationToken)
         {
-            if (_mockDatabase == null)
-            {
-                return Task.FromResult<List<Cat>>(null);
-            }
-            List<Cat> allCatsFromMockDatabase = _mockDatabase.Cats ?? new List<Cat>();
-            return Task.FromResult(allCatsFromMockDatabase);
+            List<Cat> allCatsFromDb = _dbContext.Cats.ToList();
+            return Task.FromResult(allCatsFromDb);
         }
     }
 }

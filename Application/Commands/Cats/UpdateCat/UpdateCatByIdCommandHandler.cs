@@ -6,25 +6,36 @@ namespace Application.Commands.Cats.UpdateCat
 {
     public class UpdateCatByIdCommandHandler : IRequestHandler<UpdateCatByIdCommand, Cat>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly AppDbContext _dbContext;
 
-        public UpdateCatByIdCommandHandler(MockDatabase mockDatabase)
+        public UpdateCatByIdCommandHandler(AppDbContext dbContext)
         {
-            _mockDatabase = mockDatabase;
+            _dbContext = dbContext;
         }
 
         public Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
         {
-            Cat catToUpdate = _mockDatabase.Cats.FirstOrDefault(cat => cat.Id == request.Id)!;
+            Cat catToUpdate = _dbContext.Cats.FirstOrDefault(cat => cat.Id == request.Id)!;
 
             if (catToUpdate != null)
             {
-                catToUpdate.Name = request.UpdatedCat.Name;
-                catToUpdate.LikesToPlay = request.UpdatedCat.LikesToPlay;
-                return Task.FromResult(catToUpdate);
+                if (string.IsNullOrEmpty(catToUpdate.Name) || request.UpdatedCat.Name == "string")
+                {
+                    return Task.FromResult<Cat>(null!);
+                }
+                else
+                {
+                    catToUpdate.Name = request.UpdatedCat.Name;
+                    catToUpdate.LikesToPlay = request.UpdatedCat.LikesToPlay;
+
+                    _dbContext.SaveChangesAsync();
+
+                    return Task.FromResult(catToUpdate);
+                }
+
             }
 
-            return Task.FromResult(catToUpdate);
+            return Task.FromResult(catToUpdate)!;
         }
     }
 }
