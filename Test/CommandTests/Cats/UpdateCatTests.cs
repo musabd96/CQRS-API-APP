@@ -1,7 +1,5 @@
-﻿using Application.Commands.Birds.UpdateBird;
-using Application.Commands.Cats.DeleteCat;
-using Application.Commands.Cats.UpdateCat;
-using Application.Dtos;
+﻿using Application.Commands.Cats.UpdateCat;
+using Application.Dtos.AnimalDto;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

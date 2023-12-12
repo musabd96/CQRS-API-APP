@@ -1,6 +1,4 @@
-﻿using Application.Commands.Birds.DeleteBird;
-using Application.Commands.Dogs;
-using Application.Commands.Dogs.DeleteDog;
+﻿using Application.Commands.Dogs.DeleteDog;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

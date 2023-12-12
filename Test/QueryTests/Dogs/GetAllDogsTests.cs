@@ -4,7 +4,6 @@ using Infrastructure.Database;
 using Application.Queries.Dogs;
 using Moq;
 using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
 
 namespace Test.QueryTests.Dogs
 {

@@ -1,6 +1,5 @@
-﻿using Application.Commands.Birds.AddBird;
-using Application.Commands.Cats;
-using Application.Dtos;
+﻿using Application.Commands.Cats;
+using Application.Dtos.AnimalDto;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

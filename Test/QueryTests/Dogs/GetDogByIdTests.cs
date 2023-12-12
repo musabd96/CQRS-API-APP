@@ -1,5 +1,4 @@
-﻿using Application.Queries.Birds.GetById;
-using Application.Queries.Dogs.GetById;
+﻿using Application.Queries.Dogs.GetById;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

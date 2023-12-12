@@ -1,7 +1,7 @@
 ﻿using Application.Commands.Cats;
 using Application.Commands.Cats.DeleteCat;
 using Application.Commands.Cats.UpdateCat;
-using Application.Dtos;
+using Application.Dtos.AnimalDto;
 using Application.Queries.Cats.GetById;
 using Application.Queries.Cats.GettAll;
 using MediatR;

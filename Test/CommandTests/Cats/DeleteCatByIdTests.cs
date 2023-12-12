@@ -1,6 +1,4 @@
-﻿using Application.Commands.Birds.DeleteBird;
-using Application.Commands.Cats;
-using Application.Commands.Cats.DeleteCat;
+﻿using Application.Commands.Cats.DeleteCat;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Queries.Birds;
 using Application.Queries.Birds.GetAll;
 using Application.Queries.Birds.GetById;
-using Application.Dtos;
 using Application.Commands.Birds.AddBird;
 using Application.Commands.Birds.UpdateBird;
 using Application.Commands.Birds.DeleteBird;
 using Microsoft.AspNetCore.Authorization;
+using Application.Dtos.AnimalDto;
 
 namespace API.Controllers.BirdsController
 {
