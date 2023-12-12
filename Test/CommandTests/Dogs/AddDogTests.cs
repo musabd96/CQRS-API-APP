@@ -1,7 +1,5 @@
-﻿using Application.Commands.Birds.AddBird;
-using Application.Commands.Dogs;
-using Application.Dtos;
-using Application.Queries.Dogs.GetById;
+﻿using Application.Commands.Dogs;
+using Application.Dtos.AnimalDto;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

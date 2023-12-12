@@ -1,5 +1,4 @@
 ﻿using Application.Commands.Birds.UpdateBird;
-using Application.Dtos;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
