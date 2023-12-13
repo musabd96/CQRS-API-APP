@@ -1,7 +1,7 @@
 ﻿
 using Domain.Models;
 using FluentValidation;
-using Infrastructure.Users;
+using Infrastructure.Repositories.Users;
 
 namespace Application.Commands.Users.Register
 {

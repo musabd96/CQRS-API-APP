@@ -1,9 +1,8 @@
 ﻿using Infrastructure.Database;
 using Infrastructure.Repositories.Authorization;
-using Infrastructure.Users;
+using Infrastructure.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Infrastructure
 {
