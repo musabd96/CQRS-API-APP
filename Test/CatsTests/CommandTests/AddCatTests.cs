@@ -5,7 +5,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace Test.CommandTests.Cats
+namespace Test.Cats.CommandTests
 {
     [TestFixture]
     public class AddCatTests

@@ -1,15 +1,16 @@
-﻿using Application.Commands.Cats.DeleteCat;
+﻿using Application.Commands.Cats.UpdateCat;
+using Application.Dtos.AnimalDto;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace Test.CommandTests.Cats
+namespace Test.Cats.CommandTests
 {
     [TestFixture]
-    public class DeleteCatByIdTests
+    public class UpdateCatTests
     {
-        private DeleteCatByIdCommandHandler _handler;
+        private UpdateCatByIdCommandHandler _handler;
         private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
@@ -17,7 +18,7 @@ namespace Test.CommandTests.Cats
         {
             // Initialize the original database and create a clone for each test
             _dbContextMock = new Mock<AppDbContext>();
-            _handler = new DeleteCatByIdCommandHandler(_dbContextMock.Object);
+            _handler = new UpdateCatByIdCommandHandler(_dbContextMock.Object);
         }
 
         protected void SetupMockDbContext(List<Cat> cats)
@@ -32,27 +33,30 @@ namespace Test.CommandTests.Cats
         }
 
         [Test]
-        public async Task Handle_ValidId_DeletesCat()
+        public async Task Handle_ValidId_UpdatesCat()
         {
             // Arrange
             var catId = new Guid("12345678-1234-5678-1234-567812345678");
-            var cat = new List<Cat>
+            var catsList = new List<Cat>
             {
                 new Cat
                 {
-                    Id = catId
+                    Id = catId,
+                    Name = "Nelson",
+                    LikesToPlay = true
                 }
             };
-            SetupMockDbContext(cat);
+            SetupMockDbContext(catsList);
 
-            var command = new DeleteCatByIdCommand(catId);
+            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false };
+
+            var command = new UpdateCatByIdCommand(updatedName, catId);
 
             // Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.That(result.Id, Is.EqualTo(catId));
+            Assert.That(updatedName.Name, Is.EqualTo(command.UpdatedCat.Name));
         }
 
         [Test]
@@ -60,10 +64,20 @@ namespace Test.CommandTests.Cats
         {
             // Arrange
             var invalidCatId = Guid.NewGuid();
-            var cat = new List<Cat>();
-            SetupMockDbContext(cat);
+            var catsList = new List<Cat>
+            {
+                new Cat
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Nelson",
+                    LikesToPlay = true
+                }
+            };
+            SetupMockDbContext(catsList);
 
-            var command = new DeleteCatByIdCommand(invalidCatId);
+            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false };
+
+            var command = new UpdateCatByIdCommand(updatedName, invalidCatId);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);

@@ -4,7 +4,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace Test.QueryTests.Birds
+namespace Test.Birds.QueryTests
 {
     [TestFixture]
     public class GetBirdByIdTests
