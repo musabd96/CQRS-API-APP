@@ -5,9 +5,9 @@ namespace Application.Queries.Users.Login
 {
     public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, string>
     {
-        private readonly AuthRepository _authRepository;
+        private readonly IAuthRepository _authRepository;
 
-        public LoginUserQueryHandler(AuthRepository authRepository)
+        public LoginUserQueryHandler(IAuthRepository authRepository)
         {
             _authRepository = authRepository;
         }

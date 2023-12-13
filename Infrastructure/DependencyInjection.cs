@@ -11,7 +11,7 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddSingleton<MockDatabase>();
-            services.AddScoped<AuthRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddDbContext<AppDbContext>(options =>
             {

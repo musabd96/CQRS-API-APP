@@ -1,9 +1,5 @@
 using Application;
 using Infrastructure;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.OpenApi.Models;
-using Infrastructure.Database;
 using API.Helpers;
 using API.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
