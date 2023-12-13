@@ -1,15 +1,16 @@
-﻿using Application.Commands.Birds.DeleteBird;
+﻿using Application.Commands.Birds.UpdateBird;
+using Application.Dtos.AnimalDto;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace Test.CommandTests.Birds
+namespace Test.Birds.CommandTests
 {
     [TestFixture]
-    public class DeleteBirdByIdTests
+    public class UpdateBirdTests
     {
-        private DeleteBirdByIdCommandHandler _handler;
+        private UpdateBirdByIdCommandHandler _handler;
         private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
@@ -17,7 +18,7 @@ namespace Test.CommandTests.Birds
         {
             // Initialize the original database and create a clone for each test
             _dbContextMock = new Mock<AppDbContext>();
-            _handler = new DeleteBirdByIdCommandHandler(_dbContextMock.Object);
+            _handler = new UpdateBirdByIdCommandHandler(_dbContextMock.Object);
         }
 
         protected void SetupMockDbContext(List<Bird> birds)
@@ -32,38 +33,51 @@ namespace Test.CommandTests.Birds
         }
 
         [Test]
-        public async Task Handle_ValidId_DeletesBird()
+        public async Task Handle_ValidId_UpdatesBird()
         {
             // Arrange
             var birdId = new Guid("12345678-1234-5678-1234-567812345678");
-            var bird = new List<Bird>
+            var birdsList = new List<Bird>
             {
                 new Bird
                 {
-                    Id = birdId
+                    Id = birdId,
+                    Name = "Nelson",
+                    LikesToPlay = true
                 }
             };
-            SetupMockDbContext(bird);
+            SetupMockDbContext(birdsList);
 
-            var command = new DeleteBirdByIdCommand(birdId);
+            var updatedName = new BirdDto { Name = "NewCatName", LikesToPlay = false };
+
+            var command = new UpdateBirdByIdCommand(updatedName, birdId);
 
             // Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.That(result.Id, Is.EqualTo(birdId));
+            Assert.That(updatedName.Name, Is.EqualTo(command.UpdatedBird.Name));
         }
 
         [Test]
-        public async Task Handle_InvalidId_DoesNothing()
+        public async Task Handle_InvalidId_ReturnsNull()
         {
             // Arrange
             var invalidBirdId = Guid.NewGuid();
-            var bird = new List<Bird>();
-            SetupMockDbContext(bird);
+            var birdsList = new List<Bird>
+            {
+                new Bird
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Nelson",
+                    LikesToPlay = true
+                }
+            };
+            SetupMockDbContext(birdsList);
 
-            var command = new DeleteBirdByIdCommand(invalidBirdId);
+            var updatedName = new BirdDto { Name = "NewCatName", LikesToPlay = false };
+
+            var command = new UpdateBirdByIdCommand(updatedName, invalidBirdId);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -71,5 +85,6 @@ namespace Test.CommandTests.Birds
             // Assert
             Assert.IsNull(result);
         }
+
     }
 }

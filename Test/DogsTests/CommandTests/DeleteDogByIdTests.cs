@@ -1,22 +1,22 @@
-﻿using Application.Queries.Dogs.GetById;
+﻿using Application.Commands.Dogs.DeleteDog;
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace Test.QueryTests.Dogs
+namespace Test.Dogs.CommandTests
 {
     [TestFixture]
-    public class GetDogByIdTests
+    public class DeleteDogByIdTest
     {
-        private GetDogByIdQueryHandler _handler;
+        private DeleteDogByIdCommandHandler _handler;
         private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
         public void Setup()
         {
             _dbContextMock = new Mock<AppDbContext>();
-            _handler = new GetDogByIdQueryHandler(_dbContextMock.Object);
+            _handler = new DeleteDogByIdCommandHandler(_dbContextMock.Object);
         }
 
         protected void SetupMockDbContext(List<Dog> dogs)
@@ -31,42 +31,45 @@ namespace Test.QueryTests.Dogs
         }
 
         [Test]
-        public async Task Handle_ValidId_ReturnsCorrectDog()
+        public async Task Handle_ValidId_DeletesDog()
         {
             // Arrange
             var dogId = new Guid("12345678-1234-5678-1234-567812345678");
             var dog = new List<Dog>
             {
-                new Dog { Id = dogId }
+                new Dog
+                {
+                    Id = dogId
+                }
             };
-
             SetupMockDbContext(dog);
 
-            var query = new GetDogByIdQuery(dogId);
+            var command = new DeleteDogByIdCommand(dogId);
 
             // Act
-            var result = await _handler.Handle(query, CancellationToken.None);
+            var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
+            Assert.NotNull(result);
             Assert.That(result.Id, Is.EqualTo(dogId));
         }
 
         [Test]
-        public async Task Handle_InvalidId_ReturnsNull()
+        public async Task Handle_InvalidId_DoesNothing()
         {
             // Arrange
             var invalidDogId = Guid.NewGuid();
+            var dog = new List<Dog>();
+            SetupMockDbContext(dog);
 
-            // Empty list to simulate no matching bird
-            SetupMockDbContext(new List<Dog>());
-
-            var query = new GetDogByIdQuery(invalidDogId);
+            var command = new DeleteDogByIdCommand(invalidDogId);
 
             // Act
-            var result = await _handler.Handle(query, CancellationToken.None);
+            var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsNull(result);
         }
     }
 }
+

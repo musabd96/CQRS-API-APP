@@ -5,7 +5,7 @@ using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
-namespace Test.CommandTests.Birds
+namespace Test.Birds.CommandTests
 {
     [TestFixture]
     public class AddBirdTests

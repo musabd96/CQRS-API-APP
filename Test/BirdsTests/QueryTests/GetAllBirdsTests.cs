@@ -4,7 +4,7 @@ using Application.Queries.Birds.GetAll;
 using Moq;
 using Microsoft.EntityFrameworkCore;
 
-namespace Test.QueryTests.Birds
+namespace Test.Birds.QueryTests
 {
     [TestFixture]
     public class GetAllBirdsTests

@@ -5,7 +5,7 @@ using Application.Queries.Dogs;
 using Moq;
 using Microsoft.EntityFrameworkCore;
 
-namespace Test.QueryTests.Dogs
+namespace Test.Dogs.QueryTests
 {
     [TestFixture]
     public class GetAllDogsTests

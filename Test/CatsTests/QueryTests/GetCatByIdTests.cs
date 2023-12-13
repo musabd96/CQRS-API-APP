@@ -1,17 +1,16 @@
-﻿using Application.Queries.Cats.GettAll;
+﻿using Application.Queries.Birds.GetById;
+using Application.Queries.Cats.GetById;
 using Domain.Models;
 using Infrastructure.Database;
-using Application.Queries.Cats;
-using Moq;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 
-namespace Test.QueryTests.Cats
+namespace Test.Cats.QueryTests
 {
     [TestFixture]
-    public class GetAllCatsTests
+    public class GetCatByIdTests
     {
-        private GetAllCatsQueryhandler _handler;
-        private GetAllCatsQuery _request;
+        private GetCatByIdQueryHandler _handler;
         private Mock<AppDbContext> _dbContextMock;
 
         [SetUp]
@@ -19,7 +18,7 @@ namespace Test.QueryTests.Cats
         {
             // Initialize the original database and create a clone for each test
             _dbContextMock = new Mock<AppDbContext>();
-            _handler = new GetAllCatsQueryhandler(_dbContextMock.Object);
+            _handler = new GetCatByIdQueryHandler(_dbContextMock.Object);
         }
 
         protected void SetupMockDbContext(List<Cat> cats)
@@ -34,37 +33,42 @@ namespace Test.QueryTests.Cats
         }
 
         [Test]
-        public async Task Handle_Valid_ReturnsAllCats()
+        public async Task Handle_ValidId_ReturnsCorrectCat()
         {
             // Arrange
-            var catsList = new List<Cat>
+            var catId = new Guid("12345678-1234-5678-1234-567812345678");
+            var cat = new List<Cat>
             {
-                new Cat { Id = Guid.NewGuid(), Name = "Sparrow" },
-                new Cat { Id = Guid.NewGuid(), Name = "Robin" }
+                new Cat { Id = catId }
             };
 
-            SetupMockDbContext(catsList);
+            SetupMockDbContext(cat);
+
+            var query = new GetCatByIdQuery(catId);
 
             // Act
-            var result = await _handler.Handle(_request, CancellationToken.None);
+            var result = await _handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.That(result.Count, Is.EqualTo(catsList.Count));
+            Assert.That(result.Id, Is.EqualTo(catId));
         }
 
         [Test]
-        public async Task Handle_InvalidDatabase_ReturnsNullOrEmptyList()
+        public async Task Handle_InvalidId_ReturnsNull()
         {
             // Arrange
-            var emptyCatsList = new List<Cat>();
-            SetupMockDbContext(emptyCatsList);
+            var invalidCatId = Guid.NewGuid();
+
+            // Empty list to simulate no matching bird
+            SetupMockDbContext(new List<Cat>());
+
+            var query = new GetCatByIdQuery(invalidCatId);
 
             // Act
-            var result = await _handler.Handle(_request, CancellationToken.None);
+            var result = await _handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.IsEmpty(result);
+            Assert.IsNull(result);
         }
     }
 }
