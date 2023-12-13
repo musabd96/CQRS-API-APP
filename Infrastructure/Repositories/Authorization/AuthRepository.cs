@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Infrastructure.Repositories.Authorization
 {
-    public class AuthRepository
+    public class AuthRepository : IAuthRepository
     {
         private readonly IConfiguration _configuration;
         private readonly AppDbContext _dbContext;
@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories.Authorization
             _dbContext = dbContext;
         }
 
-        public User AuthenticateUser(string username, string password)
+        public virtual User AuthenticateUser(string username, string password)
         {
             var user = _dbContext.Users.FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
 
@@ -32,7 +32,7 @@ namespace Infrastructure.Repositories.Authorization
 
         public string GenerateJwtToken(User user)
         {
-            var key = Encoding.ASCII.GetBytes(s: _configuration["JWTToken:Token"]!); //Implement null handling
+            var key = Encoding.ASCII.GetBytes(s: _configuration["JWTToken:Token"]!);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
