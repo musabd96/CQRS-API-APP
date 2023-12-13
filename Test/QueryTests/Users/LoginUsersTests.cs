@@ -70,7 +70,7 @@ namespace Test.QueryTests.Users
             });
 
             // Act & Assert
-            Assert.ThrowsAsync<UnauthorizedAccessException>(() => 
+            Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
                 _handler.Handle(loginUserQuery, CancellationToken.None));
         }
 

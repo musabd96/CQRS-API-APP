@@ -32,7 +32,7 @@ namespace Infrastructure.Repositories.Authorization
 
         public string GenerateJwtToken(User user)
         {
-            var key = Encoding.ASCII.GetBytes(s: _configuration["JWTToken:Token"]!); //Implement null handling
+            var key = Encoding.ASCII.GetBytes(s: _configuration["JWTToken:Token"]!);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
