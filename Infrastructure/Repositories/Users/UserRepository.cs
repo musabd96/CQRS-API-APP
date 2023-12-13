@@ -1,7 +1,7 @@
 ﻿using Domain.Models;
 using Infrastructure.Database;
 
-namespace Infrastructure.Users
+namespace Infrastructure.Repositories.Users
 {
     public class UserRepository : IUserRepository
     {

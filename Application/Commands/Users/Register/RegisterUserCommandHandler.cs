@@ -1,10 +1,10 @@
 ﻿using Domain.Models;
-using Infrastructure.Users;
+using Infrastructure.Repositories.Users;
 using MediatR;
 
 namespace Application.Commands.Users.Register
 {
-    internal class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, User>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, User>
     {
         private readonly IUserRepository _userRepository;
         private readonly RegisterUserCommandValidator _validator;
