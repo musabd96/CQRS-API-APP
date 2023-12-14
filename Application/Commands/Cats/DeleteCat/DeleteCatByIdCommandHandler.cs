@@ -1,31 +1,23 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.Repositories.Cats;
 using MediatR;
 
 namespace Application.Commands.Cats.DeleteCat
 {
     public class DeleteCatByIdCommandHandler : IRequestHandler<DeleteCatByIdCommand, Cat>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly ICatRepository _catRepository;
 
-        public DeleteCatByIdCommandHandler(AppDbContext dbContext)
+        public DeleteCatByIdCommandHandler(ICatRepository catRepository)
         {
-            _dbContext = dbContext;
+            _catRepository = catRepository;
         }
 
         public Task<Cat> Handle(DeleteCatByIdCommand request, CancellationToken cancellationToken)
         {
-            var catToDelete = _dbContext.Cats.FirstOrDefault(cat => cat.Id == request.Id);
+            var catToDelete = _catRepository.DeleteCat(request.Id, cancellationToken);
 
-            if (catToDelete != null)
-            {
-                _dbContext.Cats.Remove(catToDelete);
-                _dbContext.SaveChangesAsync();
-                return Task.FromResult(catToDelete);
-            }
-
-            // Cat not found
-            return Task.FromResult(catToDelete);
+            return catToDelete;
         }
     }
 }

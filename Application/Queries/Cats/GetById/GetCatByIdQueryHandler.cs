@@ -1,27 +1,22 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.Repositories.Cats;
 using MediatR;
 
 namespace Application.Queries.Cats.GetById
 {
     public class GetCatByIdQueryHandler : IRequestHandler<GetCatByIdQuery, Cat>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly ICatRepository _catRepository;
 
-        public GetCatByIdQueryHandler(AppDbContext dbContext)
+        public GetCatByIdQueryHandler(ICatRepository catRepository)
         {
-            _dbContext = dbContext;
+            _catRepository = catRepository;
         }
 
         public Task<Cat> Handle(GetCatByIdQuery request, CancellationToken cancellationToken)
         {
-            Cat wantedCat = _dbContext.Cats.FirstOrDefault(Cat => Cat.Id == request.Id)!;
+            Cat wantedCat = Task.Run(() => _catRepository.GetCatById(request.Id, cancellationToken)).Result;
 
-            if (wantedCat == null)
-            {
-                // Return null if the cat is not found
-                return Task.FromResult<Cat>(null!);
-            }
             return Task.FromResult(wantedCat);
         }
     }

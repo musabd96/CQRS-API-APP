@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Database;
 using Infrastructure.Repositories.Authorization;
 using Infrastructure.Repositories.Birds;
+using Infrastructure.Repositories.Cats;
 using Infrastructure.Repositories.Dogs;
 using Infrastructure.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDogRepository, DogRepository>();
             services.AddScoped<IBirdRepository, BirdRepository>();
+            services.AddScoped<ICatRepository, CatRepository>();
             services.AddDbContext<AppDbContext>(options =>
             {
                 //connectionString to Db

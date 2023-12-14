@@ -11,7 +11,7 @@ namespace Application.Commands.Cats.UpdateCat
 {
     public class UpdateCatByIdCommand : IRequest<Cat>
     {
-        public UpdateCatByIdCommand(CatDto updatedCat, Guid id)
+        public UpdateCatByIdCommand(Guid id, CatDto updatedCat)
         {
             UpdatedCat = updatedCat;
             Id = id;

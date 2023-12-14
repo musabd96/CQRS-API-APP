@@ -1,8 +1,8 @@
 ﻿using Application.Commands.Cats;
 using Application.Dtos.AnimalDto;
+using Application.Validators.Cat;
 using Domain.Models;
-using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Repositories.Cats;
 using Moq;
 
 namespace Test.Cats.CommandTests
@@ -11,25 +11,20 @@ namespace Test.Cats.CommandTests
     public class AddCatTests
     {
         private AddCatCommandHandler _handler;
-        private Mock<AppDbContext> _dbContextMock;
+        private Mock<ICatRepository> _catRepositoryMock;
 
         [SetUp]
         public void SetUp()
         {
-            // Initialize the original database and create a clone for each test
-            _dbContextMock = new Mock<AppDbContext>();
-            _handler = new AddCatCommandHandler(_dbContextMock.Object);
+            _catRepositoryMock = new Mock<ICatRepository>();
+            _handler = new AddCatCommandHandler(_catRepositoryMock.Object);
         }
 
         protected void SetupMockDbContext(List<Cat> cats)
         {
-            var mockDbSet = new Mock<DbSet<Cat>>();
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.Provider).Returns(cats.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.Expression).Returns(cats.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.ElementType).Returns(cats.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.GetEnumerator()).Returns(cats.GetEnumerator());
-
-            _dbContextMock.Setup(c => c.Cats).Returns(mockDbSet.Object);
+            _catRepositoryMock.Setup(repo => repo.AddCat(It.IsAny<Cat>(), It.IsAny<CancellationToken>()))
+                .Callback((Cat cat, CancellationToken cancellationToken) => cats.Add(cat))
+                .Returns((Cat cat, CancellationToken cancellationToken) => Task.FromResult(cat));
         }
 
         [Test]
@@ -52,13 +47,14 @@ namespace Test.Cats.CommandTests
         public async Task Handle_InValidCommand_EmptyCatName()
         {
             // Arrange
-            var command = new AddCatCommand(new CatDto { Name = "" });
+            var validator = new CatValidator();
+            var catName = new CatDto { Name = "" };
 
             // Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = await Task.FromResult(validator.Validate(catName));
 
             // Assert
-            Assert.IsNull(result);
+            Assert.That(result.Errors.Single().ErrorMessage, Is.EqualTo("Cat Name can not be empty"));
         }
 
 
