@@ -16,7 +16,6 @@ namespace Test.Birds.CommandTests
         [SetUp]
         public void SetUp()
         {
-            // Initialize the original database and create a clone for each test
             _birdRepositoryMock = new Mock<IBirdRepository>();
             _handler = new AddBirdCommandHandler(_birdRepositoryMock.Object);
         }
