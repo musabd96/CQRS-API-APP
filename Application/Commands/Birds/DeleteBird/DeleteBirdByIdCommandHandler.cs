@@ -1,31 +1,24 @@
 ﻿using Domain.Models;
 using Infrastructure.Database;
+using Infrastructure.Repositories.Birds;
 using MediatR;
 
 namespace Application.Commands.Birds.DeleteBird
 {
     public class DeleteBirdByIdCommandHandler : IRequestHandler<DeleteBirdByIdCommand, Bird>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IBirdRepository _birdRepository;
 
-        public DeleteBirdByIdCommandHandler(AppDbContext dbContext)
+        public DeleteBirdByIdCommandHandler(IBirdRepository birdRepository)
         {
-            _dbContext = dbContext;
+            _birdRepository = birdRepository;
         }
 
         public Task<Bird> Handle(DeleteBirdByIdCommand request, CancellationToken cancellationToken)
         {
-            var birdToDelete = _dbContext.Birds.FirstOrDefault(bird => bird.Id == request.Id);
+            var birdToDelete = _birdRepository.DeleteBird(request.Id, cancellationToken);
 
-            if (birdToDelete != null)
-            {
-                _dbContext.Birds.Remove(birdToDelete);
-                _dbContext.SaveChangesAsync();
-                return Task.FromResult(birdToDelete);
-            }
-
-            // Cat not found
-            return Task.FromResult(birdToDelete)!;
+            return birdToDelete;
         }
     }
 }

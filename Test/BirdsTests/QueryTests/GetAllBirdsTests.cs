@@ -2,7 +2,7 @@
 using Infrastructure.Database;
 using Application.Queries.Birds.GetAll;
 using Moq;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Repositories.Birds;
 
 namespace Test.Birds.QueryTests
 {
@@ -11,25 +11,20 @@ namespace Test.Birds.QueryTests
     {
         private GetAllBirdsQueryHandler _handler;
         private GetAllBirdsQuery _request;
-        private Mock<AppDbContext> _dbContextMock;
+        private Mock<IBirdRepository> _birdRepositoryMock;
 
         [SetUp]
         public void Setup()
         {
-            _dbContextMock = new Mock<AppDbContext>();
-            _handler = new GetAllBirdsQueryHandler(_dbContextMock.Object);
+            _birdRepositoryMock = new Mock<IBirdRepository>();
+            _handler = new GetAllBirdsQueryHandler(_birdRepositoryMock.Object);
             _request = new GetAllBirdsQuery();
         }
 
         protected void SetupMockDbContext(List<Bird> birds)
         {
-            var mockDbSet = new Mock<DbSet<Bird>>();
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Provider).Returns(birds.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Expression).Returns(birds.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.ElementType).Returns(birds.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.GetEnumerator()).Returns(birds.GetEnumerator());
-
-            _dbContextMock.Setup(b => b.Birds).Returns(mockDbSet.Object);
+            _birdRepositoryMock.Setup(repo => repo.GetAllBirds(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(birds);
         }
 
         [Test]

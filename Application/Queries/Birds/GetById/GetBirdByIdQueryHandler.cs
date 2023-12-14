@@ -1,29 +1,26 @@
 ﻿using Domain.Models;
 using Infrastructure.Database;
+using Infrastructure.Repositories.Birds;
 using MediatR;
 
 namespace Application.Queries.Birds.GetById
 {
     public class GetBirdByIdQueryHandler : IRequestHandler<GetBirdByIdQuery, Bird>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IBirdRepository _birdRepository;
 
-        public GetBirdByIdQueryHandler(AppDbContext dbContext)
+        public GetBirdByIdQueryHandler(IBirdRepository birdRepository)
         {
-            _dbContext = dbContext;
+            _birdRepository = birdRepository;
         }
 
         public Task<Bird> Handle(GetBirdByIdQuery request, CancellationToken cancellationToken)
         {
-            Bird wantedBird = _dbContext.Birds.FirstOrDefault(bird => bird.Id == request.Id)!;
-
-            if (wantedBird == null)
-            {
-                // Return null if the bird is not found
-                return Task.FromResult<Bird>(null);
-            }
+            Bird wantedBird = Task.Run(() => _birdRepository.GetBirdById(request.Id, cancellationToken)).Result;
 
             return Task.FromResult(wantedBird);
+
+
         }
 
 
