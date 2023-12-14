@@ -25,9 +25,10 @@ namespace Test.Cats.CommandTests
                     It.IsAny<Guid>(),
                     It.IsAny<string>(),  // Assuming 'Name' is a property of cat
                     It.IsAny<bool>(),    // Assuming 'LikesToPlay' is a property of cat
+                    It.IsAny<string>(),    // Assuming 'Breed' is a property of cat
                     It.IsAny<CancellationToken>()
                 ))
-                .Returns((Guid catId, string updatedCatName, bool updatedCatLikesToPlay, CancellationToken cancellationToken) =>
+                .Returns((Guid catId, string updatedCatName, bool updatedCatLikesToPlay, string updatedBreed, CancellationToken cancellationToken) =>
                 {
                     var existingCat = cats.FirstOrDefault(c => c.Id == catId);
 
@@ -35,6 +36,7 @@ namespace Test.Cats.CommandTests
                     {
                         existingCat.Name = updatedCatName;
                         existingCat.LikesToPlay = updatedCatLikesToPlay;
+
                     }
                     return Task.FromResult(existingCat)!;
                 });
@@ -51,12 +53,13 @@ namespace Test.Cats.CommandTests
                 {
                     Id = catId,
                     Name = "Nelson",
-                    LikesToPlay = true
+                    LikesToPlay = true,
+                    Breed = "Sphynx"
                 }
             };
             SetupMockDbContext(catsList);
 
-            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false };
+            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false, Breed = "NewCatBreed" };
 
             var command = new UpdateCatByIdCommand(catId, updatedName);
 
@@ -83,7 +86,7 @@ namespace Test.Cats.CommandTests
             };
             SetupMockDbContext(catsList);
 
-            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false };
+            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false, Breed = "NewCatBreed" };
 
             var command = new UpdateCatByIdCommand(invalidCatId, updatedName);
 

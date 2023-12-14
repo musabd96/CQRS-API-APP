@@ -19,7 +19,8 @@ namespace Application.Commands.Dogs
             {
                 Id = Guid.NewGuid(),
                 Name = request.NewDog.Name,
-                LikesToPlay = request.NewDog.LikesToPlay
+                LikesToPlay = request.NewDog.LikesToPlay,
+                Breed = request.NewDog.Breed,
             };
 
             _dogRepository.AddDog(dogToCreate, cancellationToken);

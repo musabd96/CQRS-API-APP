@@ -25,9 +25,10 @@ namespace Test.Dogs.CommandTests
                     It.IsAny<Guid>(),
                     It.IsAny<string>(),  // Assuming 'Name' is a property of Dog
                     It.IsAny<bool>(),    // Assuming 'LikesToPlay' is a property of Dog
+                    It.IsAny<string>(),    // Assuming 'Breed' is a property of Dog
                     It.IsAny<CancellationToken>()
                 ))
-                .Returns((Guid dogId, string updatedDogName, bool updatedDogLikesToPlay, CancellationToken cancellationToken) =>
+                .Returns((Guid dogId, string updatedDogName, bool updatedDogLikesToPlay, string updatedDogBreed, CancellationToken cancellationToken) =>
                 {
                     var existingDog = dogs.FirstOrDefault(d => d.Id == dogId);
 
@@ -35,6 +36,7 @@ namespace Test.Dogs.CommandTests
                     {
                         existingDog.Name = updatedDogName;
                         existingDog.LikesToPlay = updatedDogLikesToPlay;
+                        existingDog.Breed = updatedDogBreed;
                     }
                     return Task.FromResult(existingDog)!;
                 });
@@ -51,12 +53,13 @@ namespace Test.Dogs.CommandTests
                 {
                     Id = dogId,
                     Name = "Nelson",
-                    LikesToPlay = true
+                    LikesToPlay = true,
+                    Breed = "Labrador"
                 }
             };
             SetupMockDbContext(dogsList);
 
-            var updatedName = new DogDto { Name = "NewDogName", LikesToPlay = false };
+            var updatedName = new DogDto { Name = "NewDogName", LikesToPlay = false, Breed = "NewDogBreed" };
 
             var command = new UpdateDogByIdCommand(dogId, updatedName);
 
@@ -83,7 +86,7 @@ namespace Test.Dogs.CommandTests
             };
             SetupMockDbContext(dogsList);
 
-            var updatedName = new DogDto { Name = "NewDogName", LikesToPlay = false };
+            var updatedName = new DogDto { Name = "NewDogName", LikesToPlay = false, Breed = "NewDogBreed" };
 
             var command = new UpdateDogByIdCommand(invalidDogId, updatedName);
 
