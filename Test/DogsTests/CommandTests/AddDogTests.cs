@@ -1,8 +1,8 @@
 ﻿using Application.Commands.Dogs;
 using Application.Dtos.AnimalDto;
+using Application.Validators.Dog;
 using Domain.Models;
-using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Repositories.Dogs;
 using Moq;
 
 namespace Test.Dogs.CommandTests
@@ -11,24 +11,20 @@ namespace Test.Dogs.CommandTests
     public class AddDogTests
     {
         private AddDogCommandHandler _handler;
-        private Mock<AppDbContext> _dbContextMock;
+        private Mock<IDogRepository> _dogRepositoryMock;
 
         [SetUp]
         public void Setup()
         {
-            _dbContextMock = new Mock<AppDbContext>();
-            _handler = new AddDogCommandHandler(_dbContextMock.Object);
+            _dogRepositoryMock = new Mock<IDogRepository>();
+            _handler = new AddDogCommandHandler(_dogRepositoryMock.Object);
         }
 
         protected void SetupMockDbContext(List<Dog> dogs)
         {
-            var mockDbSet = new Mock<DbSet<Dog>>();
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Provider).Returns(dogs.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Expression).Returns(dogs.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.ElementType).Returns(dogs.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.GetEnumerator()).Returns(dogs.GetEnumerator());
-
-            _dbContextMock.Setup(d => d.Dogs).Returns(mockDbSet.Object);
+            _dogRepositoryMock.Setup(repo => repo.AddDog(It.IsAny<Dog>(), It.IsAny<CancellationToken>()))
+                .Callback((Dog dog, CancellationToken cancellationToken) => dogs.Add(dog))
+                .Returns((Dog dog, CancellationToken cancellationToken) => Task.FromResult(dog));
         }
 
         [Test]
@@ -51,16 +47,14 @@ namespace Test.Dogs.CommandTests
         public async Task Handle_InValidCommand_EmptyDogName()
         {
             // Arrange
-            var command = new AddDogCommand(new DogDto { Name = "" });
+            var validator = new DogValidator();
+            var dogName = new DogDto { Name = "" };
 
             // Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = await Task.FromResult(validator.Validate(dogName));
 
             // Assert
-            Assert.IsNull(result);
+            Assert.That(result.Errors.Single().ErrorMessage, Is.EqualTo("Dog Name can not be empty"));
         }
-
-
-
     }
 }

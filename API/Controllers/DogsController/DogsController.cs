@@ -7,8 +7,10 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Application.Dtos.AnimalDto;
+using Application.Validators.Dog;
+using Application.Validators;
+using Domain.Models;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers.DogsController
 {
@@ -17,9 +19,13 @@ namespace API.Controllers.DogsController
     public class DogsController : ControllerBase
     {
         internal readonly IMediator _mediator;
-        public DogsController(IMediator mediator)
+        internal readonly DogValidator _dogValidator;
+        internal readonly GuidValidator _guidValidator;
+        public DogsController(IMediator mediator, DogValidator dogValidator, GuidValidator guidValidator)
         {
             _mediator = mediator;
+            _dogValidator = dogValidator;
+            _guidValidator = guidValidator;
         }
 
         // Get all dogs from database
@@ -28,7 +34,6 @@ namespace API.Controllers.DogsController
         public async Task<IActionResult> GetAllDogs()
         {
             return Ok(await _mediator.Send(new GetAllDogsQuery()));
-            //return Ok("GET ALL DOGS");
         }
 
         // Get a dog by Id
@@ -36,7 +41,22 @@ namespace API.Controllers.DogsController
         [Route("getDogById/{dogId}"), AllowAnonymous]
         public async Task<IActionResult> GetDogById(Guid dogId)
         {
-            return Ok(await _mediator.Send(new GetDogByIdQuery(dogId)));
+            var validatGuid = _guidValidator.Validate(dogId);
+
+            if (!validatGuid.IsValid)
+            {
+                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+            }
+            else
+            {
+                Dog wantedDog = await _mediator.Send(new GetDogByIdQuery(dogId));
+                if (wantedDog == null)
+                {
+                    ModelState.AddModelError("DogNotFound", $"This Dog Id {dogId} is not found");
+                    return BadRequest(ModelState);
+                }
+                return Ok(wantedDog);
+            }
         }
 
         // Create a new dog 
@@ -44,7 +64,16 @@ namespace API.Controllers.DogsController
         [Route("addNewDog")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> AddDog([FromBody] DogDto newDog)
         {
-            return Ok(await _mediator.Send(new AddDogCommand(newDog)));
+            var validatGuid = _dogValidator.Validate(newDog);
+            if (!validatGuid.IsValid)
+            {
+                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+            }
+            else
+            {
+                Dog NewDog = await _mediator.Send(new AddDogCommand(newDog));
+                return Ok(NewDog);
+            }
         }
 
         // Update a specific dog
@@ -52,7 +81,16 @@ namespace API.Controllers.DogsController
         [Route("updateDog/{updatedDogId}")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> UpdateDog([FromBody] DogDto updatedDog, Guid updatedDogId)
         {
-            return Ok(await _mediator.Send(new UpdateDogByIdCommand(updatedDog, updatedDogId)));
+            var validatGuid = _dogValidator.Validate(updatedDog);
+            if (!validatGuid.IsValid)
+            {
+                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+            }
+            else
+            {
+                Dog UpdatedDog = await _mediator.Send(new UpdateDogByIdCommand(updatedDogId, updatedDog));
+                return Ok(UpdatedDog);
+            }
         }
 
         // Delete a dog by Id
@@ -60,7 +98,16 @@ namespace API.Controllers.DogsController
         [Route("deleteDogById/{dogId}")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> DeleteDogById(Guid dogId)
         {
-            return Ok(await _mediator.Send(new DeleteDogByIdCommand(dogId)));
+            var validatGuid = _guidValidator.Validate(dogId);
+            if (!validatGuid.IsValid)
+            {
+                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+            }
+            else
+            {
+                Dog deleteDog = await _mediator.Send(new DeleteDogByIdCommand(dogId));
+                return Ok(deleteDog);
+            }
         }
 
     }

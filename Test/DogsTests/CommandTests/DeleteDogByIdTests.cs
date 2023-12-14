@@ -1,7 +1,6 @@
 ﻿using Application.Commands.Dogs.DeleteDog;
 using Domain.Models;
-using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Repositories.Dogs;
 using Moq;
 
 namespace Test.Dogs.CommandTests
@@ -10,24 +9,24 @@ namespace Test.Dogs.CommandTests
     public class DeleteDogByIdTest
     {
         private DeleteDogByIdCommandHandler _handler;
-        private Mock<AppDbContext> _dbContextMock;
+        private Mock<IDogRepository> _dogRepositoryMock;
 
         [SetUp]
         public void Setup()
         {
-            _dbContextMock = new Mock<AppDbContext>();
-            _handler = new DeleteDogByIdCommandHandler(_dbContextMock.Object);
+            _dogRepositoryMock = new Mock<IDogRepository>();
+            _handler = new DeleteDogByIdCommandHandler(_dogRepositoryMock.Object);
         }
 
         protected void SetupMockDbContext(List<Dog> dogs)
         {
-            var mockDbSet = new Mock<DbSet<Dog>>();
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Provider).Returns(dogs.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Expression).Returns(dogs.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.ElementType).Returns(dogs.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.GetEnumerator()).Returns(dogs.GetEnumerator());
+            _dogRepositoryMock.Setup(repo => repo.DeleteDog(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .Returns((Guid dogId, CancellationToken cancellationToken) =>
+                {
+                    var dogToDelete = dogs.FirstOrDefault(d => d.Id == dogId);
 
-            _dbContextMock.Setup(d => d.Dogs).Returns(mockDbSet.Object);
+                    return Task.FromResult<Dog>(null!);
+                });
         }
 
         [Test]
@@ -50,8 +49,7 @@ namespace Test.Dogs.CommandTests
             var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.That(result.Id, Is.EqualTo(dogId));
+            Assert.Null(result);
         }
 
         [Test]

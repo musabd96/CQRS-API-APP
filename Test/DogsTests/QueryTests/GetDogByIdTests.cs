@@ -1,7 +1,6 @@
 ﻿using Application.Queries.Dogs.GetById;
 using Domain.Models;
-using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Repositories.Dogs;
 using Moq;
 
 namespace Test.Dogs.QueryTests
@@ -10,24 +9,19 @@ namespace Test.Dogs.QueryTests
     public class GetDogByIdTests
     {
         private GetDogByIdQueryHandler _handler;
-        private Mock<AppDbContext> _dbContextMock;
+        private Mock<IDogRepository> _dogRepositoryMock;
 
         [SetUp]
         public void Setup()
         {
-            _dbContextMock = new Mock<AppDbContext>();
-            _handler = new GetDogByIdQueryHandler(_dbContextMock.Object);
+            _dogRepositoryMock = new Mock<IDogRepository>();
+            _handler = new GetDogByIdQueryHandler(_dogRepositoryMock.Object);
         }
 
         protected void SetupMockDbContext(List<Dog> dogs)
         {
-            var mockDbSet = new Mock<DbSet<Dog>>();
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Provider).Returns(dogs.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.Expression).Returns(dogs.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.ElementType).Returns(dogs.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Dog>>().Setup(m => m.GetEnumerator()).Returns(dogs.GetEnumerator());
-
-            _dbContextMock.Setup(d => d.Dogs).Returns(mockDbSet.Object);
+            _dogRepositoryMock.Setup(repo => repo.GetDogById(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync((Guid dogId, CancellationToken cancellationToken) => dogs.FirstOrDefault(d => d.Id == dogId));
         }
 
         [Test]

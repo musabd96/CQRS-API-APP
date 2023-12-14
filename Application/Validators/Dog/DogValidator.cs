@@ -8,8 +8,9 @@ namespace Application.Validators.Dog
         public DogValidator()
         {
             RuleFor(dog => dog.Name)
-                .NotEmpty().WithMessage("Dog Name can not be empty BROSKI")
-                .NotNull().WithMessage("Dog Name can not be NULL");
+                .NotEmpty().WithMessage("Dog Name can not be empty")
+                .NotNull().WithMessage("Dog Name can not be NULL")
+                .NotEqual("string", StringComparer.OrdinalIgnoreCase);
         }
     }
 }

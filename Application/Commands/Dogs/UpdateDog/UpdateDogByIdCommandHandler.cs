@@ -1,40 +1,27 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.Repositories.Dogs;
 using MediatR;
 
 namespace Application.Commands.Dogs.UpdateDog
 {
     public class UpdateDogByIdCommandHandler : IRequestHandler<UpdateDogByIdCommand, Dog>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IDogRepository _dogRepository;
 
-        public UpdateDogByIdCommandHandler(AppDbContext dbContext)
+        public UpdateDogByIdCommandHandler(IDogRepository dogRepository)
         {
-            _dbContext = dbContext;
+            _dogRepository = dogRepository;
         }
-        public Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
+
+        public async Task<Dog> Handle(UpdateDogByIdCommand request, CancellationToken cancellationToken)
         {
-            Dog dogToUpdate = _dbContext.Dogs.FirstOrDefault(dog => dog.Id == request.Id)!;
+            var Id = request.Id;
+            var Name = request.UpdatedDog.Name;
+            var LikesToPlay = request.UpdatedDog.LikesToPlay;
 
-            if (dogToUpdate != null)
-            {
-                if (string.IsNullOrWhiteSpace(request.UpdatedDog.Name) || request.UpdatedDog.Name == "string")
-                {
-                    return Task.FromResult<Dog>(null!);
-                }
-                else
-                {
-                    dogToUpdate.Name = request.UpdatedDog.Name;
-                    dogToUpdate.LikesToPlay = request.UpdatedDog.LikesToPlay;
+            Dog dogToUpdate = await _dogRepository.UpdateDog(Id, Name, LikesToPlay, cancellationToken);
 
-                    _dbContext.SaveChangesAsync();
-
-                    return Task.FromResult(dogToUpdate);
-                }
-
-            }
-
-            return Task.FromResult(dogToUpdate)!;
+            return dogToUpdate;
         }
     }
 }
