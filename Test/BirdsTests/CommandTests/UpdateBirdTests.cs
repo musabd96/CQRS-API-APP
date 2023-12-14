@@ -15,7 +15,6 @@ namespace Test.Birds.CommandTests
         [SetUp]
         public void SetUp()
         {
-            // Initialize the original database and create a clone for each test
             _birdRepositoryMock = new Mock<IBirdRepository>();
             _handler = new UpdateBirdByIdCommandHandler(_birdRepositoryMock.Object);
         }
@@ -24,8 +23,8 @@ namespace Test.Birds.CommandTests
         {
             _birdRepositoryMock.Setup(repo => repo.UpdateBird(
                     It.IsAny<Guid>(),
-                    It.IsAny<string>(),  // Assuming 'Name' is a property of Dog
-                    It.IsAny<bool>(),    // Assuming 'LikesToPlay' is a property of Dog
+                    It.IsAny<string>(),  // Assuming 'Name' is a property of bird
+                    It.IsAny<bool>(),    // Assuming 'LikesToPlay' is a property of bird
                     It.IsAny<CancellationToken>()
                 ))
                 .Returns((Guid birdId, string updatedBirdName, bool updatedBirdLikesToPlay, CancellationToken cancellationToken) =>

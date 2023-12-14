@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
 using Application.Queries.Birds.GetAll;
 using Moq;
 using Infrastructure.Repositories.Birds;

@@ -1,9 +1,6 @@
-﻿using Application.Commands.Birds.AddBird;
-using Application.Commands.Birds.DeleteBird;
+﻿using Application.Commands.Birds.DeleteBird;
 using Domain.Models;
-using Infrastructure.Database;
 using Infrastructure.Repositories.Birds;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 
 namespace Test.Birds.CommandTests
@@ -17,7 +14,6 @@ namespace Test.Birds.CommandTests
         [SetUp]
         public void SetUp()
         {
-            // Initialize the original database and create a clone for each test
             _birdRepositoryMock = new Mock<IBirdRepository>();
             _handler = new DeleteBirdByIdCommandHandler(_birdRepositoryMock.Object);
         }
