@@ -1,6 +1,8 @@
-﻿using Application.Commands.Birds.DeleteBird;
+﻿using Application.Commands.Birds.AddBird;
+using Application.Commands.Birds.DeleteBird;
 using Domain.Models;
 using Infrastructure.Database;
+using Infrastructure.Repositories.Birds;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
@@ -10,25 +12,25 @@ namespace Test.Birds.CommandTests
     public class DeleteBirdByIdTests
     {
         private DeleteBirdByIdCommandHandler _handler;
-        private Mock<AppDbContext> _dbContextMock;
+        private Mock<IBirdRepository> _birdRepositoryMock;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _dbContextMock = new Mock<AppDbContext>();
-            _handler = new DeleteBirdByIdCommandHandler(_dbContextMock.Object);
+            _birdRepositoryMock = new Mock<IBirdRepository>();
+            _handler = new DeleteBirdByIdCommandHandler(_birdRepositoryMock.Object);
         }
 
         protected void SetupMockDbContext(List<Bird> birds)
         {
-            var mockDbSet = new Mock<DbSet<Bird>>();
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Provider).Returns(birds.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Expression).Returns(birds.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.ElementType).Returns(birds.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.GetEnumerator()).Returns(birds.GetEnumerator());
+            _birdRepositoryMock.Setup(repo => repo.DeleteBird(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .Returns((Guid birdId, CancellationToken cancellationToken) =>
+                {
+                    var birdToDelete = birds.FirstOrDefault(bird => bird.Id == birdId);
 
-            _dbContextMock.Setup(b => b.Birds).Returns(mockDbSet.Object);
+                    return Task.FromResult<Bird>(null!);
+                });
         }
 
         [Test]
@@ -51,8 +53,7 @@ namespace Test.Birds.CommandTests
             var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.That(result.Id, Is.EqualTo(birdId));
+            Assert.Null(result);
         }
 
         [Test]

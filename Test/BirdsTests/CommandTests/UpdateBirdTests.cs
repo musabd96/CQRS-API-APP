@@ -1,8 +1,7 @@
 ﻿using Application.Commands.Birds.UpdateBird;
 using Application.Dtos.AnimalDto;
 using Domain.Models;
-using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Repositories.Birds;
 using Moq;
 
 namespace Test.Birds.CommandTests
@@ -11,25 +10,35 @@ namespace Test.Birds.CommandTests
     public class UpdateBirdTests
     {
         private UpdateBirdByIdCommandHandler _handler;
-        private Mock<AppDbContext> _dbContextMock;
+        private Mock<IBirdRepository> _birdRepositoryMock;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _dbContextMock = new Mock<AppDbContext>();
-            _handler = new UpdateBirdByIdCommandHandler(_dbContextMock.Object);
+            _birdRepositoryMock = new Mock<IBirdRepository>();
+            _handler = new UpdateBirdByIdCommandHandler(_birdRepositoryMock.Object);
         }
 
         protected void SetupMockDbContext(List<Bird> birds)
         {
-            var mockDbSet = new Mock<DbSet<Bird>>();
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Provider).Returns(birds.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Expression).Returns(birds.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.ElementType).Returns(birds.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.GetEnumerator()).Returns(birds.GetEnumerator());
+            _birdRepositoryMock.Setup(repo => repo.UpdateBird(
+                    It.IsAny<Guid>(),
+                    It.IsAny<string>(),  // Assuming 'Name' is a property of Dog
+                    It.IsAny<bool>(),    // Assuming 'LikesToPlay' is a property of Dog
+                    It.IsAny<CancellationToken>()
+                ))
+                .Returns((Guid birdId, string updatedBirdName, bool updatedBirdLikesToPlay, CancellationToken cancellationToken) =>
+                {
+                    var existingBird = birds.FirstOrDefault(b => b.Id == birdId);
 
-            _dbContextMock.Setup(b => b.Birds).Returns(mockDbSet.Object);
+                    if (existingBird != null)
+                    {
+                        existingBird.Name = updatedBirdName;
+                        existingBird.LikesToPlay = updatedBirdLikesToPlay;
+                    }
+                    return Task.FromResult(existingBird)!;
+                });
         }
 
         [Test]
@@ -50,7 +59,7 @@ namespace Test.Birds.CommandTests
 
             var updatedName = new BirdDto { Name = "NewCatName", LikesToPlay = false };
 
-            var command = new UpdateBirdByIdCommand(updatedName, birdId);
+            var command = new UpdateBirdByIdCommand(birdId, updatedName);
 
             // Act
             await _handler.Handle(command, CancellationToken.None);
@@ -77,7 +86,7 @@ namespace Test.Birds.CommandTests
 
             var updatedName = new BirdDto { Name = "NewCatName", LikesToPlay = false };
 
-            var command = new UpdateBirdByIdCommand(updatedName, invalidBirdId);
+            var command = new UpdateBirdByIdCommand(invalidBirdId, updatedName);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);

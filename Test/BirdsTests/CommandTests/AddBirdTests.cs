@@ -1,8 +1,8 @@
 ﻿using Application.Commands.Birds.AddBird;
 using Application.Dtos.AnimalDto;
+using Application.Validators.Bird;
 using Domain.Models;
-using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Repositories.Birds;
 using Moq;
 
 namespace Test.Birds.CommandTests
@@ -11,25 +11,21 @@ namespace Test.Birds.CommandTests
     public class AddBirdTests
     {
         private AddBirdCommandHandler _handler;
-        private Mock<AppDbContext> _dbContextMock;
+        private Mock<IBirdRepository> _birdRepositoryMock;
 
         [SetUp]
         public void SetUp()
         {
             // Initialize the original database and create a clone for each test
-            _dbContextMock = new Mock<AppDbContext>();
-            _handler = new AddBirdCommandHandler(_dbContextMock.Object);
+            _birdRepositoryMock = new Mock<IBirdRepository>();
+            _handler = new AddBirdCommandHandler(_birdRepositoryMock.Object);
         }
 
         protected void SetupMockDbContext(List<Bird> birds)
         {
-            var mockDbSet = new Mock<DbSet<Bird>>();
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Provider).Returns(birds.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.Expression).Returns(birds.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.ElementType).Returns(birds.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Bird>>().Setup(m => m.GetEnumerator()).Returns(birds.GetEnumerator());
-
-            _dbContextMock.Setup(b => b.Birds).Returns(mockDbSet.Object);
+            _birdRepositoryMock.Setup(repo => repo.AddBird(It.IsAny<Bird>(), It.IsAny<CancellationToken>()))
+                .Callback((Bird bird, CancellationToken cancellationToken) => birds.Add(bird))
+                .Returns((Bird bird, CancellationToken cancellationToken) => Task.FromResult(bird));
         }
 
         [Test]
@@ -49,16 +45,17 @@ namespace Test.Birds.CommandTests
         }
 
         [Test]
-        public async Task Handle_InValidCommand_EmptyBirdName()
+        public async Task Handle_InValidCommand_EmptyDogName()
         {
             // Arrange
-            var command = new AddBirdCommand(new BirdDto { Name = "" });
+            var validator = new BirdValidator();
+            var birdName = new BirdDto { Name = "" };
 
             // Act
-            var result = await _handler.Handle(command, CancellationToken.None);
+            var result = await Task.FromResult(validator.Validate(birdName));
 
             // Assert
-            Assert.IsNull(result);
+            Assert.That(result.Errors.Single().ErrorMessage, Is.EqualTo("Bird Name can not be empty"));
         }
     }
 }

@@ -1,41 +1,28 @@
 ﻿using Domain.Models;
 using Infrastructure.Database;
+using Infrastructure.Repositories.Birds;
 using MediatR;
 
 namespace Application.Commands.Birds.UpdateBird
 {
     public class UpdateBirdByIdCommandHandler : IRequestHandler<UpdateBirdByIdCommand, Bird>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IBirdRepository _birdRepository;
 
-        public UpdateBirdByIdCommandHandler(AppDbContext dbContext)
+        public UpdateBirdByIdCommandHandler(IBirdRepository birdRepository)
         {
-            _dbContext = dbContext;
+            _birdRepository = birdRepository;
         }
 
-        public Task<Bird> Handle(UpdateBirdByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Bird> Handle(UpdateBirdByIdCommand request, CancellationToken cancellationToken)
         {
-            Bird birdToUpdate = _dbContext.Birds.FirstOrDefault(bird => bird.Id == request.Id)!;
+            var Id = request.Id;
+            var Name = request.UpdatedBird.Name;
+            var LikesToPlay = request.UpdatedBird.LikesToPlay;
 
-            if (birdToUpdate != null)
-            {
-                if (string.IsNullOrWhiteSpace(request.UpdatedBird.Name) || request.UpdatedBird.Name == "string")
-                {
-                    return Task.FromResult<Bird>(null!);
-                }
-                else
-                {
-                    birdToUpdate.Name = request.UpdatedBird.Name;
-                    birdToUpdate.LikesToPlay = request.UpdatedBird.LikesToPlay;
+            Bird birdToUpdate = await _birdRepository.UpdateBird(Id, Name, LikesToPlay, cancellationToken);
 
-                    _dbContext.SaveChangesAsync();
-
-                    return Task.FromResult(birdToUpdate);
-                }
-
-            }
-
-            return Task.FromResult(birdToUpdate)!;
+            return birdToUpdate;
         }
     }
 }

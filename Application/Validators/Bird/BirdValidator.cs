@@ -9,7 +9,8 @@ namespace Application.Validators.Bird
         {
             RuleFor(bird => bird.Name)
                 .NotEmpty().WithMessage("Bird Name can not be empty")
-                .NotNull().WithMessage("Bird Name can not be NULL");
+                .NotNull().WithMessage("Bird Name can not be NULL")
+                .NotEqual("string", StringComparer.OrdinalIgnoreCase);
         }
     }
 }
