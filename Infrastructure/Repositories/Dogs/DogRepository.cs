@@ -61,7 +61,7 @@ namespace Infrastructure.Repositories.Dogs
             }
         }
 
-        public Task<Dog> UpdateDog(Guid id, string newName, bool likesToPlay, CancellationToken cancellationToken)
+        public Task<Dog> UpdateDog(Guid id, string newName, bool likesToPlay, string breed, CancellationToken cancellationToken)
         {
             try
             {
@@ -69,6 +69,7 @@ namespace Infrastructure.Repositories.Dogs
 
                 dogToUpdate.Name = newName;
                 dogToUpdate.LikesToPlay = likesToPlay;
+                dogToUpdate.Breed = breed;
 
                 _dbContext.SaveChangesAsync();
 
