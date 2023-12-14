@@ -1,8 +1,7 @@
 ﻿using Application.Commands.Cats.UpdateCat;
 using Application.Dtos.AnimalDto;
 using Domain.Models;
-using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Repositories.Cats;
 using Moq;
 
 namespace Test.Cats.CommandTests
@@ -11,25 +10,34 @@ namespace Test.Cats.CommandTests
     public class UpdateCatTests
     {
         private UpdateCatByIdCommandHandler _handler;
-        private Mock<AppDbContext> _dbContextMock;
+        private Mock<ICatRepository> _catRepositoryMock;
 
         [SetUp]
         public void SetUp()
         {
-            // Initialize the original database and create a clone for each test
-            _dbContextMock = new Mock<AppDbContext>();
-            _handler = new UpdateCatByIdCommandHandler(_dbContextMock.Object);
+            _catRepositoryMock = new Mock<ICatRepository>();
+            _handler = new UpdateCatByIdCommandHandler(_catRepositoryMock.Object);
         }
 
         protected void SetupMockDbContext(List<Cat> cats)
         {
-            var mockDbSet = new Mock<DbSet<Cat>>();
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.Provider).Returns(cats.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.Expression).Returns(cats.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.ElementType).Returns(cats.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.GetEnumerator()).Returns(cats.GetEnumerator());
+            _catRepositoryMock.Setup(repo => repo.UpdateCat(
+                    It.IsAny<Guid>(),
+                    It.IsAny<string>(),  // Assuming 'Name' is a property of cat
+                    It.IsAny<bool>(),    // Assuming 'LikesToPlay' is a property of cat
+                    It.IsAny<CancellationToken>()
+                ))
+                .Returns((Guid catId, string updatedCatName, bool updatedCatLikesToPlay, CancellationToken cancellationToken) =>
+                {
+                    var existingCat = cats.FirstOrDefault(c => c.Id == catId);
 
-            _dbContextMock.Setup(c => c.Cats).Returns(mockDbSet.Object);
+                    if (existingCat != null)
+                    {
+                        existingCat.Name = updatedCatName;
+                        existingCat.LikesToPlay = updatedCatLikesToPlay;
+                    }
+                    return Task.FromResult(existingCat)!;
+                });
         }
 
         [Test]
@@ -50,7 +58,7 @@ namespace Test.Cats.CommandTests
 
             var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false };
 
-            var command = new UpdateCatByIdCommand(updatedName, catId);
+            var command = new UpdateCatByIdCommand(catId, updatedName);
 
             // Act
             await _handler.Handle(command, CancellationToken.None);
@@ -77,7 +85,7 @@ namespace Test.Cats.CommandTests
 
             var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false };
 
-            var command = new UpdateCatByIdCommand(updatedName, invalidCatId);
+            var command = new UpdateCatByIdCommand(invalidCatId, updatedName);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);

@@ -1,41 +1,28 @@
 ﻿using Domain.Models;
 using Infrastructure.Database;
+using Infrastructure.Repositories.Cats;
 using MediatR;
 
 namespace Application.Commands.Cats.UpdateCat
 {
     public class UpdateCatByIdCommandHandler : IRequestHandler<UpdateCatByIdCommand, Cat>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly ICatRepository _catRepository;
 
-        public UpdateCatByIdCommandHandler(AppDbContext dbContext)
+        public UpdateCatByIdCommandHandler(ICatRepository catRepository)
         {
-            _dbContext = dbContext;
+            _catRepository = catRepository;
         }
 
-        public Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Cat> Handle(UpdateCatByIdCommand request, CancellationToken cancellationToken)
         {
-            Cat catToUpdate = _dbContext.Cats.FirstOrDefault(cat => cat.Id == request.Id)!;
+            var Id = request.Id;
+            var Name = request.UpdatedCat.Name;
+            var LikesToPlay = request.UpdatedCat.LikesToPlay;
 
-            if (catToUpdate != null)
-            {
-                if (string.IsNullOrEmpty(catToUpdate.Name) || request.UpdatedCat.Name == "string")
-                {
-                    return Task.FromResult<Cat>(null!);
-                }
-                else
-                {
-                    catToUpdate.Name = request.UpdatedCat.Name;
-                    catToUpdate.LikesToPlay = request.UpdatedCat.LikesToPlay;
+            Cat catToUpdate = await _catRepository.UpdateCat(Id, Name, LikesToPlay, cancellationToken);
 
-                    _dbContext.SaveChangesAsync();
-
-                    return Task.FromResult(catToUpdate);
-                }
-
-            }
-
-            return Task.FromResult(catToUpdate)!;
+            return catToUpdate;
         }
     }
 }

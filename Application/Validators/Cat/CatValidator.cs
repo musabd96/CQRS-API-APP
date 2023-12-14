@@ -9,7 +9,8 @@ namespace Application.Validators.Cat
         {
             RuleFor(cat => cat.Name)
                 .NotEmpty().WithMessage("Cat Name can not be empty")
-                .NotNull().WithMessage("Cat Name can not be NULL");
+                .NotNull().WithMessage("Cat Name can not be NULL")
+                .NotEqual("string", StringComparer.OrdinalIgnoreCase);
         }
     }
 }

@@ -1,26 +1,20 @@
-﻿using Application.Commands.Dogs;
-using Domain.Models;
-using Infrastructure.Database;
+﻿using Domain.Models;
+using Infrastructure.Repositories.Cats;
 using MediatR;
 
 namespace Application.Commands.Cats
 {
     public class AddCatCommandHandler : IRequestHandler<AddCatCommand, Cat>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly ICatRepository _catRepository;
 
-        public AddCatCommandHandler(AppDbContext dbContext)
+        public AddCatCommandHandler(ICatRepository catRepository)
         {
-            _dbContext = dbContext;
+            _catRepository = catRepository;
         }
 
         public Task<Cat> Handle(AddCatCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(request.NewCat.Name) || request.NewCat.Name == "string")
-            {
-                return Task.FromResult<Cat>(null!);
-            }
-
             Cat catToCreate = new()
             {
                 Id = Guid.NewGuid(),
@@ -28,8 +22,7 @@ namespace Application.Commands.Cats
                 LikesToPlay = request.NewCat.LikesToPlay
             };
 
-            _dbContext.Cats.Add(catToCreate);
-            _dbContext.SaveChangesAsync();
+            _catRepository.AddCat(catToCreate, cancellationToken);
 
             return Task.FromResult(catToCreate);
         }

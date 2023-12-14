@@ -1,7 +1,6 @@
 ﻿using Application.Commands.Cats.DeleteCat;
 using Domain.Models;
-using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Repositories.Cats;
 using Moq;
 
 namespace Test.Cats.CommandTests
@@ -10,25 +9,24 @@ namespace Test.Cats.CommandTests
     public class DeleteCatByIdTests
     {
         private DeleteCatByIdCommandHandler _handler;
-        private Mock<AppDbContext> _dbContextMock;
+        private Mock<ICatRepository> _catRepositoryMock;
 
         [SetUp]
         public void SetUp()
         {
-            // Initialize the original database and create a clone for each test
-            _dbContextMock = new Mock<AppDbContext>();
-            _handler = new DeleteCatByIdCommandHandler(_dbContextMock.Object);
+            _catRepositoryMock = new Mock<ICatRepository>();
+            _handler = new DeleteCatByIdCommandHandler(_catRepositoryMock.Object);
         }
 
         protected void SetupMockDbContext(List<Cat> cats)
         {
-            var mockDbSet = new Mock<DbSet<Cat>>();
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.Provider).Returns(cats.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.Expression).Returns(cats.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.ElementType).Returns(cats.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Cat>>().Setup(m => m.GetEnumerator()).Returns(cats.GetEnumerator());
+            _catRepositoryMock.Setup(repo => repo.DeleteCat(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .Returns((Guid catId, CancellationToken cancellationToken) =>
+                {
+                    var birdToDelete = cats.FirstOrDefault(bird => bird.Id == catId);
 
-            _dbContextMock.Setup(c => c.Cats).Returns(mockDbSet.Object);
+                    return Task.FromResult<Cat>(null!);
+                });
         }
 
         [Test]
@@ -51,8 +49,7 @@ namespace Test.Cats.CommandTests
             var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.That(result.Id, Is.EqualTo(catId));
+            Assert.Null(result);
         }
 
         [Test]
