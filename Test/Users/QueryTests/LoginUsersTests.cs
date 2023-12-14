@@ -4,7 +4,7 @@ using Application.Queries.Users.Login;
 using Domain.Models;
 using Application.Dtos.Users;
 
-namespace Test.QueryTests.Users
+namespace Test.Users.QueryTests
 {
     [TestFixture]
     public class LoginUserQueryHandlerTests

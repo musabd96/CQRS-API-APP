@@ -1,33 +1,24 @@
-﻿
-
-using Domain.Models;
+﻿using Domain.Models;
 using Infrastructure.Database;
+using Infrastructure.Repositories.Dogs;
 using MediatR;
 
 namespace Application.Commands.Dogs.DeleteDog
 {
     public class DeleteDogByIdCommandHandler : IRequestHandler<DeleteDogByIdCommand, Dog>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IDogRepository _dogRepository;
 
-        public DeleteDogByIdCommandHandler(AppDbContext dbContext)
+        public DeleteDogByIdCommandHandler(IDogRepository dogRepository)
         {
-            _dbContext = dbContext;
+            _dogRepository = dogRepository;
         }
 
         public Task<Dog> Handle(DeleteDogByIdCommand request, CancellationToken cancellationToken)
         {
-            var dogToDelete = _dbContext.Dogs.FirstOrDefault(d => d.Id == request.Id);
+            var dogToDelete = _dogRepository.DeleteDog(request.Id, cancellationToken);
 
-            if (dogToDelete != null)
-            {
-                _dbContext.Dogs.Remove(dogToDelete);
-                _dbContext.SaveChangesAsync();
-                return Task.FromResult(dogToDelete);
-            }
-
-            // Dog not found
-            return Task.FromResult<Dog>(dogToDelete!);
+            return dogToDelete;
         }
     }
 }

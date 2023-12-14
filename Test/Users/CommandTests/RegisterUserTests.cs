@@ -4,7 +4,7 @@ using Application.Dtos.Users;
 using Infrastructure.Repositories.Users;
 using Domain.Models;
 
-namespace Test.CommandTests.Users
+namespace Test.Users.CommandTests
 {
     [TestFixture]
     public class RegisterUser
