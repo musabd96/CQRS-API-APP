@@ -43,6 +43,22 @@ namespace Infrastructure.Repositories.Cats
             }
         }
 
+        public Task<List<Cat>> GetAllCatsByBreed(string breed, CancellationToken cancellationToken)
+        {
+            try
+            {
+                List<Cat> cats = _dbContext.Cats
+                    .Where(c => c.Breed == breed).ToList();
+
+                return Task.FromResult(cats);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An error occurred while getting all catss from the database");
+                throw new Exception("An error occurred while getting all catss from the database", ex);
+            }
+        }
+
         public Task<Cat> AddCat(Cat newcat, CancellationToken cancellationToken)
         {
             try

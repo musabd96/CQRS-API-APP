@@ -10,7 +10,7 @@ using Application.Dtos.AnimalDto;
 using Application.Validators.Dog;
 using Application.Validators;
 using Domain.Models;
-
+using Application.Queries.Dogs.GetbyBreed;
 
 namespace API.Controllers.DogsController
 {
@@ -52,11 +52,27 @@ namespace API.Controllers.DogsController
                 Dog wantedDog = await _mediator.Send(new GetDogByIdQuery(dogId));
                 if (wantedDog == null)
                 {
-                    ModelState.AddModelError("DogNotFound", $"This Dog Id {dogId} is not found");
+                    ModelState.AddModelError("DogNotFound", $"This Dog Id ({dogId}) is not found");
                     return BadRequest(ModelState);
                 }
                 return Ok(wantedDog);
             }
+        }
+
+        // Get all dogs by breed
+        [HttpGet]
+        [Route("getDogByBreed/{breed}"), AllowAnonymous]
+        public async Task<IActionResult> GetDogByBreed(string breed)
+        {
+            var wantedDog = await _mediator.Send(new GetAllDogsByBreedQuery(breed));
+
+            if (wantedDog.Count == 0)
+            {
+                ModelState.AddModelError("DogNotFound", $"Dogs with this breed = ({breed}) not found");
+                return BadRequest(ModelState);
+            }
+
+            return Ok(wantedDog);
         }
 
         // Create a new dog 

@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Models;
 using Application.Validators.Cat;
+using Application.Queries.Dogs.GetbyBreed;
+using Application.Queries.Cats.GetbyBreed;
 
 namespace API.Controllers.CatsController
 {
@@ -56,6 +58,22 @@ namespace API.Controllers.CatsController
                 }
                 return Ok(wantedCat);
             }
+        }
+
+        // Get all cats by breed
+        [HttpGet]
+        [Route("getCatByBreed/{breed}"), AllowAnonymous]
+        public async Task<IActionResult> GetCatByBreed(string breed)
+        {
+            var wantedCatBreed = await _mediator.Send(new GetAllCatsByBreedQuery(breed));
+
+            if (wantedCatBreed.Count == 0)
+            {
+                ModelState.AddModelError("CatNotFound", $"Cats with this breed = ({breed}) not found");
+                return BadRequest(ModelState);
+            }
+
+            return Ok(wantedCatBreed);
         }
 
         // Create a new cat 
