@@ -45,6 +45,22 @@ namespace Infrastructure.Repositories.Dogs
             }
         }
 
+        public Task<List<Dog>> GetAllDogsByBreed(string breed, CancellationToken cancellationToken)
+        {
+            try
+            {
+                List<Dog> dogs = _dbContext.Dogs
+                    .Where(d => d.Breed == breed).ToList();
+
+                return Task.FromResult(dogs);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An error occurred while getting all dogs from the database");
+                throw new Exception("An error occurred while getting all dogs from the database", ex);
+            }
+        }
+
         public Task<Dog> AddDog(Dog newdog, CancellationToken cancellationToken)
         {
             try
@@ -99,5 +115,6 @@ namespace Infrastructure.Repositories.Dogs
             }
 
         }
+
     }
 }
