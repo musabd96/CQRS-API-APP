@@ -77,7 +77,7 @@ namespace Infrastructure.Repositories.Cats
             }
         }
 
-        public Task<Cat> UpdateCat(Guid id, string newName, bool likesToPlay, string breed, CancellationToken cancellationToken)
+        public Task<Cat> UpdateCat(Guid id, string newName, bool likesToPlay, string breed, int weight, CancellationToken cancellationToken)
         {
             try
             {
@@ -86,6 +86,7 @@ namespace Infrastructure.Repositories.Cats
                 catToUpdate.Name = newName;
                 catToUpdate.LikesToPlay = likesToPlay;
                 catToUpdate.Breed = breed;
+                catToUpdate.Weight = weight;
 
                 _dbContext.SaveChangesAsync();
 

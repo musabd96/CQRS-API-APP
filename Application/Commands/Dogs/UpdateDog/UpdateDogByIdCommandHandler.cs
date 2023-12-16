@@ -19,8 +19,9 @@ namespace Application.Commands.Dogs.UpdateDog
             var Name = request.UpdatedDog.Name;
             var LikesToPlay = request.UpdatedDog.LikesToPlay;
             var Breed = request.UpdatedDog.Breed;
+            int Weight = request.UpdatedDog.Weight;
 
-            Dog dogToUpdate = await _dogRepository.UpdateDog(Id, Name, LikesToPlay, Breed, cancellationToken);
+            Dog dogToUpdate = await _dogRepository.UpdateDog(Id, Name, LikesToPlay, Breed, Weight, cancellationToken);
 
             return dogToUpdate;
         }

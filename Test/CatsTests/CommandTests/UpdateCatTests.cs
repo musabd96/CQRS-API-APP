@@ -26,9 +26,10 @@ namespace Test.Cats.CommandTests
                     It.IsAny<string>(),  // Assuming 'Name' is a property of cat
                     It.IsAny<bool>(),    // Assuming 'LikesToPlay' is a property of cat
                     It.IsAny<string>(),    // Assuming 'Breed' is a property of cat
+                    It.IsAny<int>(),    // Assuming 'Weight' is a property of cat
                     It.IsAny<CancellationToken>()
                 ))
-                .Returns((Guid catId, string updatedCatName, bool updatedCatLikesToPlay, string updatedBreed, CancellationToken cancellationToken) =>
+                .Returns((Guid catId, string updatedCatName, bool updatedCatLikesToPlay, string updatedBreed, int weight, CancellationToken cancellationToken) =>
                 {
                     var existingCat = cats.FirstOrDefault(c => c.Id == catId);
 
@@ -36,6 +37,8 @@ namespace Test.Cats.CommandTests
                     {
                         existingCat.Name = updatedCatName;
                         existingCat.LikesToPlay = updatedCatLikesToPlay;
+                        existingCat.Breed = updatedBreed;
+                        existingCat.Weight = weight;
 
                     }
                     return Task.FromResult(existingCat)!;
@@ -54,12 +57,13 @@ namespace Test.Cats.CommandTests
                     Id = catId,
                     Name = "Nelson",
                     LikesToPlay = true,
-                    Breed = "Sphynx"
+                    Breed = "Sphynx",
+                    Weight = 9
                 }
             };
             SetupMockDbContext(catsList);
 
-            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false, Breed = "NewCatBreed" };
+            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false, Breed = "NewCatBreed", Weight = 9 };
 
             var command = new UpdateCatByIdCommand(catId, updatedName);
 
@@ -81,12 +85,13 @@ namespace Test.Cats.CommandTests
                 {
                     Id = Guid.NewGuid(),
                     Name = "Nelson",
-                    LikesToPlay = true
+                    LikesToPlay = true,
+                    Weight = 9
                 }
             };
             SetupMockDbContext(catsList);
 
-            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false, Breed = "NewCatBreed" };
+            var updatedName = new CatDto { Name = "NewCatName", LikesToPlay = false, Breed = "NewCatBreed", Weight = 10 };
 
             var command = new UpdateCatByIdCommand(invalidCatId, updatedName);
 
