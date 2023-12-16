@@ -48,7 +48,7 @@ namespace Infrastructure.Repositories.Cats
             try
             {
                 List<Cat> filteredCats = _dbContext.Cats
-                                        .Where(c => (string.IsNullOrEmpty(breed) || c.Breed == breed) && 
+                                        .Where(c => (string.IsNullOrEmpty(breed) || c.Breed == breed) &&
                                         (weight == null || c.Weight >= weight))
                                         .ToList();
 

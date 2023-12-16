@@ -21,8 +21,8 @@ namespace Test.Cats.QueryTests
         protected void SetupMockDbContext(List<Cat> cats)
         {
             _catRepositoryMock.Setup(repo => repo.GetAllCatsByCriteria(
-                    It.IsAny<string>(), 
-                    It.IsAny<int>(), 
+                    It.IsAny<string>(),
+                    It.IsAny<int>(),
                     It.IsAny<CancellationToken>()))
                              .ReturnsAsync((string breed, int weight, CancellationToken cancellationToken) =>
                              {
