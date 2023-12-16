@@ -2,7 +2,7 @@
 
 namespace Domain.Models
 {
-     public class UserBird
+    public class UserBird
     {
         public Guid BirdId { get; set; }
         public Bird Bird { get; set; }

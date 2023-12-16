@@ -44,7 +44,7 @@ namespace Infrastructure.Database
                 .HasOne(bu => bu.User)
                 .WithMany(u => u.UserBird)
                 .HasForeignKey(bu => bu.UserId);
-            
+
             //Cat many-to-many User 
             modelBuilder.Entity<UserCat>()
                 .HasKey(uc => new { uc.CatId, uc.UserId });
@@ -58,7 +58,7 @@ namespace Infrastructure.Database
                 .HasOne(uc => uc.User)
                 .WithMany(u => u.UserCat)
                 .HasForeignKey(uc => uc.UserId);
-            
+
             //Dog many-to-many User 
             modelBuilder.Entity<UserDog>()
                 .HasKey(ud => new { ud.DogId, ud.UserId });
@@ -72,7 +72,7 @@ namespace Infrastructure.Database
                 .HasOne(ud => ud.User)
                 .WithMany(u => u.UserDog)
                 .HasForeignKey(ud => ud.UserId);
-            
+
 
             // Call the SeedAnimals method to populate the data
             AnimalSeeder.SeedAnimals(modelBuilder);
