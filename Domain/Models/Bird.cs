@@ -1,4 +1,5 @@
 ﻿using Domain.Models.Animal;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Models
 {
@@ -9,5 +10,11 @@ namespace Domain.Models
         public override string TypeOfAnimal => "Bird";
         public override string animalCanDo => "This animal can fly";
         public bool LikesToPlay { get; set; }
+
+        [NotMapped]
+        public override string Breed { get; set; }
+
+        [NotMapped]
+        public override int Weight { get; set; }
     }
 }
