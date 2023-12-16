@@ -6,7 +6,7 @@ using Application.Queries.Cats.GetbyBreed;
 namespace Test.DogsTests.QueryTests
 {
     [TestFixture]
-    public class GetCatByBreedTests
+    public class GetCatsByBreedTests
     {
         private GetAllCatsByBreedQueryHandler _handler;
         private Mock<ICatRepository> _catRepositoryMock;

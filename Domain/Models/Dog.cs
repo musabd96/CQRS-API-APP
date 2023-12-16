@@ -10,5 +10,6 @@ namespace Domain.Models
         public override string animalCanDo => "This animal can bark";
         public bool LikesToPlay { get; set; }
         public override string Breed { get; set; } = string.Empty;
+        public override int Weight { get; set; }
     }
 }

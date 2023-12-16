@@ -12,6 +12,7 @@ using Domain.Models;
 using Application.Validators.Cat;
 using Application.Queries.Dogs.GetbyBreed;
 using Application.Queries.Cats.GetbyBreed;
+using Application.Queries.Cats.GetByWieght;
 
 namespace API.Controllers.CatsController
 {
@@ -74,6 +75,22 @@ namespace API.Controllers.CatsController
             }
 
             return Ok(wantedCatBreed);
+        }
+        
+        // Get all cats by weight
+        [HttpGet]
+        [Route("getCatByWeight/{weight}"), AllowAnonymous]
+        public async Task<IActionResult> GetCatByWeight(int weight)
+        {
+            var wantedCatWeight = await _mediator.Send(new GetAllCatsByWeightQuery(weight));
+
+            if (wantedCatWeight.Count == 0)
+            {
+                ModelState.AddModelError("CatNotFound", $"Cats with this weight = ({weight}) not found");
+                return BadRequest(ModelState);
+            }
+
+            return Ok(wantedCatWeight);
         }
 
         // Create a new cat 

@@ -60,6 +60,22 @@ namespace Infrastructure.Repositories.Dogs
                 throw new Exception("An error occurred while getting all dogs from the database", ex);
             }
         }
+        
+        public Task<List<Dog>> GetAllDogsByWeight(int weight, CancellationToken cancellationToken)
+        {
+            try
+            {
+                List<Dog> dogs = _dbContext.Dogs
+                    .Where(d => d.Weight == weight).ToList();
+
+                return Task.FromResult(dogs);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An error occurred while getting all dogs from the database");
+                throw new Exception("An error occurred while getting all dogs from the database", ex);
+            }
+        }
 
         public Task<Dog> AddDog(Dog newdog, CancellationToken cancellationToken)
         {

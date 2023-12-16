@@ -1,16 +1,23 @@
-﻿
-using Domain.Models;
+﻿using Domain.Models;
+using Infrastructure.Repositories.Cats;
 using MediatR;
 
 namespace Application.Queries.Cats.GetbyBreed
 {
-    public class GetAllCatsByBreedQuery : IRequest<List<Cat>>
+    public sealed class GetAllCatsByBreedQueryHandler : IRequestHandler<GetAllCatsByBreedQuery, List<Cat>>
     {
-        public GetAllCatsByBreedQuery(string Breed)
+        private readonly ICatRepository _catRepository;
+
+        public GetAllCatsByBreedQueryHandler(ICatRepository catRepository)
         {
-            breed = Breed;
+            _catRepository = catRepository;
         }
 
-        public string breed { get; }
+        public async Task<List<Cat>> Handle(GetAllCatsByBreedQuery request, CancellationToken cancellationToken)
+        {
+            List<Cat> cats = await _catRepository.GetAllCatsByBreed(request.breed, cancellationToken);
+
+            return cats;
+        }
     }
 }

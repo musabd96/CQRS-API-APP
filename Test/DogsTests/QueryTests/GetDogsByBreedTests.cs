@@ -6,7 +6,7 @@ using Domain.Models;
 namespace Test.DogsTests.QueryTests
 {
     [TestFixture]
-    public class GetDogByBreedTests
+    public class GetDogsByBreedTests
     {
         private GetAllDogsByBreedQueryHandler _handler;
         private Mock<IDogRepository> _dogRepositoryMock;

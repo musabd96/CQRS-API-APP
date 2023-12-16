@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231214221334_seedBreedDogAndCat")]
-    partial class seedBreedDogAndCat
+    [Migration("20231216131638_DbCreateSeed")]
+    partial class DbCreateSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,10 +28,6 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Breed")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<bool>("LikesToPlay")
                         .HasColumnType("tinyint(1)");
 
@@ -46,22 +42,19 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("427af8ea-c3f2-41dd-909c-e5adc46f5f21"),
-                            Breed = "",
+                            Id = new Guid("eece0ea1-3bb9-4bc4-b798-e4d095d66533"),
                             LikesToPlay = true,
                             Name = "Alex"
                         },
                         new
                         {
-                            Id = new Guid("61b1cc37-1746-4407-9ace-deabd55afeac"),
-                            Breed = "",
+                            Id = new Guid("07e1b8c5-7927-45ee-95ed-e2e6d6b7fc9a"),
                             LikesToPlay = true,
                             Name = "Sofia"
                         },
                         new
                         {
-                            Id = new Guid("bb45d76f-64dc-4e40-8fb1-7e0a5bae9fa4"),
-                            Breed = "",
+                            Id = new Guid("88404411-8a2b-489c-a193-984a8e197704"),
                             LikesToPlay = true,
                             Name = "Max"
                         });
@@ -91,21 +84,21 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1e95ff9b-04ad-4de0-91c2-9d171733d50f"),
+                            Id = new Guid("08b877ed-a76f-40c2-ad4c-03808bd98013"),
                             Breed = "Siamese",
                             LikesToPlay = true,
                             Name = "Steven"
                         },
                         new
                         {
-                            Id = new Guid("c739c729-d572-41dd-855b-ecb72eb7f1a2"),
+                            Id = new Guid("86943bf3-c0a8-4a28-959e-0da850b1b04f"),
                             Breed = "Persian",
                             LikesToPlay = true,
                             Name = "Alpin"
                         },
                         new
                         {
-                            Id = new Guid("474a171b-1595-4f20-809b-aaf13249a3e9"),
+                            Id = new Guid("f0daa88c-f5a8-4d6d-9b2e-57491d05399a"),
                             Breed = "Maine Coon",
                             LikesToPlay = true,
                             Name = "Nelson"
@@ -136,21 +129,21 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4656edda-5908-4575-9dcc-9625775116f0"),
+                            Id = new Guid("b3182bfa-dbfe-4731-b373-85a3f442ef75"),
                             Breed = "Labrador",
                             LikesToPlay = true,
                             Name = "Björn"
                         },
                         new
                         {
-                            Id = new Guid("5372d336-b199-40c1-8ec8-d67d23b50274"),
+                            Id = new Guid("bab03e79-231f-4726-a56c-45d6740aad0c"),
                             Breed = "Golden Retriever",
                             LikesToPlay = true,
                             Name = "Patrik"
                         },
                         new
                         {
-                            Id = new Guid("12d7c360-1764-4ebc-994e-182f2a458f53"),
+                            Id = new Guid("3f84e34b-865e-4d2f-86ed-357dab070670"),
                             Breed = "German Shepherd",
                             LikesToPlay = true,
                             Name = "Alfred"
