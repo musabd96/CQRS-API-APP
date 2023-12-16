@@ -10,7 +10,6 @@ using Application.Dtos.AnimalDto;
 using Application.Validators.Bird;
 using Application.Validators;
 using Domain.Models;
-using Application.Queries.Cats.GetbyBreed;
 using Application.Queries.Birds.GetByColor;
 
 namespace API.Controllers.BirdsController

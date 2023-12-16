@@ -76,13 +76,14 @@ namespace Infrastructure.Repositories.Birds
             }
         }
 
-        public Task<Bird> UpdateBird(Guid id, string newName, bool likesToPlay, CancellationToken cancellationToken)
+        public Task<Bird> UpdateBird(Guid id, string newName, string color, bool likesToPlay, CancellationToken cancellationToken)
         {
             try
             {
                 Bird birdToUpdate = _dbContext.Birds.FirstOrDefault(bird => bird.Id == id)!;
 
                 birdToUpdate.Name = newName;
+                birdToUpdate.Color = color;
                 birdToUpdate.LikesToPlay = likesToPlay;
 
                 _dbContext.SaveChangesAsync();
