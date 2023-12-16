@@ -7,10 +7,33 @@ namespace Domain.Models
         public static void SeedAnimals(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Bird>().HasData(
-                new Bird { Id = Guid.NewGuid(), Name = "Alex", LikesToPlay = true },
-                new Bird { Id = Guid.NewGuid(), Name = "Sofia", LikesToPlay = true },
-                new Bird { Id = Guid.NewGuid(), Name = "Max", LikesToPlay = true }
+                new Bird { Id = Guid.NewGuid(), Name = "Kiwi", LikesToPlay = true, Color = "Green" },
+                new Bird { Id = Guid.NewGuid(), Name = "Sunshine", LikesToPlay = true, Color = "Yellow" },
+                new Bird { Id = Guid.NewGuid(), Name = "Sky", LikesToPlay = true, Color = "Blue" },
+                new Bird { Id = Guid.NewGuid(), Name = "Cherry", LikesToPlay = true, Color = "Red" },
+                new Bird { Id = Guid.NewGuid(), Name = "Snowflake", LikesToPlay = true, Color = "White" },
+                new Bird { Id = Guid.NewGuid(), Name = "Midnight", LikesToPlay = true, Color = "Green" },
+                new Bird { Id = Guid.NewGuid(), Name = "Coral", LikesToPlay = true, Color = "Yellow" },
+                new Bird { Id = Guid.NewGuid(), Name = "Sunny", LikesToPlay = true, Color = "Blue" },
+                new Bird { Id = Guid.NewGuid(), Name = "Lavender", LikesToPlay = true, Color = "Red" },
+                new Bird { Id = Guid.NewGuid(), Name = "Silver", LikesToPlay = true, Color = "White" },
+                new Bird { Id = Guid.NewGuid(), Name = "Ruby", LikesToPlay = true, Color = "Green" },
+                new Bird { Id = Guid.NewGuid(), Name = "Azure", LikesToPlay = true, Color = "Yellow" },
+                new Bird { Id = Guid.NewGuid(), Name = "Emerald", LikesToPlay = true, Color = "Blue" },
+                new Bird { Id = Guid.NewGuid(), Name = "Sunset", LikesToPlay = true, Color = "Red" },
+                new Bird { Id = Guid.NewGuid(), Name = "Indigo", LikesToPlay = true, Color = "White" },
+                new Bird { Id = Guid.NewGuid(), Name = "Goldie", LikesToPlay = true, Color = "Green" },
+                new Bird { Id = Guid.NewGuid(), Name = "Silverwing", LikesToPlay = true, Color = "Yellow" },
+                new Bird { Id = Guid.NewGuid(), Name = "Rose", LikesToPlay = true, Color = "Blue" },
+                new Bird { Id = Guid.NewGuid(), Name = "Teal", LikesToPlay = true, Color = "Red" },
+                new Bird { Id = Guid.NewGuid(), Name = "Crimson", LikesToPlay = true, Color = "White" },
+                new Bird { Id = Guid.NewGuid(), Name = "Pearl", LikesToPlay = true, Color = "Green" },
+                new Bird { Id = Guid.NewGuid(), Name = "Onyx", LikesToPlay = true, Color = "Yellow" },
+                new Bird { Id = Guid.NewGuid(), Name = "Amber", LikesToPlay = true, Color = "Blue" },
+                new Bird { Id = Guid.NewGuid(), Name = "Mango", LikesToPlay = true, Color = "Red" },
+                new Bird { Id = Guid.NewGuid(), Name = "Violet", LikesToPlay = true, Color = "White" }
             );
+
 
             modelBuilder.Entity<Cat>().HasData(
                 new Cat { Id = Guid.NewGuid(), Name = "Whiskers", LikesToPlay = true, Breed = "Siamese", Weight = (int)8.0 },
