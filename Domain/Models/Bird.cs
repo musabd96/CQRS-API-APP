@@ -18,5 +18,7 @@ namespace Domain.Models
 
         [NotMapped, JsonIgnore]
         public override int Weight { get; set; }
+        
+        public virtual ICollection<UserBird> UserBird { get; set; }
     }
 }

@@ -43,178 +43,38 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("052fabc3-d4ff-4e02-924f-9fe9a27b389a"),
+                            Id = new Guid("7e49c247-d69c-4c47-88d2-744eaa0dcd33"),
                             Color = "Green",
                             LikesToPlay = true,
                             Name = "Kiwi"
                         },
                         new
                         {
-                            Id = new Guid("b358794b-db06-485d-900e-91306d1dc254"),
+                            Id = new Guid("0ae3521d-edec-4164-8f63-0962de8d9189"),
                             Color = "Yellow",
                             LikesToPlay = true,
                             Name = "Sunshine"
                         },
                         new
                         {
-                            Id = new Guid("69900a36-e932-480b-8457-4d1223dd2b15"),
+                            Id = new Guid("f3791a20-e3b4-4710-bc0c-a654e5308039"),
                             Color = "Blue",
                             LikesToPlay = true,
                             Name = "Sky"
                         },
                         new
                         {
-                            Id = new Guid("9f8b77ff-4464-4df5-b901-e5667e5bbb91"),
+                            Id = new Guid("e3f2085c-18dc-4e96-8125-8cc35a05e735"),
                             Color = "Red",
                             LikesToPlay = true,
                             Name = "Cherry"
                         },
                         new
                         {
-                            Id = new Guid("6c0ee6d5-e001-451c-b0fb-1054377e45b2"),
+                            Id = new Guid("b016be05-0b22-4e42-ab90-c23b66ce3b9f"),
                             Color = "White",
                             LikesToPlay = true,
                             Name = "Snowflake"
-                        },
-                        new
-                        {
-                            Id = new Guid("85f4f38c-5a9d-43ba-8ccb-bc4e7dbf0dcc"),
-                            Color = "Green",
-                            LikesToPlay = true,
-                            Name = "Midnight"
-                        },
-                        new
-                        {
-                            Id = new Guid("cb5f445b-a89c-4f7d-8241-add1dbf23271"),
-                            Color = "Yellow",
-                            LikesToPlay = true,
-                            Name = "Coral"
-                        },
-                        new
-                        {
-                            Id = new Guid("69a3d6a5-e870-4702-b671-acb5e0009971"),
-                            Color = "Blue",
-                            LikesToPlay = true,
-                            Name = "Sunny"
-                        },
-                        new
-                        {
-                            Id = new Guid("ad836904-4ff0-4d08-94bd-05972550da01"),
-                            Color = "Red",
-                            LikesToPlay = true,
-                            Name = "Lavender"
-                        },
-                        new
-                        {
-                            Id = new Guid("7aea54d3-1bac-4c11-a722-ed486b104302"),
-                            Color = "White",
-                            LikesToPlay = true,
-                            Name = "Silver"
-                        },
-                        new
-                        {
-                            Id = new Guid("caad7b2f-2c61-475a-a789-0b6e42c03c2d"),
-                            Color = "Green",
-                            LikesToPlay = true,
-                            Name = "Ruby"
-                        },
-                        new
-                        {
-                            Id = new Guid("9ed1134e-a607-4512-9c21-5db8ec3e6b7d"),
-                            Color = "Yellow",
-                            LikesToPlay = true,
-                            Name = "Azure"
-                        },
-                        new
-                        {
-                            Id = new Guid("42549e6a-7bf1-427e-8c1d-93a20b0477d9"),
-                            Color = "Blue",
-                            LikesToPlay = true,
-                            Name = "Emerald"
-                        },
-                        new
-                        {
-                            Id = new Guid("689ed36e-8675-45eb-b314-e10e513dcce8"),
-                            Color = "Red",
-                            LikesToPlay = true,
-                            Name = "Sunset"
-                        },
-                        new
-                        {
-                            Id = new Guid("337390d2-ca5e-4c98-93f3-1f9866095a51"),
-                            Color = "White",
-                            LikesToPlay = true,
-                            Name = "Indigo"
-                        },
-                        new
-                        {
-                            Id = new Guid("76ed5a41-6165-40df-8c42-68794423c6b8"),
-                            Color = "Green",
-                            LikesToPlay = true,
-                            Name = "Goldie"
-                        },
-                        new
-                        {
-                            Id = new Guid("e2a84665-48f7-4eeb-aaa6-dc1fb3db4138"),
-                            Color = "Yellow",
-                            LikesToPlay = true,
-                            Name = "Silverwing"
-                        },
-                        new
-                        {
-                            Id = new Guid("058607ec-a97a-42d3-8ef7-393865bf578e"),
-                            Color = "Blue",
-                            LikesToPlay = true,
-                            Name = "Rose"
-                        },
-                        new
-                        {
-                            Id = new Guid("1a521569-d334-4a75-8e76-7ecc3c6d9e93"),
-                            Color = "Red",
-                            LikesToPlay = true,
-                            Name = "Teal"
-                        },
-                        new
-                        {
-                            Id = new Guid("110dfff2-9152-42bb-8cde-6e9ef6294791"),
-                            Color = "White",
-                            LikesToPlay = true,
-                            Name = "Crimson"
-                        },
-                        new
-                        {
-                            Id = new Guid("53ea3027-fa73-41b7-bf13-fe9055fa5e32"),
-                            Color = "Green",
-                            LikesToPlay = true,
-                            Name = "Pearl"
-                        },
-                        new
-                        {
-                            Id = new Guid("7d7d25ac-7cef-49dc-abb4-2f01e929f82c"),
-                            Color = "Yellow",
-                            LikesToPlay = true,
-                            Name = "Onyx"
-                        },
-                        new
-                        {
-                            Id = new Guid("07c0c9a2-274a-4f4e-a69a-b2f39498b0e1"),
-                            Color = "Blue",
-                            LikesToPlay = true,
-                            Name = "Amber"
-                        },
-                        new
-                        {
-                            Id = new Guid("6d124487-6b04-4159-8d7b-5f3120c5b530"),
-                            Color = "Red",
-                            LikesToPlay = true,
-                            Name = "Mango"
-                        },
-                        new
-                        {
-                            Id = new Guid("90d9f312-a959-408c-981e-dd77379a0b68"),
-                            Color = "White",
-                            LikesToPlay = true,
-                            Name = "Violet"
                         });
                 });
 
@@ -245,7 +105,7 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a82d7846-1c11-455b-a560-3f82ad33b7c3"),
+                            Id = new Guid("04e636fe-bf22-442c-9f4e-0abbfc409853"),
                             Breed = "Siamese",
                             LikesToPlay = true,
                             Name = "Whiskers",
@@ -253,7 +113,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6168baed-9d51-435f-b5e2-ebf121c3caf9"),
+                            Id = new Guid("f9c917df-7452-47ec-9cc3-c5888a68ca6a"),
                             Breed = "Persian",
                             LikesToPlay = true,
                             Name = "Mittens",
@@ -261,7 +121,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1beb56cc-5fc8-43e0-917a-68554a0cc742"),
+                            Id = new Guid("39c5ec24-1ddc-4161-8d48-17c57b4cf233"),
                             Breed = "Maine Coon",
                             LikesToPlay = true,
                             Name = "Shadow",
@@ -269,7 +129,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2462592e-4603-4512-8f0e-077f130c73a9"),
+                            Id = new Guid("d50e2524-9447-4993-b572-e2caddb3f3f7"),
                             Breed = "Ragdoll",
                             LikesToPlay = true,
                             Name = "Smokey",
@@ -277,171 +137,11 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b53a8da9-95c7-4511-a17a-dc8d322125df"),
+                            Id = new Guid("9b83bcc1-6e86-4704-9bf6-962ca5bc3fec"),
                             Breed = "Bengal",
                             LikesToPlay = true,
                             Name = "Tiger",
                             Weight = 11
-                        },
-                        new
-                        {
-                            Id = new Guid("1403e3f8-3cd5-4f27-a1d2-21ab40d6cffe"),
-                            Breed = "Siamese",
-                            LikesToPlay = true,
-                            Name = "Luna",
-                            Weight = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("a6207ffe-4d15-4808-9f28-ca719e6c0436"),
-                            Breed = "Persian",
-                            LikesToPlay = true,
-                            Name = "Oreo",
-                            Weight = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("7e2e2785-d1d2-4ac9-87df-9f0a0ba6e01b"),
-                            Breed = "Maine Coon",
-                            LikesToPlay = true,
-                            Name = "Leo",
-                            Weight = 14
-                        },
-                        new
-                        {
-                            Id = new Guid("d7802f65-59ae-4f1d-98bd-240f23816eaa"),
-                            Breed = "Ragdoll",
-                            LikesToPlay = true,
-                            Name = "Cleo",
-                            Weight = 11
-                        },
-                        new
-                        {
-                            Id = new Guid("bc69facd-6db0-4ef9-b601-a07bf0b0be7d"),
-                            Breed = "Bengal",
-                            LikesToPlay = true,
-                            Name = "Simba",
-                            Weight = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("a8f67567-5ec9-4c9c-951c-f7ca498a504e"),
-                            Breed = "Siamese",
-                            LikesToPlay = true,
-                            Name = "Misty",
-                            Weight = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("9ee75dbb-4b30-494b-8e86-2ff0889322d7"),
-                            Breed = "Persian",
-                            LikesToPlay = true,
-                            Name = "Salem",
-                            Weight = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("9413a621-287a-4680-83fe-d37f2b6442d5"),
-                            Breed = "Maine Coon",
-                            LikesToPlay = true,
-                            Name = "Oliver",
-                            Weight = 16
-                        },
-                        new
-                        {
-                            Id = new Guid("f6ee128d-17be-4ded-9709-9b915bbb8d9f"),
-                            Breed = "Ragdoll",
-                            LikesToPlay = true,
-                            Name = "Whiskey",
-                            Weight = 12
-                        },
-                        new
-                        {
-                            Id = new Guid("8d847ed1-19a8-41e5-bce2-fd877d2e4c79"),
-                            Breed = "Bengal",
-                            LikesToPlay = true,
-                            Name = "Milo",
-                            Weight = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("73cb4746-57d7-4be5-9a94-f8061cd7f259"),
-                            Breed = "Siamese",
-                            LikesToPlay = true,
-                            Name = "Lola",
-                            Weight = 7
-                        },
-                        new
-                        {
-                            Id = new Guid("49a42139-a324-4b69-9806-bb9bf4e994b4"),
-                            Breed = "Persian",
-                            LikesToPlay = true,
-                            Name = "Casper",
-                            Weight = 11
-                        },
-                        new
-                        {
-                            Id = new Guid("f01e5d48-bded-4c58-9c78-861ebec2a052"),
-                            Breed = "Maine Coon",
-                            LikesToPlay = true,
-                            Name = "Nala",
-                            Weight = 13
-                        },
-                        new
-                        {
-                            Id = new Guid("dd8d8eb3-23f1-4180-b34e-4f4389a0c086"),
-                            Breed = "Ragdoll",
-                            LikesToPlay = true,
-                            Name = "Mocha",
-                            Weight = 11
-                        },
-                        new
-                        {
-                            Id = new Guid("9d7119eb-bd2a-4dd6-b2e4-a264d7af2f73"),
-                            Breed = "Bengal",
-                            LikesToPlay = true,
-                            Name = "Charlie",
-                            Weight = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("f032025b-1f83-4caa-8f08-36e4af2f6afe"),
-                            Breed = "Siamese",
-                            LikesToPlay = true,
-                            Name = "Whisper",
-                            Weight = 8
-                        },
-                        new
-                        {
-                            Id = new Guid("b5a95274-1ec5-4920-8806-39aceaa0adfd"),
-                            Breed = "Persian",
-                            LikesToPlay = true,
-                            Name = "Gizmo",
-                            Weight = 9
-                        },
-                        new
-                        {
-                            Id = new Guid("ab89191a-1350-4207-8633-f48f4dc71a27"),
-                            Breed = "Maine Coon",
-                            LikesToPlay = true,
-                            Name = "Mittens",
-                            Weight = 14
-                        },
-                        new
-                        {
-                            Id = new Guid("abcdb9c9-d9b1-4ff7-994e-dde1a0954a2b"),
-                            Breed = "Ragdoll",
-                            LikesToPlay = true,
-                            Name = "Ziggy",
-                            Weight = 12
-                        },
-                        new
-                        {
-                            Id = new Guid("55483366-7437-4331-b474-977d0e766cfe"),
-                            Breed = "Bengal",
-                            LikesToPlay = true,
-                            Name = "Sasha",
-                            Weight = 9
                         });
                 });
 
@@ -472,7 +172,7 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ea235887-ceae-4165-b2d3-870683c549eb"),
+                            Id = new Guid("a88fed4b-3d00-4d0f-bcf4-0219ac362939"),
                             Breed = "Labrador",
                             LikesToPlay = true,
                             Name = "Luna",
@@ -480,7 +180,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("180c1101-5534-4174-ac5f-44282f0ea326"),
+                            Id = new Guid("dd90b38e-b669-4c5e-8124-5db0934616f1"),
                             Breed = "Golden Retriever",
                             LikesToPlay = true,
                             Name = "Max",
@@ -488,7 +188,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("147b359c-6870-42a5-b694-a7f35ad642fe"),
+                            Id = new Guid("b517fae1-cbf3-441a-a8b2-b87c8581e7e4"),
                             Breed = "German Shepherd",
                             LikesToPlay = true,
                             Name = "Bella",
@@ -496,7 +196,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c5e66a5b-942d-4ed8-a863-79810b677430"),
+                            Id = new Guid("554240e5-4e9a-46b2-947e-593fe27b5d82"),
                             Breed = "Poodle",
                             LikesToPlay = true,
                             Name = "Rocky",
@@ -504,7 +204,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c5fe411a-cbd0-4651-aea7-82a443516bc3"),
+                            Id = new Guid("8f7879cd-d5fb-4d1f-9341-6a99716d5e62"),
                             Breed = "Beagle",
                             LikesToPlay = true,
                             Name = "Daisy",
@@ -512,151 +212,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cc017fa4-4572-4409-93bd-eb9f85d40401"),
-                            Breed = "Labrador",
-                            LikesToPlay = true,
-                            Name = "Charlie",
-                            Weight = 22
-                        },
-                        new
-                        {
-                            Id = new Guid("1e90f89e-61af-4c83-9728-21d7421ee6ba"),
-                            Breed = "Golden Retriever",
-                            LikesToPlay = true,
-                            Name = "Coco",
-                            Weight = 27
-                        },
-                        new
-                        {
-                            Id = new Guid("c94311e2-8402-45a6-93fc-610e6190bf1b"),
-                            Breed = "German Shepherd",
-                            LikesToPlay = true,
-                            Name = "Milo",
-                            Weight = 28
-                        },
-                        new
-                        {
-                            Id = new Guid("bec0e6a9-60e9-40c8-a2f5-6bc683ae3cc6"),
-                            Breed = "Poodle",
-                            LikesToPlay = true,
-                            Name = "Rosie",
-                            Weight = 14
-                        },
-                        new
-                        {
-                            Id = new Guid("a08eb957-0d05-4887-bdc4-b751dfe5b403"),
-                            Breed = "Beagle",
-                            LikesToPlay = true,
-                            Name = "Zeus",
-                            Weight = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("b10dde17-9fab-4361-ae0c-e9a09b1b389f"),
-                            Breed = "Labrador",
-                            LikesToPlay = true,
-                            Name = "Sadie",
-                            Weight = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("c8924552-9981-4d12-9e17-73b83dd9364b"),
-                            Breed = "Golden Retriever",
-                            LikesToPlay = true,
-                            Name = "Duke",
-                            Weight = 29
-                        },
-                        new
-                        {
-                            Id = new Guid("b2ee19a1-9d7d-4b7a-9075-e54b9a822eed"),
-                            Breed = "German Shepherd",
-                            LikesToPlay = true,
-                            Name = "Chloe",
-                            Weight = 31
-                        },
-                        new
-                        {
-                            Id = new Guid("0a3966c3-6b36-408b-8249-d99881736f0e"),
-                            Breed = "Poodle",
-                            LikesToPlay = true,
-                            Name = "Oliver",
-                            Weight = 16
-                        },
-                        new
-                        {
-                            Id = new Guid("49166967-fce0-4b00-b36a-ede6a1fefd41"),
-                            Breed = "Beagle",
-                            LikesToPlay = true,
-                            Name = "Ruby",
-                            Weight = 19
-                        },
-                        new
-                        {
-                            Id = new Guid("fd270548-ff9b-4a83-9526-666ea01a1c0c"),
-                            Breed = "Labrador",
-                            LikesToPlay = true,
-                            Name = "Thor",
-                            Weight = 23
-                        },
-                        new
-                        {
-                            Id = new Guid("ff8e04ff-ec57-4ffe-a6ca-37471918bc80"),
-                            Breed = "Golden Retriever",
-                            LikesToPlay = true,
-                            Name = "Pepper",
-                            Weight = 26
-                        },
-                        new
-                        {
-                            Id = new Guid("b4567fc7-5f94-49fc-b681-712490727e81"),
-                            Breed = "Labrador",
-                            LikesToPlay = true,
-                            Name = "Cooper",
-                            Weight = 24
-                        },
-                        new
-                        {
-                            Id = new Guid("dcd57fc7-3f8e-45c0-8b0e-2be3d2f18370"),
-                            Breed = "Golden Retriever",
-                            LikesToPlay = true,
-                            Name = "Mia",
-                            Weight = 29
-                        },
-                        new
-                        {
-                            Id = new Guid("c4ccf03a-eef7-42fc-9d35-d0735d3dfcdd"),
-                            Breed = "German Shepherd",
-                            LikesToPlay = true,
-                            Name = "Tucker",
-                            Weight = 32
-                        },
-                        new
-                        {
-                            Id = new Guid("4f8bdf84-2db8-4639-89b2-036a8b6a6a7d"),
-                            Breed = "Poodle",
-                            LikesToPlay = true,
-                            Name = "Sophie",
-                            Weight = 17
-                        },
-                        new
-                        {
-                            Id = new Guid("937efb74-e703-4496-a306-0d853fc8b782"),
-                            Breed = "Beagle",
-                            LikesToPlay = true,
-                            Name = "Leo",
-                            Weight = 21
-                        },
-                        new
-                        {
-                            Id = new Guid("b89aa60f-a49b-40b7-b57e-1363bff87e53"),
-                            Breed = "Labrador",
-                            LikesToPlay = true,
-                            Name = "Lucy",
-                            Weight = 26
-                        },
-                        new
-                        {
-                            Id = new Guid("2b1bf291-e3b4-4f51-a533-1cad6ca9ff86"),
+                            Id = new Guid("b4a900c1-d1a7-43e9-a23d-c129ab9e6623"),
                             Breed = "Golden Retriever",
                             LikesToPlay = true,
                             Name = "Riley",
@@ -681,6 +237,132 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Domain.Models.UserBird", b =>
+                {
+                    b.Property<Guid>("BirdId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("BirdId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserBird");
+                });
+
+            modelBuilder.Entity("Domain.Models.UserCat", b =>
+                {
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("CatId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserCat");
+                });
+
+            modelBuilder.Entity("Domain.Models.UserDog", b =>
+                {
+                    b.Property<Guid>("DogId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("DogId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserDog");
+                });
+
+            modelBuilder.Entity("Domain.Models.UserBird", b =>
+                {
+                    b.HasOne("Domain.Models.Bird", "Bird")
+                        .WithMany("UserBird")
+                        .HasForeignKey("BirdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.User", "User")
+                        .WithMany("UserBird")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bird");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Models.UserCat", b =>
+                {
+                    b.HasOne("Domain.Models.Cat", "Cat")
+                        .WithMany("UserCat")
+                        .HasForeignKey("CatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.User", "User")
+                        .WithMany("UserCat")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cat");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Models.UserDog", b =>
+                {
+                    b.HasOne("Domain.Models.Dog", "Dog")
+                        .WithMany("UserDog")
+                        .HasForeignKey("DogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.User", "User")
+                        .WithMany("UserDog")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dog");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Models.Bird", b =>
+                {
+                    b.Navigation("UserBird");
+                });
+
+            modelBuilder.Entity("Domain.Models.Cat", b =>
+                {
+                    b.Navigation("UserCat");
+                });
+
+            modelBuilder.Entity("Domain.Models.Dog", b =>
+                {
+                    b.Navigation("UserDog");
+                });
+
+            modelBuilder.Entity("Domain.Models.User", b =>
+                {
+                    b.Navigation("UserBird");
+
+                    b.Navigation("UserCat");
+
+                    b.Navigation("UserDog");
                 });
 #pragma warning restore 612, 618
         }
