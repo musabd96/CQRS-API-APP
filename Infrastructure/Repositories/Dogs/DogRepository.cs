@@ -45,30 +45,16 @@ namespace Infrastructure.Repositories.Dogs
             }
         }
 
-        public Task<List<Dog>> GetAllDogsByBreed(string breed, CancellationToken cancellationToken)
+        public Task<List<Dog>> GetAllDogsByCriteria(string? breed, int? weight, CancellationToken cancellationToken)
         {
             try
             {
-                List<Dog> dogs = _dbContext.Dogs
-                    .Where(d => d.Breed == breed).ToList();
+                List<Dog> filteredDogs = _dbContext.Dogs
+                                        .Where(d => (string.IsNullOrEmpty(breed) || d.Breed == breed) &&
+                                        (weight == null || d.Weight >= weight))
+                                        .ToList();
 
-                return Task.FromResult(dogs);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("An error occurred while getting all dogs from the database");
-                throw new Exception("An error occurred while getting all dogs from the database", ex);
-            }
-        }
-
-        public Task<List<Dog>> GetAllDogsByWeight(int weight, CancellationToken cancellationToken)
-        {
-            try
-            {
-                List<Dog> dogs = _dbContext.Dogs
-                    .Where(d => d.Weight == weight).ToList();
-
-                return Task.FromResult(dogs);
+                return Task.FromResult(filteredDogs);
             }
             catch (Exception ex)
             {

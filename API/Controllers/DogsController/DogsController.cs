@@ -11,7 +11,6 @@ using Application.Validators.Dog;
 using Application.Validators;
 using Domain.Models;
 using Application.Queries.Dogs.GetbyBreed;
-using Application.Queries.Dogs.GetByWieght;
 
 namespace API.Controllers.DogsController
 {
@@ -60,36 +59,20 @@ namespace API.Controllers.DogsController
             }
         }
 
-        // Get all dogs by breed
+        // Get all dogs by breed and/or weight
         [HttpGet]
-        [Route("getDogByBreed/{breed}"), AllowAnonymous]
-        public async Task<IActionResult> GetDogByBreed(string breed)
+        [Route("getDogByCriteria"), AllowAnonymous]
+        public async Task<IActionResult> GetDogByBreed([FromQuery] string? breed, [FromQuery] int? weight)
         {
-            var wantedDog = await _mediator.Send(new GetAllDogsByBreedQuery(breed));
+            var wantedDogCriteria = await _mediator.Send(new GetAllDogsByCriteriaQuery(breed!, weight));
 
-            if (wantedDog.Count == 0)
+            if (wantedDogCriteria.Count == 0)
             {
-                ModelState.AddModelError("DogNotFound", $"Dogs with this breed = ({breed}) not found");
+                ModelState.AddModelError("DogNotFound", $"No dogs found based on the specified criteria");
                 return BadRequest(ModelState);
             }
 
-            return Ok(wantedDog);
-        }
-
-        // Get all dogs by weight
-        [HttpGet]
-        [Route("getDogByWeight/{weight}"), AllowAnonymous]
-        public async Task<IActionResult> GetDogByWeight(int weight)
-        {
-            var wantedDog = await _mediator.Send(new GetAllDogsByWeightQuery(weight));
-
-            if (wantedDog.Count == 0)
-            {
-                ModelState.AddModelError("DogNotFound", $"Dogs with this breed = ({weight}) not found");
-                return BadRequest(ModelState);
-            }
-
-            return Ok(wantedDog);
+            return Ok(wantedDogCriteria);
         }
 
         // Create a new dog 
