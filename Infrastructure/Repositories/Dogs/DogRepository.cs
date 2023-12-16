@@ -60,7 +60,7 @@ namespace Infrastructure.Repositories.Dogs
                 throw new Exception("An error occurred while getting all dogs from the database", ex);
             }
         }
-        
+
         public Task<List<Dog>> GetAllDogsByWeight(int weight, CancellationToken cancellationToken)
         {
             try

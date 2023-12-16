@@ -58,7 +58,7 @@ namespace Infrastructure.Repositories.Cats
                 throw new Exception("An error occurred while getting all catss from the database", ex);
             }
         }
-        
+
         public Task<List<Cat>> GetAllDogsByWeight(int weight, CancellationToken cancellationToken)
         {
             try

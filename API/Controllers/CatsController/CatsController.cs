@@ -76,7 +76,7 @@ namespace API.Controllers.CatsController
 
             return Ok(wantedCatBreed);
         }
-        
+
         // Get all cats by weight
         [HttpGet]
         [Route("getCatByWeight/{weight}"), AllowAnonymous]
