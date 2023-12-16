@@ -10,6 +10,8 @@ using Application.Dtos.AnimalDto;
 using Application.Validators.Bird;
 using Application.Validators;
 using Domain.Models;
+using Application.Queries.Cats.GetbyBreed;
+using Application.Queries.Birds.GetByColor;
 
 namespace API.Controllers.BirdsController
 {
@@ -56,6 +58,22 @@ namespace API.Controllers.BirdsController
                 }
                 return Ok(wantedBird);
             }
+        }
+
+        // Get all birds by color
+        [HttpGet]
+        [Route("getCatBycolor/{color}"), AllowAnonymous]
+        public async Task<IActionResult> GetCatByBreed(string color)
+        {
+            var wantedCatColor = await _mediator.Send(new GetAllCatsByColorQuery(color));
+
+            if (wantedCatColor.Count == 0)
+            {
+                ModelState.AddModelError("CatNotFound", $"Cats with this color = ({color}) not found");
+                return BadRequest(ModelState);
+            }
+
+            return Ok(wantedCatColor);
         }
 
         // Create a new bird 

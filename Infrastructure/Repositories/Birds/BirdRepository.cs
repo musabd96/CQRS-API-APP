@@ -44,6 +44,22 @@ namespace Infrastructure.Repositories.Birds
             }
         }
 
+        public Task<List<Bird>> GetAllBirdsByColor(string color, CancellationToken cancellationToken)
+        {
+            try
+            {
+                List<Bird> birds = _dbContext.Birds
+                    .Where(b => b.Color == color).ToList();
+
+                return Task.FromResult(birds);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An error occurred while getting all catss from the database");
+                throw new Exception("An error occurred while getting all catss from the database", ex);
+            }
+        }
+
         public Task<Bird> AddBird(Bird newbird, CancellationToken cancellationToken)
         {
             try

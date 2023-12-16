@@ -6,6 +6,7 @@ namespace Infrastructure.Repositories.Birds
     {
         Task<List<Bird>> GetAllBirds(CancellationToken cancellationToken);
         Task<Bird> GetBirdById(Guid id, CancellationToken cancellationToken);
+        Task<List<Bird>> GetAllBirdsByColor(string color, CancellationToken cancellationToken);
         Task<Bird> AddBird(Bird newbird, CancellationToken cancellationToken);
         Task<Bird> UpdateBird(Guid id, string newName, bool likesToPlay, CancellationToken cancellationToken);
         Task<Bird> DeleteBird(Guid id, CancellationToken cancellationToken);
