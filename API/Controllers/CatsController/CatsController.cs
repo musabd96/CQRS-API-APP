@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Models;
 using Application.Validators.Cat;
-using Application.Queries.Dogs.GetbyBreed;
 using Application.Queries.Cats.GetbyBreed;
-using Application.Queries.Cats.GetByWieght;
 
 namespace API.Controllers.CatsController
 {
@@ -61,37 +59,23 @@ namespace API.Controllers.CatsController
             }
         }
 
-        // Get all cats by breed
+        // Get cats by breed and/or weight
         [HttpGet]
-        [Route("getCatByBreed/{breed}"), AllowAnonymous]
-        public async Task<IActionResult> GetCatByBreed(string breed)
+        [Route("getCatByCriteria")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetCatByCriteria([FromQuery] string? breed, [FromQuery] int? weight)
         {
-            var wantedCatBreed = await _mediator.Send(new GetAllCatsByBreedQuery(breed));
+            var wantedCatCriteria = await _mediator.Send(new GetAllCatsByCriteriaQuery(breed, weight));
 
-            if (wantedCatBreed.Count == 0)
+            if (wantedCatCriteria.Count == 0)
             {
-                ModelState.AddModelError("CatNotFound", $"Cats with this breed = ({breed}) not found");
+                ModelState.AddModelError("CatNotFound", "No cats found based on the specified criteria");
                 return BadRequest(ModelState);
             }
 
-            return Ok(wantedCatBreed);
+            return Ok(wantedCatCriteria);
         }
 
-        // Get all cats by weight
-        [HttpGet]
-        [Route("getCatByWeight/{weight}"), AllowAnonymous]
-        public async Task<IActionResult> GetCatByWeight(int weight)
-        {
-            var wantedCatWeight = await _mediator.Send(new GetAllCatsByWeightQuery(weight));
-
-            if (wantedCatWeight.Count == 0)
-            {
-                ModelState.AddModelError("CatNotFound", $"Cats with this weight = ({weight}) not found");
-                return BadRequest(ModelState);
-            }
-
-            return Ok(wantedCatWeight);
-        }
 
         // Create a new cat 
         [HttpPost]

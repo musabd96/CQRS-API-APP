@@ -1,18 +1,9 @@
 ﻿using Application.Queries.Birds.GetByColor;
-using Application.Queries.Birds.GetById;
-using Application.Queries.Cats.GetbyBreed;
-using Application.Queries.Dogs.GetbyBreed;
 using Domain.Models;
 using Infrastructure.Repositories.Birds;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Test.BirdsTests.QueryTests
+namespace Test.Birds.QueryTests
 {
     [TestFixture]
     public class GetBirdsByColorTests
