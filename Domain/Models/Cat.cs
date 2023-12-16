@@ -16,5 +16,7 @@ namespace Domain.Models
 
         [NotMapped, JsonIgnore]
         public override string Color { get; set; } = string.Empty;
+
+        public virtual ICollection<UserCat> UserCat { get; set; }
     }
 }
