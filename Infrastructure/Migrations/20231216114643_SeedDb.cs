@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialCreate : Migration
+    public partial class SeedDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,7 +38,10 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LikesToPlay = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    LikesToPlay = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Breed = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Weight = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,7 +56,10 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LikesToPlay = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    LikesToPlay = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Breed = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Weight = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,29 +88,29 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "LikesToPlay", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("5d1efa42-8167-490c-bc07-2bd58533422d"), true, "Max" },
-                    { new Guid("6896c286-5c6a-410c-890b-bc545f5abf95"), true, "Alex" },
-                    { new Guid("fe1e729f-5f16-4ea2-b4d6-c222243ff7f2"), true, "Sofia" }
+                    { new Guid("08bce96d-0f1e-4126-89c9-d9dcedd66480"), true, "Alex" },
+                    { new Guid("521e5d94-e51f-4314-a00f-31ec728f9b16"), true, "Max" },
+                    { new Guid("72fe5505-fdd8-427b-a30e-b13238c14a4e"), true, "Sofia" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Cats",
-                columns: new[] { "Id", "LikesToPlay", "Name" },
+                columns: new[] { "Id", "Breed", "LikesToPlay", "Name", "Weight" },
                 values: new object[,]
                 {
-                    { new Guid("5cc357e5-8c47-4f93-b187-ff525ad0ad7a"), true, "Nelson" },
-                    { new Guid("5f12b18d-6eb7-493c-b45e-183cb0e51664"), true, "Steven" },
-                    { new Guid("779afd2b-e15b-4ff3-8031-1c2ad640fd1d"), true, "Alpin" }
+                    { new Guid("112495fd-9ebf-4115-9cd8-fdf73c93ae20"), "Maine Coon", true, "Nelson", 7 },
+                    { new Guid("5de93466-3805-45ac-9062-fc88a0c8ed76"), "Siamese", true, "Steven", 5 },
+                    { new Guid("afe285b2-8f46-4cc4-b78d-2e89794a7501"), "Persian", true, "Alpin", 4 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Dogs",
-                columns: new[] { "Id", "LikesToPlay", "Name" },
+                columns: new[] { "Id", "Breed", "LikesToPlay", "Name", "Weight" },
                 values: new object[,]
                 {
-                    { new Guid("7b5dd4f5-c8d3-4b98-a824-b04d3267d4ea"), true, "Patrik" },
-                    { new Guid("cd581596-8954-430b-bc0a-25f559392794"), true, "Alfred" },
-                    { new Guid("f671a50c-029f-4af1-a1d8-fb2baad286b3"), true, "Björn" }
+                    { new Guid("23000194-2521-44d8-a96c-3b3d27ed07fd"), "Labrador", true, "Björn", 25 },
+                    { new Guid("8405652c-e881-41f6-b3f9-e5e376c16728"), "German Shepherd", true, "Alfred", 22 },
+                    { new Guid("e64261ba-f6ee-4345-90b9-36581e1b3161"), "Golden Retriever", true, "Patrik", 30 }
                 });
         }
 

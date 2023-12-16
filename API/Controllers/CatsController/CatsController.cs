@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Models;
 using Application.Validators.Cat;
-using Application.Queries.Dogs.GetbyBreed;
 using Application.Queries.Cats.GetbyBreed;
+using Application.Queries.Cats.GetByWeight;
 
 namespace API.Controllers.CatsController
 {
@@ -74,6 +74,22 @@ namespace API.Controllers.CatsController
             }
 
             return Ok(wantedCatBreed);
+        }
+
+        // Get all cats by weight
+        [HttpGet]
+        [Route("getCatByWeight/{weight}"), AllowAnonymous]
+        public async Task<IActionResult> GetCatByWeight(int Weight)
+        {
+            var wantedCatWeight = await _mediator.Send(new GetAllCatsByWeightQuery(Weight));
+
+            if (wantedCatWeight.Count == 0)
+            {
+                ModelState.AddModelError("CatNotFound", $"Cats with this Weight = ({Weight}) not found");
+                return BadRequest(ModelState);
+            }
+
+            return Ok(wantedCatWeight);
         }
 
         // Create a new cat 

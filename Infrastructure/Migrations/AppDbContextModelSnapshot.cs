@@ -25,10 +25,6 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Breed")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<bool>("LikesToPlay")
                         .HasColumnType("tinyint(1)");
 
@@ -43,22 +39,19 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("427af8ea-c3f2-41dd-909c-e5adc46f5f21"),
-                            Breed = "",
+                            Id = new Guid("08bce96d-0f1e-4126-89c9-d9dcedd66480"),
                             LikesToPlay = true,
                             Name = "Alex"
                         },
                         new
                         {
-                            Id = new Guid("61b1cc37-1746-4407-9ace-deabd55afeac"),
-                            Breed = "",
+                            Id = new Guid("72fe5505-fdd8-427b-a30e-b13238c14a4e"),
                             LikesToPlay = true,
                             Name = "Sofia"
                         },
                         new
                         {
-                            Id = new Guid("bb45d76f-64dc-4e40-8fb1-7e0a5bae9fa4"),
-                            Breed = "",
+                            Id = new Guid("521e5d94-e51f-4314-a00f-31ec728f9b16"),
                             LikesToPlay = true,
                             Name = "Max"
                         });
@@ -81,6 +74,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Cats");
@@ -88,24 +84,27 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1e95ff9b-04ad-4de0-91c2-9d171733d50f"),
+                            Id = new Guid("5de93466-3805-45ac-9062-fc88a0c8ed76"),
                             Breed = "Siamese",
                             LikesToPlay = true,
-                            Name = "Steven"
+                            Name = "Steven",
+                            Weight = 5
                         },
                         new
                         {
-                            Id = new Guid("c739c729-d572-41dd-855b-ecb72eb7f1a2"),
+                            Id = new Guid("afe285b2-8f46-4cc4-b78d-2e89794a7501"),
                             Breed = "Persian",
                             LikesToPlay = true,
-                            Name = "Alpin"
+                            Name = "Alpin",
+                            Weight = 4
                         },
                         new
                         {
-                            Id = new Guid("474a171b-1595-4f20-809b-aaf13249a3e9"),
+                            Id = new Guid("112495fd-9ebf-4115-9cd8-fdf73c93ae20"),
                             Breed = "Maine Coon",
                             LikesToPlay = true,
-                            Name = "Nelson"
+                            Name = "Nelson",
+                            Weight = 7
                         });
                 });
 
@@ -126,6 +125,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Dogs");
@@ -133,24 +135,27 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4656edda-5908-4575-9dcc-9625775116f0"),
+                            Id = new Guid("23000194-2521-44d8-a96c-3b3d27ed07fd"),
                             Breed = "Labrador",
                             LikesToPlay = true,
-                            Name = "Björn"
+                            Name = "Björn",
+                            Weight = 25
                         },
                         new
                         {
-                            Id = new Guid("5372d336-b199-40c1-8ec8-d67d23b50274"),
+                            Id = new Guid("e64261ba-f6ee-4345-90b9-36581e1b3161"),
                             Breed = "Golden Retriever",
                             LikesToPlay = true,
-                            Name = "Patrik"
+                            Name = "Patrik",
+                            Weight = 30
                         },
                         new
                         {
-                            Id = new Guid("12d7c360-1764-4ebc-994e-182f2a458f53"),
+                            Id = new Guid("8405652c-e881-41f6-b3f9-e5e376c16728"),
                             Breed = "German Shepherd",
                             LikesToPlay = true,
-                            Name = "Alfred"
+                            Name = "Alfred",
+                            Weight = 22
                         });
                 });
 

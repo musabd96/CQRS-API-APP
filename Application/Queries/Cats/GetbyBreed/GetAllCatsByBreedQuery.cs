@@ -15,9 +15,9 @@ namespace Application.Queries.Cats.GetbyBreed
 
         public async Task<List<Cat>> Handle(GetAllCatsByBreedQuery request, CancellationToken cancellationToken)
         {
-            List<Cat> dogs = await _catRepository.GetAllCatsByBreed(request.breed, cancellationToken);
+            List<Cat> cats = await _catRepository.GetAllCatsByBreed(request.breed, cancellationToken);
 
-            return dogs;
+            return cats;
         }
     }
 }

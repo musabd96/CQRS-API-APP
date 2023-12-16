@@ -12,6 +12,7 @@ namespace Application.Queries.Dogs.GetbyBreed
         {
             _dogRepository = dogRepository;
         }
+
         public async Task<List<Dog>> Handle(GetAllDogsByBreedQuery request, CancellationToken cancellationToken)
         {
             List<Dog> dogs = await _dogRepository.GetAllDogsByBreed(request.breed, cancellationToken);

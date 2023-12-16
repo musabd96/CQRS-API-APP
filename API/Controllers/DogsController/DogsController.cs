@@ -11,6 +11,7 @@ using Application.Validators.Dog;
 using Application.Validators;
 using Domain.Models;
 using Application.Queries.Dogs.GetbyBreed;
+using Application.Queries.Dogs.GetByWeight;
 
 namespace API.Controllers.DogsController
 {
@@ -73,6 +74,22 @@ namespace API.Controllers.DogsController
             }
 
             return Ok(wantedDog);
+        }
+
+        // Get all dogs by weight
+        [HttpGet]
+        [Route("getDogByWeight/{weight}"), AllowAnonymous]
+        public async Task<IActionResult> GetDogByWeight(int Weight)
+        {
+            var wantedDogWeight = await _mediator.Send(new GetAllDogsByWeightQuery(Weight));
+
+            if (wantedDogWeight.Count == 0)
+            {
+                ModelState.AddModelError("DogNotFound", $"Dogs with this Weight = ({Weight}) not found");
+                return BadRequest(ModelState);
+            }
+
+            return Ok(wantedDogWeight);
         }
 
         // Create a new dog 

@@ -59,6 +59,22 @@ namespace Infrastructure.Repositories.Cats
             }
         }
 
+        public Task<List<Cat>> GetAllCatsByWeight(int weight, CancellationToken cancellationToken)
+        {
+            try
+            {
+                List<Cat> cats = _dbContext.Cats
+                    .Where(c => c.Weight == weight).ToList();
+
+                return Task.FromResult(cats);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("An error occurred while getting all catss from the database");
+                throw new Exception("An error occurred while getting all catss from the database", ex);
+            }
+        }
+
         public Task<Cat> AddCat(Cat newcat, CancellationToken cancellationToken)
         {
             try
