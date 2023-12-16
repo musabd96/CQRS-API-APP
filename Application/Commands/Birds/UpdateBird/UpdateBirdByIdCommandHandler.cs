@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
 using Infrastructure.Repositories.Birds;
 using MediatR;
 
@@ -18,9 +17,10 @@ namespace Application.Commands.Birds.UpdateBird
         {
             var Id = request.Id;
             var Name = request.UpdatedBird.Name;
+            var Color = request.UpdatedBird.Color;
             var LikesToPlay = request.UpdatedBird.LikesToPlay;
 
-            Bird birdToUpdate = await _birdRepository.UpdateBird(Id, Name, LikesToPlay, cancellationToken);
+            Bird birdToUpdate = await _birdRepository.UpdateBird(Id, Name, Color, LikesToPlay, cancellationToken);
 
             return birdToUpdate;
         }

@@ -8,11 +8,11 @@ namespace Application.Commands.Birds.UpdateBird
     {
         public UpdateBirdByIdCommand(Guid id, BirdDto updatedBird)
         {
-            UpdatedBird = updatedBird;
             Id = id;
+            UpdatedBird = updatedBird;
         }
 
-        public BirdDto UpdatedBird { get; }
         public Guid Id { get; }
+        public BirdDto UpdatedBird { get; }
     }
 }
