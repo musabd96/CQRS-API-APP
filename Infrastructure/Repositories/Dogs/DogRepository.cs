@@ -72,6 +72,17 @@ namespace Infrastructure.Repositories.Dogs
                                         (weight == null || d.Weight >= weight))
                                         .ToList();
 
+                foreach (var dog in filteredDogs)
+                {
+                    var userDog = _dbContext.UserDog.FirstOrDefault(ud => ud.DogId == dog.Id);
+
+                    if (userDog != null)
+                    {
+                        var user = _dbContext.Users.FirstOrDefault(u => u.Id == userDog.UserId);
+                        dog.OwnerDogUserName = user!.Username;
+                    }
+                }
+
                 return Task.FromResult(filteredDogs);
             }
             catch (Exception ex)

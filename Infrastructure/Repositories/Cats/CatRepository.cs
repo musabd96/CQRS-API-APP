@@ -70,6 +70,16 @@ namespace Infrastructure.Repositories.Cats
                                         (weight == null || c.Weight >= weight))
                                         .ToList();
 
+                foreach (var cat in filteredCats)
+                {
+                    var userCat = _dbContext.UserCat.FirstOrDefault(uc => uc.CatId == cat.Id);
+
+                    if (userCat != null)
+                    {
+                        var user = _dbContext.Users.FirstOrDefault(u => u.Id == userCat.UserId);
+                        cat.OwnerCatUserName = user!.Username;
+                    }
+                }
                 return Task.FromResult(filteredCats);
             }
             catch (Exception ex)
