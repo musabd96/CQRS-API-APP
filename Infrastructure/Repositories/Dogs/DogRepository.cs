@@ -22,6 +22,17 @@ namespace Infrastructure.Repositories.Dogs
             {
                 List<Dog> allDogsFromDatabase = _dbContext.Dogs.ToList();
 
+                foreach (var dog in allDogsFromDatabase)
+                {
+                    var userDog = _dbContext.UserDog.FirstOrDefault(ud => ud.DogId == dog.Id);
+
+                    if (userDog != null)
+                    {
+                        var user = _dbContext.Users.FirstOrDefault(u => u.Id == userDog.UserId);
+                        dog.OwnerDogUserName = user!.Username;
+                    }
+                }
+
                 return Task.FromResult(allDogsFromDatabase);
             }
             catch (Exception ex)

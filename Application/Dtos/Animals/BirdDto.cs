@@ -1,6 +1,4 @@
-﻿using Application.Dtos.Users;
-using Domain.Models;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Application.Dtos.AnimalDto
 {

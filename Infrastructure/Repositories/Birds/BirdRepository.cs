@@ -2,6 +2,7 @@
 using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace Infrastructure.Repositories.Birds
 {
@@ -21,6 +22,17 @@ namespace Infrastructure.Repositories.Birds
             try
             {
                 List<Bird> allBirdsFromDatabase = _dbContext.Birds.ToList();
+
+                foreach (var bird in allBirdsFromDatabase)
+                {
+                    var userBird = _dbContext.UserBird.FirstOrDefault(ub => ub.BirdId == bird.Id);
+
+                    if (userBird != null)
+                    {
+                        var user = _dbContext.Users.FirstOrDefault(u => u.Id == userBird.UserId);
+                        bird.OwnerBirdUserName = user!.Username;
+                    }
+                }
 
                 return Task.FromResult(allBirdsFromDatabase);
             }
