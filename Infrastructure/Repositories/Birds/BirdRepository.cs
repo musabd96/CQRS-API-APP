@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Azure.Core;
+using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.Extensions.Logging;
 
@@ -60,19 +61,35 @@ namespace Infrastructure.Repositories.Birds
             }
         }
 
-        public Task<Bird> AddBird(Bird newbird, CancellationToken cancellationToken)
+        public async Task<Bird> AddBird(Bird newbird, CancellationToken cancellationToken)
         {
             try
             {
-                _dbContext.Birds.Add(newbird);
-                _dbContext.SaveChangesAsync();
+                var user = _dbContext.Users
+                    .FirstOrDefault(u => u.Username == newbird.OwnerBirdUserName);
 
-                return Task.FromResult(newbird);
+                if (user == null)
+                {
+                    // Handle the case where the user is not found
+                    _logger.LogError($"Username {newbird.OwnerBirdUserName} not found");
+                    throw new Exception($"Username {newbird.OwnerBirdUserName} not found");
+                }
+
+                newbird.UserBird = new List<UserBird>
+                {
+                    new UserBird { UserId = user.Id , BirdId = newbird.Id},
+                };
+
+                _dbContext.Birds.Add(newbird);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                return newbird;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while adding a dog to the database");
-                throw new Exception("An error occurred while adding a dog to the database", ex);
+                _logger.LogError(ex, $"An error occurred while adding a bird to the database");
+                throw new Exception("An error occurred while adding a bird to the database", ex);
+
             }
         }
 

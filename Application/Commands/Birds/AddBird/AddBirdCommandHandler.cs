@@ -1,7 +1,5 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
 using Infrastructure.Repositories.Birds;
-using Infrastructure.Repositories.Dogs;
 using MediatR;
 
 namespace Application.Commands.Birds.AddBird
@@ -21,7 +19,9 @@ namespace Application.Commands.Birds.AddBird
             {
                 Id = Guid.NewGuid(),
                 Name = request.NewBird.Name,
-                LikesToPlay = request.NewBird.LikesToPlay
+                Color = request.NewBird.Color,
+                LikesToPlay = request.NewBird.LikesToPlay,
+                OwnerBirdUserName = request.NewBird.OwnerBirdUserName,
             };
 
             _birdRepository.AddBird(birdToCreate, cancellationToken);
