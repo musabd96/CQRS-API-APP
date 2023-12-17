@@ -48,6 +48,13 @@ namespace Infrastructure.Repositories.Birds
             try
             {
                 Bird wantedBird = _dbContext.Birds.FirstOrDefault(bird => bird.Id == id)!;
+
+                var userBird = _dbContext.UserBird.FirstOrDefault(ub => ub.BirdId == wantedBird.Id);
+                if (userBird != null)
+                {
+                    var user = _dbContext.Users.FirstOrDefault(u => u.Id == userBird.UserId);
+                    wantedBird.OwnerBirdUserName = user!.Username;
+                }
                 return Task.FromResult(wantedBird);
             }
             catch (Exception ex)

@@ -45,6 +45,13 @@ namespace Infrastructure.Repositories.Cats
             try
             {
                 Cat wantedCat = _dbContext.Cats.FirstOrDefault(cat => cat.Id == id)!;
+                var userCat = _dbContext.UserCat.FirstOrDefault(uc => uc.CatId == wantedCat.Id);
+
+                if (userCat != null)
+                {
+                    var user = _dbContext.Users.FirstOrDefault(u => u.Id == userCat.UserId);
+                    wantedCat.OwnerCatUserName = user!.Username;
+                }
                 return Task.FromResult(wantedCat);
             }
             catch (Exception ex)
