@@ -27,9 +27,12 @@ namespace Test.Dogs.CommandTests
                     It.IsAny<bool>(),    // Assuming 'LikesToPlay' is a property of Dog
                     It.IsAny<string>(),    // Assuming 'Breed' is a property of Dog
                     It.IsAny<int>(),    // Assuming 'Weight' is a property of Dog
+                    It.IsAny<string>(),    // Assuming 'OwnerDogUserName' is a property of Dog
                     It.IsAny<CancellationToken>()
                 ))
-                .Returns((Guid dogId, string updatedDogName, bool updatedDogLikesToPlay, string updatedDogBreed, int weight, CancellationToken cancellationToken) =>
+                .Returns((Guid dogId, string updatedDogName,
+                          bool updatedDogLikesToPlay, string updatedDogBreed,
+                          int weight, string ownerDogUserName, CancellationToken cancellationToken) =>
                 {
                     var existingDog = dogs.FirstOrDefault(d => d.Id == dogId);
 
@@ -39,6 +42,7 @@ namespace Test.Dogs.CommandTests
                         existingDog.LikesToPlay = updatedDogLikesToPlay;
                         existingDog.Breed = updatedDogBreed;
                         existingDog.Weight = weight;
+                        existingDog.OwnerDogUserName = ownerDogUserName;
                     }
                     return Task.FromResult(existingDog)!;
                 });
@@ -57,12 +61,20 @@ namespace Test.Dogs.CommandTests
                     Name = "Nelson",
                     LikesToPlay = true,
                     Breed = "Labrador",
-                    Weight = 9
+                    Weight = 9,
+                    OwnerDogUserName = "testOwner"
                 }
             };
             SetupMockDbContext(dogsList);
 
-            var updatedName = new DogDto { Name = "NewDogName", LikesToPlay = false, Breed = "NewDogBreed", Weight = 9 };
+            var updatedName = new DogDto
+            {
+                Name = "NewDogName",
+                LikesToPlay = false,
+                Breed = "NewDogBreed",
+                Weight = 9,
+                OwnerDogUserName = "testOwner"
+            };
 
             var command = new UpdateDogByIdCommand(dogId, updatedName);
 
@@ -86,12 +98,20 @@ namespace Test.Dogs.CommandTests
                     Name = "Nelson",
                     LikesToPlay = true,
                     Breed = "Labrador",
-                    Weight = 9
+                    Weight = 9,
+                    OwnerDogUserName = "testOwner"
                 }
             };
             SetupMockDbContext(dogsList);
 
-            var updatedName = new DogDto { Name = "NewDogName", LikesToPlay = false, Breed = "NewDogBreed", Weight = 10 };
+            var updatedName = new DogDto
+            {
+                Name = "NewDogName",
+                LikesToPlay = false,
+                Breed = "NewDogBreed",
+                Weight = 10,
+                OwnerDogUserName = "testOwner"
+            };
 
             var command = new UpdateDogByIdCommand(invalidDogId, updatedName);
 

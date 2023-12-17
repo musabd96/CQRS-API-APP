@@ -26,9 +26,12 @@ namespace Test.Birds.CommandTests
                     It.IsAny<string>(),  // Assuming 'Name' is a property of bird
                     It.IsAny<string>(),  // Assuming 'Color' is a property of bird
                     It.IsAny<bool>(),    // Assuming 'LikesToPlay' is a property of bird
+                    It.IsAny<string>(),  // Assuming 'OwnerBirdUserName' is a property of bird
                     It.IsAny<CancellationToken>()
                 ))
-                .Returns((Guid birdId, string updatedBirdName, string updatedBirdColor, bool updatedBirdLikesToPlay, CancellationToken cancellationToken) =>
+                .Returns((Guid birdId, string updatedBirdName,
+                          string updatedBirdColor, bool updatedBirdLikesToPlay,
+                          string ownerBirdUserName, CancellationToken cancellationToken) =>
                 {
                     var existingBird = birds.FirstOrDefault(b => b.Id == birdId);
 
@@ -37,6 +40,7 @@ namespace Test.Birds.CommandTests
                         existingBird.Name = updatedBirdName;
                         existingBird.Color = updatedBirdColor;
                         existingBird.LikesToPlay = updatedBirdLikesToPlay;
+                        existingBird.OwnerBirdUserName = ownerBirdUserName;
                     }
                     return Task.FromResult(existingBird)!;
                 });
@@ -54,12 +58,19 @@ namespace Test.Birds.CommandTests
                     Id = birdId,
                     Name = "Nelson",
                     Color = "Green",
-                    LikesToPlay = true
+                    LikesToPlay = true,
+                    OwnerBirdUserName = "testOwner"
                 }
             };
             SetupMockDbContext(birdsList);
 
-            var updatedName = new BirdDto { Name = "NewCatName", Color = "Green", LikesToPlay = false };
+            var updatedName = new BirdDto
+            {
+                Name = "NewCatName",
+                Color = "Green",
+                LikesToPlay = false,
+                OwnerBirdUserName = "testOwner"
+            };
 
             var command = new UpdateBirdByIdCommand(birdId, updatedName);
 
@@ -82,12 +93,19 @@ namespace Test.Birds.CommandTests
                     Id = Guid.NewGuid(),
                     Name = "Nelson",
                     Color = "Green",
-                    LikesToPlay = true
+                    LikesToPlay = true,
+                    OwnerBirdUserName = "testOwner"
                 }
             };
             SetupMockDbContext(birdsList);
 
-            var updatedName = new BirdDto { Name = "NewCatName", Color = "Green", LikesToPlay = false };
+            var updatedName = new BirdDto
+            {
+                Name = "NewCatName",
+                Color = "Green",
+                LikesToPlay = false,
+                OwnerBirdUserName = "testOwner"
+            };
 
             var command = new UpdateBirdByIdCommand(invalidBirdId, updatedName);
 

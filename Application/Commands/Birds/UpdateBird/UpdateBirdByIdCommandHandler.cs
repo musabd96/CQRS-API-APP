@@ -19,8 +19,9 @@ namespace Application.Commands.Birds.UpdateBird
             var Name = request.UpdatedBird.Name;
             var Color = request.UpdatedBird.Color;
             var LikesToPlay = request.UpdatedBird.LikesToPlay;
+            var OwnerBirdUserName = request.UpdatedBird.OwnerBirdUserName;
 
-            Bird birdToUpdate = await _birdRepository.UpdateBird(Id, Name, Color, LikesToPlay, cancellationToken);
+            Bird birdToUpdate = await _birdRepository.UpdateBird(Id, Name, Color, LikesToPlay, OwnerBirdUserName, cancellationToken);
 
             return birdToUpdate;
         }

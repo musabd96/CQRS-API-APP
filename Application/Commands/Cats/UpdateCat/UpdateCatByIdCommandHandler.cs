@@ -21,8 +21,9 @@ namespace Application.Commands.Cats.UpdateCat
             var LikesToPlay = request.UpdatedCat.LikesToPlay;
             var Breed = request.UpdatedCat.Breed;
             int Weight = request.UpdatedCat.Weight;
+            var OwnerCatUserName = request.UpdatedCat.OwnerCatUserName;
 
-            Cat catToUpdate = await _catRepository.UpdateCat(Id, Name, LikesToPlay, Breed, Weight, cancellationToken);
+            Cat catToUpdate = await _catRepository.UpdateCat(Id, Name, LikesToPlay, Breed, Weight, OwnerCatUserName, cancellationToken);
 
             return catToUpdate;
         }

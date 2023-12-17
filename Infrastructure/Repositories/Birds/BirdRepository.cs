@@ -122,7 +122,7 @@ namespace Infrastructure.Repositories.Birds
             }
         }
 
-        public Task<Bird> UpdateBird(Guid id, string newName, string color, bool likesToPlay, CancellationToken cancellationToken)
+        public Task<Bird> UpdateBird(Guid id, string newName, string color, bool likesToPlay, string OwnerBirdUserName, CancellationToken cancellationToken)
         {
             try
             {
@@ -131,6 +131,17 @@ namespace Infrastructure.Repositories.Birds
                 birdToUpdate.Name = newName;
                 birdToUpdate.Color = color;
                 birdToUpdate.LikesToPlay = likesToPlay;
+                birdToUpdate.OwnerBirdUserName = OwnerBirdUserName;
+
+                var user = _dbContext.Users
+                    .FirstOrDefault(u => u.Username == birdToUpdate.OwnerBirdUserName);
+                if (user != null)
+                {
+                    birdToUpdate.UserBird = new List<UserBird>
+                    {
+                        new UserBird { UserId = user.Id , BirdId = birdToUpdate.Id},
+                    };
+                }
 
                 _dbContext.SaveChangesAsync();
 

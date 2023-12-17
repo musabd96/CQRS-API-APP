@@ -20,8 +20,9 @@ namespace Application.Commands.Dogs.UpdateDog
             var LikesToPlay = request.UpdatedDog.LikesToPlay;
             var Breed = request.UpdatedDog.Breed;
             int Weight = request.UpdatedDog.Weight;
+            var OwnerDogUserName = request.UpdatedDog.OwnerDogUserName;
 
-            Dog dogToUpdate = await _dogRepository.UpdateDog(Id, Name, LikesToPlay, Breed, Weight, cancellationToken);
+            Dog dogToUpdate = await _dogRepository.UpdateDog(Id, Name, LikesToPlay, Breed, Weight, OwnerDogUserName, cancellationToken);
 
             return dogToUpdate;
         }

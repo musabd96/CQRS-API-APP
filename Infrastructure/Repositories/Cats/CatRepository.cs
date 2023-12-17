@@ -120,7 +120,7 @@ namespace Infrastructure.Repositories.Cats
             }
         }
 
-        public Task<Cat> UpdateCat(Guid id, string newName, bool likesToPlay, string breed, int weight, CancellationToken cancellationToken)
+        public Task<Cat> UpdateCat(Guid id, string newName, bool likesToPlay, string breed, int weight, string OwnerCatUserName, CancellationToken cancellationToken)
         {
             try
             {
@@ -130,7 +130,17 @@ namespace Infrastructure.Repositories.Cats
                 catToUpdate.LikesToPlay = likesToPlay;
                 catToUpdate.Breed = breed;
                 catToUpdate.Weight = weight;
+                catToUpdate.OwnerCatUserName = OwnerCatUserName;
 
+                var user = _dbContext.Users
+                    .FirstOrDefault(u => u.Username == catToUpdate.OwnerCatUserName);
+                if (user != null)
+                {
+                    catToUpdate.UserCat = new List<UserCat>
+                    {
+                        new UserCat { UserId = user.Id , CatId = catToUpdate.Id},
+                    };
+                }
                 _dbContext.SaveChangesAsync();
 
                 return Task.FromResult(catToUpdate);
