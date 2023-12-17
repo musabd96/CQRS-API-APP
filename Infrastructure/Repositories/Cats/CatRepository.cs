@@ -20,6 +20,17 @@ namespace Infrastructure.Repositories.Cats
             {
                 List<Cat> allCatsFromDatabase = _dbContext.Cats.ToList();
 
+                foreach (var cat in allCatsFromDatabase)
+                {
+                    var userCat = _dbContext.UserCat.FirstOrDefault(uc => uc.CatId == cat.Id);
+
+                    if (userCat != null)
+                    {
+                        var user = _dbContext.Users.FirstOrDefault(u => u.Id == userCat.UserId);
+                        cat.OwnerCatUserName = user!.Username;
+                    }
+                }
+
                 return Task.FromResult(allCatsFromDatabase);
             }
             catch (Exception ex)
