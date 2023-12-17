@@ -68,10 +68,20 @@ namespace Infrastructure.Repositories.Birds
         {
             try
             {
-                List<Bird> birds = _dbContext.Birds
+                List<Bird> filteredCirds = _dbContext.Birds
                     .Where(b => b.Color == color).ToList();
 
-                return Task.FromResult(birds);
+                foreach (var bird in filteredCirds)
+                {
+                    var userBird = _dbContext.UserBird.FirstOrDefault(ub => ub.BirdId == bird.Id);
+
+                    if (userBird != null)
+                    {
+                        var user = _dbContext.Users.FirstOrDefault(u => u.Id == userBird.UserId);
+                        bird.OwnerBirdUserName = user!.Username;
+                    }
+                }
+                return Task.FromResult(filteredCirds);
             }
             catch (Exception ex)
             {
