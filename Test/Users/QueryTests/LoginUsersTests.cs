@@ -25,7 +25,8 @@ namespace Test.Users.QueryTests
             _authRepository.Setup(repo => repo.AuthenticateUser(It.IsAny<string>(), It.IsAny<string>()))
                           .Returns<string, string>((username, password) =>
                           {
-                              return users.FirstOrDefault(u => u.Username == username && u.PasswordHash == password)!;
+                              return users.FirstOrDefault(u => u.Username == username &&
+                              BCrypt.Net.BCrypt.Verify(password, u.PasswordHash))!;
                           });
 
             _authRepository.Setup(repo => repo.GenerateJwtToken(It.IsAny<User>()))
@@ -38,15 +39,15 @@ namespace Test.Users.QueryTests
             // Arrange
             var users = new List<User>
             {
-                new User { Username = "Testing", PasswordHash = "Password1!" }
+                new User { Username = "testing", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Testing123!") }
             };
 
             SetupMockUserRepository(users);
 
             var loginUserQuery = new LoginUserQuery(new UserDto
             {
-                Username = "Testing",
-                Password = "Password1!"
+                Username = "testing",
+                Password = "Testing123!"
             });
 
             // Act

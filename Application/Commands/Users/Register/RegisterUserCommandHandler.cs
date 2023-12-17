@@ -26,12 +26,16 @@ namespace Application.Commands.Users.Register
                 throw new ArgumentException("Registration error: " + string.Join("; ", allErrors));
             }
 
+            // Password hashing using BCrypt
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.NewUser.Password);
+
+
             // Here can we use something called AutoMapper, helps us convert Dtos to Domain Models...
             var userToCreate = new User
             {
                 Id = Guid.NewGuid(),
-                Username = request.NewUser.Username,
-                PasswordHash = request.NewUser.Password,
+                Username = request.NewUser.Username.ToLowerInvariant(),
+                PasswordHash = hashedPassword,
             };
 
             var createdUser = _userRepository.RegisterUser(userToCreate);
