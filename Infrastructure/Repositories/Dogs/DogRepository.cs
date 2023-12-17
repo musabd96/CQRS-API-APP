@@ -76,7 +76,7 @@ namespace Infrastructure.Repositories.Dogs
                 {
                     var userDog = _dbContext.UserDog.FirstOrDefault(ud => ud.DogId == dog.Id);
 
-                    if (userDog != null)
+                    if (userDog == null)
                     {
                         var user = _dbContext.Users.FirstOrDefault(u => u.Id == userDog.UserId);
                         dog.OwnerDogUserName = user!.Username;
@@ -123,7 +123,7 @@ namespace Infrastructure.Repositories.Dogs
             }
         }
 
-        public Task<Dog> UpdateDog(Guid id, string newName, bool likesToPlay, string breed, int weight, CancellationToken cancellationToken)
+        public Task<Dog> UpdateDog(Guid id, string newName, bool likesToPlay, string breed, int weight, string OwnerDogUserName, CancellationToken cancellationToken)
         {
             try
             {
@@ -133,6 +133,17 @@ namespace Infrastructure.Repositories.Dogs
                 dogToUpdate.LikesToPlay = likesToPlay;
                 dogToUpdate.Breed = breed;
                 dogToUpdate.Weight = weight;
+                dogToUpdate.OwnerDogUserName = OwnerDogUserName;
+
+                var user = _dbContext.Users
+                    .FirstOrDefault(u => u.Username == dogToUpdate.OwnerDogUserName);
+                if (user != null)
+                {
+                    dogToUpdate.UserDog = new List<UserDog>
+                    {
+                        new UserDog { UserId = user.Id , DogId = dogToUpdate.Id},
+                    };
+                }
 
                 _dbContext.SaveChangesAsync();
 
