@@ -21,6 +21,8 @@ namespace Application.Commands.Cats
                 Name = request.NewCat.Name,
                 LikesToPlay = request.NewCat.LikesToPlay,
                 Breed = request.NewCat.Breed,
+                Weight = request.NewCat.Weight,
+                OwnerCatUserName = request.NewCat.OwnerCatUserName,
             };
 
             _catRepository.AddCat(catToCreate, cancellationToken);

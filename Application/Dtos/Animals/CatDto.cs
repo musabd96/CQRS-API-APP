@@ -1,5 +1,8 @@
 ﻿
 
+using Domain.Models;
+using System.Text.Json.Serialization;
+
 namespace Application.Dtos.AnimalDto
 {
     public class CatDto
@@ -8,5 +11,8 @@ namespace Application.Dtos.AnimalDto
         public bool LikesToPlay { get; set; }
         public string Breed { get; set; } = string.Empty;
         public int Weight { get; set; }
+        public string OwnerCatUserName { get; set; } = string.Empty;
+        [JsonIgnore]
+        public virtual ICollection<Guid> CatOwnerIds { get; set; } = new List<Guid>();
     }
 }

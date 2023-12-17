@@ -67,8 +67,23 @@ namespace Infrastructure.Repositories.Dogs
         {
             try
             {
+                var user = _dbContext.Users
+                    .FirstOrDefault(u => u.Username == newdog.OwnerDogUserName);
+
+                if (user == null)
+                {
+                    // Handle the case where the user is not found
+                    _logger.LogError($"Username {newdog.OwnerDogUserName} not found");
+                    throw new Exception($"Username {newdog.OwnerDogUserName} not found");
+                }
+
+                newdog.UserDog = new List<UserDog>
+                {
+                    new UserDog { UserId = user.Id , DogId = newdog.Id},
+                };
+
                 _dbContext.Dogs.Add(newdog);
-                _dbContext.SaveChangesAsync();
+                _dbContext.SaveChangesAsync(cancellationToken);
 
                 return Task.FromResult(newdog);
             }

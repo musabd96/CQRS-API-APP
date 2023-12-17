@@ -65,8 +65,23 @@ namespace Infrastructure.Repositories.Cats
         {
             try
             {
+                var user = _dbContext.Users
+                    .FirstOrDefault(u => u.Username == newcat.OwnerCatUserName);
+
+                if (user == null)
+                {
+                    // Handle the case where the user is not found
+                    _logger.LogError($"Username {newcat.OwnerCatUserName} not found");
+                    throw new Exception($"Username {newcat.OwnerCatUserName} not found");
+                }
+
+                newcat.UserCat = new List<UserCat>
+                {
+                    new UserCat { UserId = user.Id , CatId = newcat.Id},
+                };
+
                 _dbContext.Cats.Add(newcat);
-                _dbContext.SaveChangesAsync();
+                _dbContext.SaveChangesAsync(cancellationToken);
 
                 return Task.FromResult(newcat);
             }

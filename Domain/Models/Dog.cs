@@ -14,9 +14,13 @@ namespace Domain.Models
         public override string Breed { get; set; } = string.Empty;
         public override int Weight { get; set; }
 
+        [NotMapped]
+        public string OwnerDogUserName { get; set; } = string.Empty;
+
         [NotMapped, JsonIgnore]
         public override string Color { get; set; } = string.Empty;
 
-        public virtual ICollection<UserDog> UserDog { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<UserDog> UserDog { get; set; } = new List<UserDog>();
     }
 }
