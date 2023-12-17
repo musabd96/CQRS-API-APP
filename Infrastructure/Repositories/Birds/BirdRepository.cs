@@ -61,7 +61,7 @@ namespace Infrastructure.Repositories.Birds
             }
         }
 
-        public async Task<Bird> AddBird(Bird newbird, CancellationToken cancellationToken)
+        public Task<Bird> AddBird(Bird newbird, CancellationToken cancellationToken)
         {
             try
             {
@@ -81,9 +81,9 @@ namespace Infrastructure.Repositories.Birds
                 };
 
                 _dbContext.Birds.Add(newbird);
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                _dbContext.SaveChangesAsync(cancellationToken);
 
-                return newbird;
+                return Task.FromResult(newbird);
             }
             catch (Exception ex)
             {

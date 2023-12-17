@@ -23,6 +23,6 @@ namespace Domain.Models
         public override int Weight { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<UserBird> UserBird { get; set; }
+        public virtual ICollection<UserBird> UserBird { get; set; } = new List<UserBird>();
     }
 }

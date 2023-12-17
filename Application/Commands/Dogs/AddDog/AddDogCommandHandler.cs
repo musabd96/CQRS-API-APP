@@ -21,6 +21,8 @@ namespace Application.Commands.Dogs
                 Name = request.NewDog.Name,
                 LikesToPlay = request.NewDog.LikesToPlay,
                 Breed = request.NewDog.Breed,
+                Weight = request.NewDog.Weight,
+                OwnerDogUserName = request.NewDog.OwnerDogUserName,
             };
 
             _dogRepository.AddDog(dogToCreate, cancellationToken);
