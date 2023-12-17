@@ -13,12 +13,16 @@ namespace Domain.Models
         public bool LikesToPlay { get; set; }
         public override string Color { get; set; } = string.Empty;
 
+        [NotMapped]
+        public string OwnerBirdUserName { get; set; } = string.Empty;
+
         [NotMapped, JsonIgnore]
         public override string Breed { get; set; } = string.Empty;
 
         [NotMapped, JsonIgnore]
         public override int Weight { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<UserBird> UserBird { get; set; }
     }
 }
