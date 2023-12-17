@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Domain.Models;
+﻿using Domain.Models;
 using Infrastructure.Database;
 using Microsoft.Extensions.Logging;
 
