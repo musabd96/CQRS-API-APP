@@ -14,7 +14,7 @@ namespace Application.Queries.Users.Login
 
         public Task<string> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
-            var user = _authRepository.AuthenticateUser(request.LoginUser.Username, request.LoginUser.Password);
+            var user = _authRepository.AuthenticateUser(request.LoginUser.Username.ToLowerInvariant(), request.LoginUser.Password);
 
             if (user == null)
             {
