@@ -47,6 +47,13 @@ namespace Infrastructure.Repositories.Dogs
             try
             {
                 Dog wantedDog = _dbContext.Dogs.FirstOrDefault(dog => dog.Id == id)!;
+                var userDog = _dbContext.UserDog.FirstOrDefault(ud => ud.DogId == wantedDog.Id);
+
+                if (userDog != null)
+                {
+                    var user = _dbContext.Users.FirstOrDefault(u => u.Id == userDog.UserId);
+                    wantedDog.OwnerDogUserName = user!.Username;
+                }
                 return Task.FromResult(wantedDog);
             }
             catch (Exception ex)
