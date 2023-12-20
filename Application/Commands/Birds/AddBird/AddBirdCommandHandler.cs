@@ -21,7 +21,7 @@ namespace Application.Commands.Birds.AddBird
                 Name = request.NewBird.Name,
                 Color = request.NewBird.Color,
                 LikesToPlay = request.NewBird.LikesToPlay,
-                OwnerBirdUserName = request.NewBird.OwnerBirdUserName,
+                OwnerUserName = request.NewBird.OwnerUserName,
             };
 
             _birdRepository.AddBird(birdToCreate, cancellationToken);

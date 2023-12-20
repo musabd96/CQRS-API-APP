@@ -40,7 +40,7 @@ namespace Test.Birds.CommandTests
                         existingBird.Name = updatedBirdName;
                         existingBird.Color = updatedBirdColor;
                         existingBird.LikesToPlay = updatedBirdLikesToPlay;
-                        existingBird.OwnerBirdUserName = ownerBirdUserName;
+                        existingBird.OwnerUserName = ownerBirdUserName;
                     }
                     return Task.FromResult(existingBird)!;
                 });
@@ -59,7 +59,7 @@ namespace Test.Birds.CommandTests
                     Name = "Nelson",
                     Color = "Green",
                     LikesToPlay = true,
-                    OwnerBirdUserName = "testOwner"
+                    OwnerUserName = "testOwner"
                 }
             };
             SetupMockDbContext(birdsList);
@@ -69,7 +69,7 @@ namespace Test.Birds.CommandTests
                 Name = "NewCatName",
                 Color = "Green",
                 LikesToPlay = false,
-                OwnerBirdUserName = "testOwner"
+                OwnerUserName = "testOwner"
             };
 
             var command = new UpdateBirdByIdCommand(birdId, updatedName);
@@ -94,7 +94,7 @@ namespace Test.Birds.CommandTests
                     Name = "Nelson",
                     Color = "Green",
                     LikesToPlay = true,
-                    OwnerBirdUserName = "testOwner"
+                    OwnerUserName = "testOwner"
                 }
             };
             SetupMockDbContext(birdsList);
@@ -104,7 +104,7 @@ namespace Test.Birds.CommandTests
                 Name = "NewCatName",
                 Color = "Green",
                 LikesToPlay = false,
-                OwnerBirdUserName = "testOwner"
+                OwnerUserName = "testOwner"
             };
 
             var command = new UpdateBirdByIdCommand(invalidBirdId, updatedName);

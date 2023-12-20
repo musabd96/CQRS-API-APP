@@ -22,7 +22,7 @@ namespace Application.Commands.Dogs
                 LikesToPlay = request.NewDog.LikesToPlay,
                 Breed = request.NewDog.Breed,
                 Weight = request.NewDog.Weight,
-                OwnerDogUserName = request.NewDog.OwnerDogUserName,
+                OwnerUserName = request.NewDog.OwnerUserName,
             };
 
             _dogRepository.AddDog(dogToCreate, cancellationToken);

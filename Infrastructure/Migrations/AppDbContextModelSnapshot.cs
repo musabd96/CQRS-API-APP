@@ -36,6 +36,14 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("TypeOfAnimal")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("animalCanDo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
                     b.ToTable("Birds");
@@ -43,38 +51,48 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7e49c247-d69c-4c47-88d2-744eaa0dcd33"),
+                            Id = new Guid("db156db9-9253-412a-bb8f-a2e44c3e2d7f"),
                             Color = "Green",
                             LikesToPlay = true,
-                            Name = "Kiwi"
+                            Name = "Kiwi",
+                            TypeOfAnimal = "Bird",
+                            animalCanDo = "This animal can fly"
                         },
                         new
                         {
-                            Id = new Guid("0ae3521d-edec-4164-8f63-0962de8d9189"),
+                            Id = new Guid("3bf8699a-cff9-4231-9cc6-a2669418a10c"),
                             Color = "Yellow",
                             LikesToPlay = true,
-                            Name = "Sunshine"
+                            Name = "Sunshine",
+                            TypeOfAnimal = "Bird",
+                            animalCanDo = "This animal can fly"
                         },
                         new
                         {
-                            Id = new Guid("f3791a20-e3b4-4710-bc0c-a654e5308039"),
+                            Id = new Guid("c7b66443-e962-4ffc-93e6-91995023b16f"),
                             Color = "Blue",
                             LikesToPlay = true,
-                            Name = "Sky"
+                            Name = "Sky",
+                            TypeOfAnimal = "Bird",
+                            animalCanDo = "This animal can fly"
                         },
                         new
                         {
-                            Id = new Guid("e3f2085c-18dc-4e96-8125-8cc35a05e735"),
+                            Id = new Guid("755efddb-afec-48d8-8977-0494741aaa9e"),
                             Color = "Red",
                             LikesToPlay = true,
-                            Name = "Cherry"
+                            Name = "Cherry",
+                            TypeOfAnimal = "Bird",
+                            animalCanDo = "This animal can fly"
                         },
                         new
                         {
-                            Id = new Guid("b016be05-0b22-4e42-ab90-c23b66ce3b9f"),
+                            Id = new Guid("24cc2a8d-4c11-4216-b6eb-8508a35d5262"),
                             Color = "White",
                             LikesToPlay = true,
-                            Name = "Snowflake"
+                            Name = "Snowflake",
+                            TypeOfAnimal = "Bird",
+                            animalCanDo = "This animal can fly"
                         });
                 });
 
@@ -95,8 +113,16 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("TypeOfAnimal")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("Weight")
                         .HasColumnType("int");
+
+                    b.Property<string>("animalCanDo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -105,43 +131,53 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("04e636fe-bf22-442c-9f4e-0abbfc409853"),
+                            Id = new Guid("c2acbc1b-7fdc-4e2e-92be-8a2a2336168e"),
                             Breed = "Siamese",
                             LikesToPlay = true,
                             Name = "Whiskers",
-                            Weight = 8
+                            TypeOfAnimal = "Cat",
+                            Weight = 8,
+                            animalCanDo = "This animal can meow"
                         },
                         new
                         {
-                            Id = new Guid("f9c917df-7452-47ec-9cc3-c5888a68ca6a"),
+                            Id = new Guid("7279e1c1-9dc9-4787-93d7-e2572f7811eb"),
                             Breed = "Persian",
                             LikesToPlay = true,
                             Name = "Mittens",
-                            Weight = 10
+                            TypeOfAnimal = "Cat",
+                            Weight = 10,
+                            animalCanDo = "This animal can meow"
                         },
                         new
                         {
-                            Id = new Guid("39c5ec24-1ddc-4161-8d48-17c57b4cf233"),
+                            Id = new Guid("c197b233-3249-48eb-b016-74ba090ba989"),
                             Breed = "Maine Coon",
                             LikesToPlay = true,
                             Name = "Shadow",
-                            Weight = 15
+                            TypeOfAnimal = "Cat",
+                            Weight = 15,
+                            animalCanDo = "This animal can meow"
                         },
                         new
                         {
-                            Id = new Guid("d50e2524-9447-4993-b572-e2caddb3f3f7"),
+                            Id = new Guid("13537654-700b-47ca-98d0-e31e22bf6bb6"),
                             Breed = "Ragdoll",
                             LikesToPlay = true,
                             Name = "Smokey",
-                            Weight = 12
+                            TypeOfAnimal = "Cat",
+                            Weight = 12,
+                            animalCanDo = "This animal can meow"
                         },
                         new
                         {
-                            Id = new Guid("9b83bcc1-6e86-4704-9bf6-962ca5bc3fec"),
+                            Id = new Guid("9d53e078-f54b-48a9-ad15-4dd456f56079"),
                             Breed = "Bengal",
                             LikesToPlay = true,
                             Name = "Tiger",
-                            Weight = 11
+                            TypeOfAnimal = "Cat",
+                            Weight = 11,
+                            animalCanDo = "This animal can meow"
                         });
                 });
 
@@ -162,8 +198,16 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("TypeOfAnimal")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("Weight")
                         .HasColumnType("int");
+
+                    b.Property<string>("animalCanDo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -172,51 +216,63 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a88fed4b-3d00-4d0f-bcf4-0219ac362939"),
+                            Id = new Guid("c48537b3-3aab-4503-bf67-1c197c076ac3"),
                             Breed = "Labrador",
                             LikesToPlay = true,
                             Name = "Luna",
-                            Weight = 25
+                            TypeOfAnimal = "Dog",
+                            Weight = 25,
+                            animalCanDo = "This animal can bark"
                         },
                         new
                         {
-                            Id = new Guid("dd90b38e-b669-4c5e-8124-5db0934616f1"),
+                            Id = new Guid("cc756eca-7302-4ffa-9c5a-d354b9f76ca1"),
                             Breed = "Golden Retriever",
                             LikesToPlay = true,
                             Name = "Max",
-                            Weight = 28
+                            TypeOfAnimal = "Dog",
+                            Weight = 28,
+                            animalCanDo = "This animal can bark"
                         },
                         new
                         {
-                            Id = new Guid("b517fae1-cbf3-441a-a8b2-b87c8581e7e4"),
+                            Id = new Guid("4a843d7a-1eca-449c-8d7c-ba5f168ebf35"),
                             Breed = "German Shepherd",
                             LikesToPlay = true,
                             Name = "Bella",
-                            Weight = 30
+                            TypeOfAnimal = "Dog",
+                            Weight = 30,
+                            animalCanDo = "This animal can bark"
                         },
                         new
                         {
-                            Id = new Guid("554240e5-4e9a-46b2-947e-593fe27b5d82"),
+                            Id = new Guid("e59de086-1975-4c19-9efe-f38c075bb74b"),
                             Breed = "Poodle",
                             LikesToPlay = true,
                             Name = "Rocky",
-                            Weight = 15
+                            TypeOfAnimal = "Dog",
+                            Weight = 15,
+                            animalCanDo = "This animal can bark"
                         },
                         new
                         {
-                            Id = new Guid("8f7879cd-d5fb-4d1f-9341-6a99716d5e62"),
+                            Id = new Guid("4779a5c5-9ede-4d35-ae98-bf552a650d3b"),
                             Breed = "Beagle",
                             LikesToPlay = true,
                             Name = "Daisy",
-                            Weight = 18
+                            TypeOfAnimal = "Dog",
+                            Weight = 18,
+                            animalCanDo = "This animal can bark"
                         },
                         new
                         {
-                            Id = new Guid("b4a900c1-d1a7-43e9-a23d-c129ab9e6623"),
+                            Id = new Guid("a79ab4c5-a5e8-4404-87f9-bf3c15cce925"),
                             Breed = "Golden Retriever",
                             LikesToPlay = true,
                             Name = "Riley",
-                            Weight = 30
+                            TypeOfAnimal = "Dog",
+                            Weight = 30,
+                            animalCanDo = "This animal can bark"
                         });
                 });
 

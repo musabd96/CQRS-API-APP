@@ -42,7 +42,7 @@ namespace Test.Cats.CommandTests
                         existingCat.LikesToPlay = updatedCatLikesToPlay;
                         existingCat.Breed = updatedBreed;
                         existingCat.Weight = weight;
-                        existingCat.OwnerCatUserName = ownerCatUserName;
+                        existingCat.OwnerUserName = ownerCatUserName;
 
                     }
                     return Task.FromResult(existingCat)!;
@@ -63,7 +63,7 @@ namespace Test.Cats.CommandTests
                     LikesToPlay = true,
                     Breed = "Sphynx",
                     Weight = 9,
-                    OwnerCatUserName = "testOwner"
+                    OwnerUserName = "testOwner"
                 }
             };
             SetupMockDbContext(catsList);
@@ -74,7 +74,7 @@ namespace Test.Cats.CommandTests
                 LikesToPlay = false,
                 Breed = "NewCatBreed",
                 Weight = 9,
-                OwnerCatUserName = "testOwner"
+                OwnerUserName = "testOwner"
             };
 
             var command = new UpdateCatByIdCommand(catId, updatedName);
@@ -99,7 +99,7 @@ namespace Test.Cats.CommandTests
                     Name = "Nelson",
                     LikesToPlay = true,
                     Weight = 9,
-                    OwnerCatUserName = "testOwner"
+                    OwnerUserName = "testOwner"
                 }
             };
             SetupMockDbContext(catsList);
@@ -110,7 +110,7 @@ namespace Test.Cats.CommandTests
                 LikesToPlay = false,
                 Breed = "NewCatBreed",
                 Weight = 10,
-                OwnerCatUserName = "testOwner"
+                OwnerUserName = "testOwner"
             };
 
             var command = new UpdateCatByIdCommand(invalidCatId, updatedName);

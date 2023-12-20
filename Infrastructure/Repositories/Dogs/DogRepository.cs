@@ -28,7 +28,7 @@ namespace Infrastructure.Repositories.Dogs
                     if (userDog != null)
                     {
                         var user = _dbContext.Users.FirstOrDefault(u => u.Id == userDog.UserId);
-                        dog.OwnerDogUserName = user!.Username;
+                        dog.OwnerUserName = user!.Username;
                     }
                 }
 
@@ -51,7 +51,7 @@ namespace Infrastructure.Repositories.Dogs
                 if (userDog != null)
                 {
                     var user = _dbContext.Users.FirstOrDefault(u => u.Id == userDog.UserId);
-                    wantedDog.OwnerDogUserName = user!.Username;
+                    wantedDog.OwnerUserName = user!.Username;
                 }
                 return Task.FromResult(wantedDog);
             }
@@ -78,7 +78,7 @@ namespace Infrastructure.Repositories.Dogs
                     if (userDog == null)
                     {
                         var user = _dbContext.Users.FirstOrDefault(u => u.Id == userDog.UserId);
-                        dog.OwnerDogUserName = user!.Username;
+                        dog.OwnerUserName = user!.Username;
                     }
                 }
 
@@ -96,13 +96,13 @@ namespace Infrastructure.Repositories.Dogs
             try
             {
                 var user = _dbContext.Users
-                    .FirstOrDefault(u => u.Username == newdog.OwnerDogUserName);
+                    .FirstOrDefault(u => u.Username == newdog.OwnerUserName);
 
                 if (user == null)
                 {
                     // Handle the case where the user is not found
-                    _logger.LogError($"Username {newdog.OwnerDogUserName} not found");
-                    throw new Exception($"Username {newdog.OwnerDogUserName} not found");
+                    _logger.LogError($"Username {newdog.OwnerUserName} not found");
+                    throw new Exception($"Username {newdog.OwnerUserName} not found");
                 }
 
                 newdog.UserDog = new List<UserDog>
@@ -132,10 +132,10 @@ namespace Infrastructure.Repositories.Dogs
                 dogToUpdate.LikesToPlay = likesToPlay;
                 dogToUpdate.Breed = breed;
                 dogToUpdate.Weight = weight;
-                dogToUpdate.OwnerDogUserName = OwnerDogUserName;
+                dogToUpdate.OwnerUserName = OwnerDogUserName;
 
                 var user = _dbContext.Users
-                    .FirstOrDefault(u => u.Username == dogToUpdate.OwnerDogUserName);
+                    .FirstOrDefault(u => u.Username == dogToUpdate.OwnerUserName);
                 if (user != null)
                 {
                     dogToUpdate.UserDog = new List<UserDog>

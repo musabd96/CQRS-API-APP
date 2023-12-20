@@ -22,7 +22,7 @@ namespace Application.Commands.Cats
                 LikesToPlay = request.NewCat.LikesToPlay,
                 Breed = request.NewCat.Breed,
                 Weight = request.NewCat.Weight,
-                OwnerCatUserName = request.NewCat.OwnerCatUserName,
+                OwnerUserName = request.NewCat.OwnerUserName,
             };
 
             _catRepository.AddCat(catToCreate, cancellationToken);

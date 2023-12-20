@@ -2,15 +2,13 @@
 using Application.Dtos.Users;
 using Application.Dtos.Validation;
 using Application.Exceptions.Authorize;
+using Application.Queries.Birds.GetAll;
+using Application.Queries.Users.GetAll;
 using Application.Queries.Users.Login;
 using Application.Validators.User;
-using Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace API.Controllers.AuthController
 {
@@ -74,6 +72,17 @@ namespace API.Controllers.AuthController
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        // Get all animals from database by user authorize
+        [HttpGet]
+        [Route("getAllBirds"), Authorize]
+        public async Task<IActionResult> GetAllBirds()
+        {
+            // Get the username of the authenticated user
+            string username = HttpContext.User.Identity.Name;
+
+            return Ok(await _mediator.Send(new GetAllAnimalsQuery(username)));
         }
 
 
