@@ -42,7 +42,7 @@ namespace Test.Dogs.CommandTests
                         existingDog.LikesToPlay = updatedDogLikesToPlay;
                         existingDog.Breed = updatedDogBreed;
                         existingDog.Weight = weight;
-                        existingDog.OwnerDogUserName = ownerDogUserName;
+                        existingDog.OwnerUserName = ownerDogUserName;
                     }
                     return Task.FromResult(existingDog)!;
                 });
@@ -62,7 +62,7 @@ namespace Test.Dogs.CommandTests
                     LikesToPlay = true,
                     Breed = "Labrador",
                     Weight = 9,
-                    OwnerDogUserName = "testOwner"
+                    OwnerUserName = "testOwner"
                 }
             };
             SetupMockDbContext(dogsList);
@@ -73,7 +73,7 @@ namespace Test.Dogs.CommandTests
                 LikesToPlay = false,
                 Breed = "NewDogBreed",
                 Weight = 9,
-                OwnerDogUserName = "testOwner"
+                OwnerUserName = "testOwner"
             };
 
             var command = new UpdateDogByIdCommand(dogId, updatedName);
@@ -99,7 +99,7 @@ namespace Test.Dogs.CommandTests
                     LikesToPlay = true,
                     Breed = "Labrador",
                     Weight = 9,
-                    OwnerDogUserName = "testOwner"
+                    OwnerUserName = "testOwner"
                 }
             };
             SetupMockDbContext(dogsList);
@@ -110,7 +110,7 @@ namespace Test.Dogs.CommandTests
                 LikesToPlay = false,
                 Breed = "NewDogBreed",
                 Weight = 10,
-                OwnerDogUserName = "testOwner"
+                OwnerUserName = "testOwner"
             };
 
             var command = new UpdateDogByIdCommand(invalidDogId, updatedName);

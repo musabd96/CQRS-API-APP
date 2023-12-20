@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories.Cats
                     if (userCat != null)
                     {
                         var user = _dbContext.Users.FirstOrDefault(u => u.Id == userCat.UserId);
-                        cat.OwnerCatUserName = user!.Username;
+                        cat.OwnerUserName = user!.Username;
                     }
                 }
 
@@ -50,7 +50,7 @@ namespace Infrastructure.Repositories.Cats
                 if (userCat != null)
                 {
                     var user = _dbContext.Users.FirstOrDefault(u => u.Id == userCat.UserId);
-                    wantedCat.OwnerCatUserName = user!.Username;
+                    wantedCat.OwnerUserName = user!.Username;
                 }
                 return Task.FromResult(wantedCat);
             }
@@ -77,7 +77,7 @@ namespace Infrastructure.Repositories.Cats
                     if (userCat != null)
                     {
                         var user = _dbContext.Users.FirstOrDefault(u => u.Id == userCat.UserId);
-                        cat.OwnerCatUserName = user!.Username;
+                        cat.OwnerUserName = user!.Username;
                     }
                 }
                 return Task.FromResult(filteredCats);
@@ -94,13 +94,13 @@ namespace Infrastructure.Repositories.Cats
             try
             {
                 var user = _dbContext.Users
-                    .FirstOrDefault(u => u.Username == newcat.OwnerCatUserName);
+                    .FirstOrDefault(u => u.Username == newcat.OwnerUserName);
 
                 if (user == null)
                 {
                     // Handle the case where the user is not found
-                    _logger.LogError($"Username {newcat.OwnerCatUserName} not found");
-                    throw new Exception($"Username {newcat.OwnerCatUserName} not found");
+                    _logger.LogError($"Username {newcat.OwnerUserName} not found");
+                    throw new Exception($"Username {newcat.OwnerUserName} not found");
                 }
 
                 newcat.UserCat = new List<UserCat>
@@ -130,10 +130,10 @@ namespace Infrastructure.Repositories.Cats
                 catToUpdate.LikesToPlay = likesToPlay;
                 catToUpdate.Breed = breed;
                 catToUpdate.Weight = weight;
-                catToUpdate.OwnerCatUserName = OwnerCatUserName;
+                catToUpdate.OwnerUserName = OwnerCatUserName;
 
                 var user = _dbContext.Users
-                    .FirstOrDefault(u => u.Username == catToUpdate.OwnerCatUserName);
+                    .FirstOrDefault(u => u.Username == catToUpdate.OwnerUserName);
                 if (user != null)
                 {
                     catToUpdate.UserCat = new List<UserCat>

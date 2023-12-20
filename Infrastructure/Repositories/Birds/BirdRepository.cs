@@ -30,7 +30,7 @@ namespace Infrastructure.Repositories.Birds
                     if (userBird != null)
                     {
                         var user = _dbContext.Users.FirstOrDefault(u => u.Id == userBird.UserId);
-                        bird.OwnerBirdUserName = user!.Username;
+                        bird.OwnerUserName = user!.Username;
                     }
                 }
 
@@ -53,7 +53,7 @@ namespace Infrastructure.Repositories.Birds
                 if (userBird != null)
                 {
                     var user = _dbContext.Users.FirstOrDefault(u => u.Id == userBird.UserId);
-                    wantedBird.OwnerBirdUserName = user!.Username;
+                    wantedBird.OwnerUserName = user!.Username;
                 }
                 return Task.FromResult(wantedBird);
             }
@@ -78,7 +78,7 @@ namespace Infrastructure.Repositories.Birds
                     if (userBird != null)
                     {
                         var user = _dbContext.Users.FirstOrDefault(u => u.Id == userBird.UserId);
-                        bird.OwnerBirdUserName = user!.Username;
+                        bird.OwnerUserName = user!.Username;
                     }
                 }
                 return Task.FromResult(filteredCirds);
@@ -95,13 +95,13 @@ namespace Infrastructure.Repositories.Birds
             try
             {
                 var user = _dbContext.Users
-                    .FirstOrDefault(u => u.Username == newbird.OwnerBirdUserName);
+                    .FirstOrDefault(u => u.Username == newbird.OwnerUserName);
 
                 if (user == null)
                 {
                     // Handle the case where the user is not found
-                    _logger.LogError($"Username {newbird.OwnerBirdUserName} not found");
-                    throw new Exception($"Username {newbird.OwnerBirdUserName} not found");
+                    _logger.LogError($"Username {newbird.OwnerUserName} not found");
+                    throw new Exception($"Username {newbird.OwnerUserName} not found");
                 }
 
                 newbird.UserBird = new List<UserBird>
@@ -131,10 +131,10 @@ namespace Infrastructure.Repositories.Birds
                 birdToUpdate.Name = newName;
                 birdToUpdate.Color = color;
                 birdToUpdate.LikesToPlay = likesToPlay;
-                birdToUpdate.OwnerBirdUserName = OwnerBirdUserName;
+                birdToUpdate.OwnerUserName = OwnerBirdUserName;
 
                 var user = _dbContext.Users
-                    .FirstOrDefault(u => u.Username == birdToUpdate.OwnerBirdUserName);
+                    .FirstOrDefault(u => u.Username == birdToUpdate.OwnerUserName);
                 if (user != null)
                 {
                     birdToUpdate.UserBird = new List<UserBird>
