@@ -1,11 +1,17 @@
-﻿using Application.Commands.Users.Register;
+﻿using Application.Commands.Birds.AddBird;
+using Application.Commands.Users.AddAnimal;
+using Application.Commands.Users.Register;
+using Application.Dtos.AnimalDto;
+using Application.Dtos.Animals;
 using Application.Dtos.Users;
 using Application.Dtos.Validation;
 using Application.Exceptions.Authorize;
 using Application.Queries.Birds.GetAll;
 using Application.Queries.Users.GetAll;
 using Application.Queries.Users.Login;
+using Application.Validators.Bird;
 using Application.Validators.User;
+using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -76,8 +82,8 @@ namespace API.Controllers.AuthController
 
         // Get all animals from database by user authorize
         [HttpGet]
-        [Route("getAllBirds"), Authorize]
-        public async Task<IActionResult> GetAllBirds()
+        [Route("getAllAnimals"), Authorize]
+        public async Task<IActionResult> GetAllAnimals()
         {
             // Get the username of the authenticated user
             string username = HttpContext.User.Identity.Name;
@@ -85,6 +91,17 @@ namespace API.Controllers.AuthController
             return Ok(await _mediator.Send(new GetAllAnimalsQuery(username)));
         }
 
+
+        // Create a new animal 
+        [HttpPost]
+        [Route("addNewAnimal"), Authorize]
+        public async Task<IActionResult> AddAnimal([FromBody] AnimalDto newAnimal)
+        {
+            // Get the username of the authenticated user
+            string username = HttpContext.User.Identity.Name;
+
+            return Ok(await _mediator.Send(new AddAnimalsCommand(username, newAnimal)));
+        }
 
 
     }
