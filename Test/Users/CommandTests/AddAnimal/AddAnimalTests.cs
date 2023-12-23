@@ -29,8 +29,6 @@ namespace Test.Users.CommandTests.AddAnimal
                 .ReturnsAsync(newAnimal);
         }
 
-
-
         [Test]
         public async Task Handle_ValidCommand_AddAnimal()
         {

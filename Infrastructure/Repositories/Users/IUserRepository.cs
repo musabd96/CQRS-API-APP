@@ -14,5 +14,6 @@ namespace Infrastructure.Repositories.Users
                                              bool likesToPlay, string breed,
                                              int weight, string color,
                                              CancellationToken cancellationToken);
+        Task<AnimalModel> DeleteAnimal(Guid id, string userName, CancellationToken cancellationToken);
     }
 }
