@@ -82,6 +82,51 @@ namespace Infrastructure.Repositories.Users
             }
         }
 
+        public Task<AnimalModel> GetAnimalById(Guid id, string username, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var user = _dbContext.Users
+                    .FirstOrDefault(u => u.Username == username);
+
+                UserBird bird = _dbContext.UserBird.FirstOrDefault(b => b.BirdId == id)!;
+                UserCat cat = _dbContext.UserCat.FirstOrDefault(c => c.CatId == id)!;
+                UserDog dog = _dbContext.UserDog.FirstOrDefault(d => d.DogId == id)!;
+
+                if (bird != null)
+                {
+                    Bird userBird = _dbContext.Birds.FirstOrDefault(b => b.Id == id)!;
+                    userBird.OwnerUserName = username;
+
+                    return Task.FromResult<AnimalModel>(userBird);
+                }
+                else if (cat != null)
+                {
+                    Cat userCat = _dbContext.Cats.FirstOrDefault(c => c.Id == id)!;
+                    userCat.OwnerUserName = username;
+
+                    return Task.FromResult<AnimalModel>(userCat);
+                }
+                else if (dog != null)
+                {
+                    Dog userDog = _dbContext.Dogs.FirstOrDefault(d => d.Id == id)!;
+                    userDog.OwnerUserName = username;
+
+                    return Task.FromResult<AnimalModel>(userDog);
+                }
+                else
+                {
+                    throw new Exception($"This animal ID {id} is not your pet");
+                }
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError("An error occurred while getting all animals from the database");
+                throw new Exception("An error occurred while getting all animals from the database", ex);
+            }
+        }
+
+
         public Task<List<AnimalModel>> AddAnimal(string username, AnimalModel newAnimal, CancellationToken cancellationToken)
         {
             try

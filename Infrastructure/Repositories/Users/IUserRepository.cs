@@ -9,6 +9,7 @@ namespace Infrastructure.Repositories.Users
         Task<List<User>> GetAllUsers();
         Task<User> RegisterUser(User userToRegister);
         Task<List<AnimalModel>> GetAllAnimals(string username, CancellationToken cancellationToken);
+        Task<AnimalModel> GetAnimalById(Guid id, string username, CancellationToken cancellationToken);
         Task<List<AnimalModel>> AddAnimal(string username, AnimalModel newAnimal, CancellationToken cancellationToken);
         Task<AnimalModel> UpdateAnimal(string userName, Guid id, string newName,
                                              bool likesToPlay, string breed,

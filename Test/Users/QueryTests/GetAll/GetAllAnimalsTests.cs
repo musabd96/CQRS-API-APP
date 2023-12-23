@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Moq;
+﻿using Moq;
 using Domain.Models.Animal;
 using Infrastructure.Repositories.Users;
 using Application.Queries.Users.GetAll;
