@@ -1,6 +1,4 @@
-﻿
-using Application.Dtos.AnimalDto;
-using Application.Dtos.Animals;
+﻿using Application.Dtos.Animals;
 using Domain.Models.Animal;
 using MediatR;
 

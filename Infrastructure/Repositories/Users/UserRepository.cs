@@ -3,7 +3,6 @@ using Domain.Models;
 using Domain.Models.Animal;
 using Infrastructure.Database;
 using System.Drawing;
-using System.Security.Principal;
 
 namespace Infrastructure.Repositories.Users
 {
@@ -174,6 +173,97 @@ namespace Infrastructure.Repositories.Users
                 throw new Exception("An error occurred while getting all animals from the database", ex);
             }
 
+        }
+
+
+        public Task<AnimalModel> UpdateAnimal(string userName, Guid id, string newName, bool likesToPlay, string breed, int weight, string color, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var user = _dbContext.Users
+                    .FirstOrDefault(u => u.Username == userName);
+
+                UserBird birdToUpdate = _dbContext.UserBird.FirstOrDefault(b => b.BirdId == id)!;
+                UserCat catToUpdate = _dbContext.UserCat.FirstOrDefault(c => c.CatId == id)!;
+                UserDog dogToUpdate = _dbContext.UserDog.FirstOrDefault(d => d.DogId == id)!;
+
+                if (birdToUpdate != null)
+                {
+                    Bird birdUpdate = _dbContext.Birds.FirstOrDefault(b => b.Id == id)!;
+
+                    birdUpdate.Name = newName;
+                    birdUpdate.Color = color;
+                    birdUpdate.LikesToPlay = likesToPlay;
+                    birdUpdate.OwnerUserName = userName;
+
+
+                    AnimalModel updatedAnimal = new AnimalModel()
+                    {
+                        Id = id,
+                        Name = newName,
+                        LikesToPlay = likesToPlay,
+                        Color = color,
+                    };
+
+                    _dbContext.SaveChangesAsync(cancellationToken);
+
+                    return Task.FromResult(updatedAnimal);
+                }
+                else if (catToUpdate != null)
+                {
+                    Cat catUpdate = _dbContext.Cats.FirstOrDefault(c => c.Id == id)!;
+
+                    catUpdate.Name = newName;
+                    catUpdate.Weight = weight;
+                    catUpdate.Breed = breed;
+                    catUpdate.LikesToPlay = likesToPlay;
+                    catUpdate.OwnerUserName = userName;
+
+                    AnimalModel updatedAnimal = new AnimalModel()
+                    {
+                        Id = id,
+                        Name = newName,
+                        LikesToPlay = likesToPlay,
+                        Breed = breed,
+                        Weight = weight,
+                    };
+                    _dbContext.SaveChangesAsync(cancellationToken);
+
+                    return Task.FromResult(updatedAnimal);
+                }
+                else if (dogToUpdate != null)
+                {
+                    Dog dogUpdate = _dbContext.Dogs.FirstOrDefault(d => d.Id == id)!;
+
+                    dogUpdate.Name = newName;
+                    dogUpdate.Weight = weight;
+                    dogUpdate.Breed = breed;
+                    dogUpdate.LikesToPlay = likesToPlay;
+                    dogUpdate.OwnerUserName = userName;
+
+                    AnimalModel updatedAnimal = new AnimalModel()
+                    {
+                        Id = id,
+                        Name = newName,
+                        LikesToPlay = likesToPlay,
+                        Breed = breed,
+                        Weight = weight,
+                    };
+                    _dbContext.SaveChangesAsync(cancellationToken);
+
+                    return Task.FromResult(updatedAnimal);
+                }
+                else
+                {
+                    throw new Exception($"This animal ID {id} is not your pet");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while deleting a animal with ID {id} from the database", ex);
+            }
         }
     }
 }

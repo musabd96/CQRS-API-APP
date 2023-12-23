@@ -43,7 +43,6 @@ namespace Test.Users.CommandTests.AddAnimal
                 username,
                 new AnimalDto
                 {
-                    Id = Guid.NewGuid(),
                     Name = "Buddy",
                     TypeOfAnimal = "Dog",
                     LikesToPlay = true,
