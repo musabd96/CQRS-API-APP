@@ -7,6 +7,7 @@ using Application.Dtos.Users;
 using Application.Dtos.Validation;
 using Application.Exceptions.Authorize;
 using Application.Queries.Users.GetAll;
+using Application.Queries.Users.GetById;
 using Application.Queries.Users.Login;
 using Application.Validators.User;
 using MediatR;
@@ -86,6 +87,18 @@ namespace API.Controllers.AuthController
             string username = HttpContext.User.Identity!.Name!;
 
             return Ok(await _mediator.Send(new GetAllAnimalsQuery(username)));
+        }
+
+        // Get animals from database by animalId and user authorize
+        [HttpGet]
+        [Route("getAnimalById/{animalId}")/*, Authorize*/]
+        public async Task<IActionResult> GetAnimalById(Guid animalId)
+        {
+            // Get the username of the authenticated user
+            //string username = HttpContext.User.Identity!.Name!;
+            string username = "musse";
+
+            return Ok(await _mediator.Send(new GetAnimalByIdQuery(animalId, username)));
         }
 
 
