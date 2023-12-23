@@ -1,4 +1,5 @@
 ﻿using Application.Commands.Users.AddAnimal;
+using Application.Commands.Users.DeketeAnimal;
 using Application.Commands.Users.Register;
 using Application.Commands.Users.UpdateAnimal;
 using Application.Dtos.Animals;
@@ -82,7 +83,7 @@ namespace API.Controllers.AuthController
         public async Task<IActionResult> GetAllAnimals()
         {
             // Get the username of the authenticated user
-            string username = HttpContext.User.Identity.Name;
+            string username = HttpContext.User.Identity!.Name!;
 
             return Ok(await _mediator.Send(new GetAllAnimalsQuery(username)));
         }
@@ -94,7 +95,7 @@ namespace API.Controllers.AuthController
         public async Task<IActionResult> AddAnimal([FromBody] AnimalDto newAnimal)
         {
             // Get the username of the authenticated user
-            string username = HttpContext.User.Identity.Name;
+            string username = HttpContext.User.Identity!.Name!;
 
             return Ok(await _mediator.Send(new AddAnimalsCommand(username, newAnimal)));
         }
@@ -102,14 +103,25 @@ namespace API.Controllers.AuthController
         // Update a specific user's pet
         [HttpPut]
         [Route("updateAnimal/{updateAnimalId}"), Authorize]
-        public async Task<IActionResult> UpdateCat([FromBody] AnimalDto updatedAimal, Guid updateAnimalId)
+        public async Task<IActionResult> UpdateAnimal([FromBody] AnimalDto updatedAimal, Guid updateAnimalId)
         {
             // Get the username of the authenticated user
-            string username = HttpContext.User.Identity.Name;
+            string username = HttpContext.User.Identity!.Name!;
 
             return Ok(await _mediator.Send(new UpdateAnimalsCommand(updateAnimalId, updatedAimal, username)));
 
         }
 
+        // Delete a specific user's pet. Pet will be without owner
+        [HttpDelete]
+        [Route("deleteAnimalById/{animalId}"), Authorize]
+        public async Task<IActionResult> DeleteAnimal(Guid animalId)
+        {
+            // Get the username of the authenticated user
+            string username = HttpContext.User.Identity!.Name!;
+
+            return Ok(await _mediator.Send(new DeleteAnimalsCommand(animalId, username)));
+
+        }
     }
 }

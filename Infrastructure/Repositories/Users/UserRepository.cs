@@ -1,8 +1,6 @@
-﻿using Azure.Core;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.Models.Animal;
 using Infrastructure.Database;
-using System.Drawing;
 
 namespace Infrastructure.Repositories.Users
 {
@@ -265,5 +263,66 @@ namespace Infrastructure.Repositories.Users
                 throw new Exception($"An error occurred while deleting a animal with ID {id} from the database", ex);
             }
         }
+
+        public Task<AnimalModel> DeleteAnimal(Guid id, string userName, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var user = _dbContext.Users
+                    .FirstOrDefault(u => u.Username == userName);
+
+                UserBird birdToDelete = _dbContext.UserBird.FirstOrDefault(b => b.BirdId == id)!;
+                UserCat catToDelete = _dbContext.UserCat.FirstOrDefault(c => c.CatId == id)!;
+                UserDog dogToDelete = _dbContext.UserDog.FirstOrDefault(d => d.DogId == id)!;
+
+                if (birdToDelete != null)
+                {
+                    _dbContext.UserBird.Remove(birdToDelete);
+
+
+                    _dbContext.SaveChangesAsync(cancellationToken);
+
+                    return Task.FromResult(new AnimalModel()
+                    {
+                        Id = id,
+                    });
+                }
+                else if (catToDelete != null)
+                {
+                    _dbContext.UserCat.Remove(catToDelete);
+
+                    AnimalModel deleteAnimal = new AnimalModel()
+                    {
+                        Id = id,
+                    };
+
+                    _dbContext.SaveChangesAsync(cancellationToken);
+
+                    return Task.FromResult(deleteAnimal);
+                }
+                else if (dogToDelete != null)
+                {
+                    _dbContext.UserDog.Remove(dogToDelete);
+
+                    AnimalModel deleteAnimal = new AnimalModel()
+                    {
+                        Id = id,
+                    };
+
+                    _dbContext.SaveChangesAsync(cancellationToken);
+
+                    return Task.FromResult(deleteAnimal);
+                }
+                else
+                {
+                    throw new Exception($"This animal ID {id} is not your pet");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while deleting an animal with ID {id} from the database", ex);
+            }
+        }
+
     }
 }
