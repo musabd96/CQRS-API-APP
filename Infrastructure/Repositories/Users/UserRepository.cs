@@ -145,6 +145,7 @@ namespace Infrastructure.Repositories.Users
                         Name = newAnimal.Name,
                         TypeOfAnimal = newAnimal.TypeOfAnimal,
                         LikesToPlay = newAnimal.LikesToPlay,
+                        animalCanDo = newAnimal.animalCanDo,
                         Breed = newAnimal.Breed,
                         Weight = newAnimal.Weight,
                         Color = newAnimal.Color
@@ -167,6 +168,7 @@ namespace Infrastructure.Repositories.Users
                         Name = newAnimal.Name,
                         TypeOfAnimal = newAnimal.TypeOfAnimal,
                         LikesToPlay = newAnimal.LikesToPlay,
+                        animalCanDo = newAnimal.animalCanDo,
                         Breed = newAnimal.Breed,
                         Weight = newAnimal.Weight,
                         Color = newAnimal.Color
@@ -189,6 +191,7 @@ namespace Infrastructure.Repositories.Users
                         Name = newAnimal.Name,
                         TypeOfAnimal = newAnimal.TypeOfAnimal,
                         LikesToPlay = newAnimal.LikesToPlay,
+                        animalCanDo = newAnimal.animalCanDo,
                         Breed = newAnimal.Breed,
                         Weight = newAnimal.Weight,
                         Color = newAnimal.Color

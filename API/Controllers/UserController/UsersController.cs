@@ -91,12 +91,11 @@ namespace API.Controllers.AuthController
 
         // Get animals from database by animalId and user authorize
         [HttpGet]
-        [Route("getAnimalById/{animalId}")/*, Authorize*/]
+        [Route("getAnimalById/{animalId}"), Authorize]
         public async Task<IActionResult> GetAnimalById(Guid animalId)
         {
             // Get the username of the authenticated user
-            //string username = HttpContext.User.Identity!.Name!;
-            string username = "musse";
+            string username = HttpContext.User.Identity!.Name!;
 
             return Ok(await _mediator.Send(new GetAnimalByIdQuery(animalId, username)));
         }
