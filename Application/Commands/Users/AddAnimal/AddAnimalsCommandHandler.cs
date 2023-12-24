@@ -23,6 +23,7 @@ namespace Application.Commands.Users.AddAnimal
                 Name = request.newAnimal.Name,
                 TypeOfAnimal = request.newAnimal.TypeOfAnimal,
                 LikesToPlay = request.newAnimal.LikesToPlay,
+                animalCanDo = request.newAnimal.animalCanDo,
                 Breed = request.newAnimal.Breed,
                 Weight = request.newAnimal.Weight,
                 Color = request.newAnimal.Color
