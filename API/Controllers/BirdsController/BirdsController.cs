@@ -41,11 +41,11 @@ namespace API.Controllers.BirdsController
         [Route("getBirdById/{birdId}"), AllowAnonymous]
         public async Task<IActionResult> GetBirdById(Guid birdId)
         {
-            var validatGuid = _guidValidator.Validate(birdId);
+            var validat = _guidValidator.Validate(birdId);
 
-            if (!validatGuid.IsValid)
+            if (!validat.IsValid)
             {
-                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+                return BadRequest(validat.Errors.Select(error => error.ErrorMessage));
             }
             else
             {
@@ -80,10 +80,10 @@ namespace API.Controllers.BirdsController
         [Route("addNewBird")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> AddBird([FromBody] BirdDto newBird)
         {
-            var validatGuid = _birdValidator.Validate(newBird);
-            if (!validatGuid.IsValid)
+            var validat = _birdValidator.Validate(newBird);
+            if (!validat.IsValid)
             {
-                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+                return BadRequest(validat.Errors.Select(error => error.ErrorMessage));
             }
             else
             {
@@ -97,10 +97,10 @@ namespace API.Controllers.BirdsController
         [Route("updateBird/{updatedBirdId}")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> UpdateCat([FromBody] BirdDto updatedBird, Guid updatedBirdId)
         {
-            var validatGuid = _birdValidator.Validate(updatedBird);
-            if (!validatGuid.IsValid)
+            var validat = _birdValidator.Validate(updatedBird);
+            if (!validat.IsValid)
             {
-                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+                return BadRequest(validat.Errors.Select(error => error.ErrorMessage));
             }
             else
             {
@@ -114,10 +114,10 @@ namespace API.Controllers.BirdsController
         [Route("deleteBirdById/{birdId}")/*, Authorize(Roles = "Admin")*/]
         public async Task<IActionResult> DeleteBirdById(Guid birdId)
         {
-            var validatGuid = _guidValidator.Validate(birdId);
-            if (!validatGuid.IsValid)
+            var validat = _guidValidator.Validate(birdId);
+            if (!validat.IsValid)
             {
-                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+                return BadRequest(validat.Errors.Select(error => error.ErrorMessage));
             }
             else
             {
