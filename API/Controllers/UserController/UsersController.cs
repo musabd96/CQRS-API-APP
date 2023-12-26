@@ -9,6 +9,7 @@ using Application.Exceptions.Authorize;
 using Application.Queries.Users.GetAll;
 using Application.Queries.Users.GetById;
 using Application.Queries.Users.Login;
+using Application.Validators;
 using Application.Validators.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,11 +23,13 @@ namespace API.Controllers.AuthController
     {
         internal readonly IMediator _mediator;
         internal readonly UserValidator _userValidator;
+        internal readonly GuidValidator _guidValidator;
 
-        public UsersController(IMediator mediator, UserValidator userValidator)
+        public UsersController(IMediator mediator, UserValidator userValidator, GuidValidator validationRules)
         {
             _mediator = mediator;
             _userValidator = userValidator;
+            _guidValidator = validationRules;
         }
 
         [HttpPost("register")]
@@ -117,11 +120,19 @@ namespace API.Controllers.AuthController
         [Route("updateAnimal/{updateAnimalId}"), Authorize]
         public async Task<IActionResult> UpdateAnimal([FromBody] AnimalDto updatedAimal, Guid updateAnimalId)
         {
-            // Get the username of the authenticated user
-            string username = HttpContext.User.Identity!.Name!;
+            var validatGuid = _guidValidator.Validate(updateAnimalId);
 
-            return Ok(await _mediator.Send(new UpdateAnimalsCommand(updateAnimalId, updatedAimal, username)));
+            if (!validatGuid.IsValid)
+            {
+                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+            }
+            else
+            {
+                // Get the username of the authenticated user
+                string username = HttpContext.User.Identity!.Name!;
 
+                return Ok(await _mediator.Send(new UpdateAnimalsCommand(updateAnimalId, updatedAimal, username)));
+            }
         }
 
         // Delete a specific user's pet. Pet will be without owner
@@ -129,11 +140,19 @@ namespace API.Controllers.AuthController
         [Route("deleteAnimalById/{animalId}"), Authorize]
         public async Task<IActionResult> DeleteAnimal(Guid animalId)
         {
-            // Get the username of the authenticated user
-            string username = HttpContext.User.Identity!.Name!;
+            var validatGuid = _guidValidator.Validate(animalId);
 
-            return Ok(await _mediator.Send(new DeleteAnimalsCommand(animalId, username)));
+            if (!validatGuid.IsValid)
+            {
+                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+            }
+            else
+            {
+                // Get the username of the authenticated user
+                string username = HttpContext.User.Identity!.Name!;
 
+                return Ok(await _mediator.Send(new DeleteAnimalsCommand(animalId, username)));
+            }
         }
     }
 }
