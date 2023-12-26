@@ -1,4 +1,5 @@
-﻿using Application.Commands.Users.AddAnimal;
+﻿using Application.Commands.Birds.DeleteBird;
+using Application.Commands.Users.AddAnimal;
 using Application.Commands.Users.DeketeAnimal;
 using Application.Commands.Users.Register;
 using Application.Commands.Users.UpdateAnimal;
@@ -11,6 +12,7 @@ using Application.Queries.Users.GetById;
 using Application.Queries.Users.Login;
 using Application.Validators;
 using Application.Validators.User;
+using Domain.Models.Animal;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,13 +25,21 @@ namespace API.Controllers.AuthController
     {
         internal readonly IMediator _mediator;
         internal readonly UserValidator _userValidator;
+        internal readonly AnimalValidator _animalValidation;
         internal readonly GuidValidator _guidValidator;
+        internal readonly UnAuthorizedException _unAuthorizedException;
 
-        public UsersController(IMediator mediator, UserValidator userValidator, GuidValidator validationRules)
+        public UsersController(IMediator mediator,
+                               UserValidator userValidator,
+                               GuidValidator validationRules,
+                               AnimalValidator animalValidation,
+                               UnAuthorizedException unAuthorizedException)
         {
             _mediator = mediator;
             _userValidator = userValidator;
             _guidValidator = validationRules;
+            _animalValidation = animalValidation;
+            _unAuthorizedException = unAuthorizedException;
         }
 
         [HttpPost("register")]
@@ -83,48 +93,73 @@ namespace API.Controllers.AuthController
 
         // Get all animals from database by user authorize
         [HttpGet]
-        [Route("getAllAnimals"), Authorize]
+        [Route("getAllAnimals")]
+        [Authorize]
         public async Task<IActionResult> GetAllAnimals()
         {
             // Get the username of the authenticated user
             string username = HttpContext.User.Identity!.Name!;
 
             return Ok(await _mediator.Send(new GetAllAnimalsQuery(username)));
+
         }
+
+
 
         // Get animals from database by animalId and user authorize
         [HttpGet]
         [Route("getAnimalById/{animalId}"), Authorize]
         public async Task<IActionResult> GetAnimalById(Guid animalId)
         {
-            // Get the username of the authenticated user
-            string username = HttpContext.User.Identity!.Name!;
+            var validat = _guidValidator.Validate(animalId);
+            if (!validat.IsValid)
+            {
+                return BadRequest(validat.Errors.Select(error => error.ErrorMessage));
+            }
+            else
+            {
+                // Get the username of the authenticated user
+                string username = HttpContext.User.Identity!.Name!;
 
-            return Ok(await _mediator.Send(new GetAnimalByIdQuery(animalId, username)));
+                AnimalModel deleteBird = await _mediator.Send(new GetAnimalByIdQuery(animalId, username));
+                return Ok(deleteBird);
+            }
         }
 
 
         // Create a new animal 
         [HttpPost]
-        [Route("addNewAnimal"), Authorize]
+        [Route("addNewAnimal")]
+        [Authorize]
         public async Task<IActionResult> AddAnimal([FromBody] AnimalDto newAnimal)
         {
-            // Get the username of the authenticated user
-            string username = HttpContext.User.Identity!.Name!;
+            var validat = _animalValidation.Validate(newAnimal);
+            if (!validat.IsValid)
+            {
+                return BadRequest(validat.Errors.Select(error => error.ErrorMessage));
+            }
+            else
+            {
+                // Get the username of the authenticated user
+                string username = HttpContext.User.Identity!.Name!;
 
-            return Ok(await _mediator.Send(new AddAnimalsCommand(username, newAnimal)));
+                List<AnimalModel> newAnimals = await _mediator.Send(new AddAnimalsCommand(username, newAnimal));
+                return Ok(newAnimals);
+            }
         }
+
+
 
         // Update a specific user's pet
         [HttpPut]
         [Route("updateAnimal/{updateAnimalId}"), Authorize]
         public async Task<IActionResult> UpdateAnimal([FromBody] AnimalDto updatedAimal, Guid updateAnimalId)
         {
-            var validatGuid = _guidValidator.Validate(updateAnimalId);
+            var validat = _animalValidation.Validate(updatedAimal);
 
-            if (!validatGuid.IsValid)
+            if (!validat.IsValid)
             {
-                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+                return BadRequest(validat.Errors.Select(error => error.ErrorMessage));
             }
             else
             {
@@ -140,11 +175,11 @@ namespace API.Controllers.AuthController
         [Route("deleteAnimalById/{animalId}"), Authorize]
         public async Task<IActionResult> DeleteAnimal(Guid animalId)
         {
-            var validatGuid = _guidValidator.Validate(animalId);
+            var validat = _guidValidator.Validate(animalId);
 
-            if (!validatGuid.IsValid)
+            if (!validat.IsValid)
             {
-                return BadRequest(validatGuid.Errors.Select(error => error.ErrorMessage));
+                return BadRequest(validat.Errors.Select(error => error.ErrorMessage));
             }
             else
             {
