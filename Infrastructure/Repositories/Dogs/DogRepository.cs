@@ -110,6 +110,9 @@ namespace Infrastructure.Repositories.Dogs
                     new UserDog { UserId = user.Id , DogId = newdog.Id},
                 };
 
+                newdog.TypeOfAnimal = "Dog";
+                newdog.animalCanDo = "This animal can bark";
+
                 _dbContext.Dogs.Add(newdog);
                 _dbContext.SaveChangesAsync(cancellationToken);
 

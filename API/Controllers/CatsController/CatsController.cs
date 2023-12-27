@@ -79,7 +79,7 @@ namespace API.Controllers.CatsController
 
         // Create a new cat 
         [HttpPost]
-        [Route("addNewCat")/*, Authorize(Roles = "Admin")*/]
+        [Route("addNewCat"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddCat([FromBody] CatDto newCat)
         {
             var validatGuid = _catValidator.Validate(newCat);
@@ -96,7 +96,7 @@ namespace API.Controllers.CatsController
 
         // Update a specific cat
         [HttpPut]
-        [Route("updateCat/{updatedCatId}")/*, Authorize(Roles = "Admin")*/]
+        [Route("updateCat/{updatedCatId}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCat([FromBody] CatDto updatedCat, Guid updatedCatId)
         {
             var validatGuid = _catValidator.Validate(updatedCat);
@@ -113,7 +113,7 @@ namespace API.Controllers.CatsController
 
         // Delete a cat by Id
         [HttpDelete]
-        [Route("deleteCatById/{catId}")/*, Authorize(Roles = "Admin")*/]
+        [Route("deleteCatById/{catId}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCatById(Guid catId)
         {
             var validatGuid = _guidValidator.Validate(catId);

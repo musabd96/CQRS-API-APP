@@ -77,7 +77,7 @@ namespace API.Controllers.DogsController
 
         // Create a new dog 
         [HttpPost]
-        [Route("addNewDog")/*, Authorize(Roles = "Admin")*/]
+        [Route("addNewDog"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddDog([FromBody] DogDto newDog)
         {
             var validatGuid = _dogValidator.Validate(newDog);
@@ -94,7 +94,7 @@ namespace API.Controllers.DogsController
 
         // Update a specific dog
         [HttpPut]
-        [Route("updateDog/{updatedDogId}")/*, Authorize(Roles = "Admin")*/]
+        [Route("updateDog/{updatedDogId}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateDog([FromBody] DogDto updatedDog, Guid updatedDogId)
         {
             var validatGuid = _dogValidator.Validate(updatedDog);
@@ -111,7 +111,7 @@ namespace API.Controllers.DogsController
 
         // Delete a dog by Id
         [HttpDelete]
-        [Route("deleteDogById/{dogId}")/*, Authorize(Roles = "Admin")*/]
+        [Route("deleteDogById/{dogId}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDogById(Guid dogId)
         {
             var validatGuid = _guidValidator.Validate(dogId);

@@ -77,7 +77,7 @@ namespace API.Controllers.BirdsController
 
         // Create a new bird 
         [HttpPost]
-        [Route("addNewBird")/*, Authorize(Roles = "Admin")*/]
+        [Route("addNewBird"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddBird([FromBody] BirdDto newBird)
         {
             var validat = _birdValidator.Validate(newBird);
@@ -94,7 +94,7 @@ namespace API.Controllers.BirdsController
 
         // Update a specific bird
         [HttpPut]
-        [Route("updateBird/{updatedBirdId}")/*, Authorize(Roles = "Admin")*/]
+        [Route("updateBird/{updatedBirdId}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCat([FromBody] BirdDto updatedBird, Guid updatedBirdId)
         {
             var validat = _birdValidator.Validate(updatedBird);
@@ -111,7 +111,7 @@ namespace API.Controllers.BirdsController
 
         // Delete a bird by Id
         [HttpDelete]
-        [Route("deleteBirdById/{birdId}")/*, Authorize(Roles = "Admin")*/]
+        [Route("deleteBirdById/{birdId}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteBirdById(Guid birdId)
         {
             var validat = _guidValidator.Validate(birdId);

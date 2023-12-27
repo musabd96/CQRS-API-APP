@@ -109,6 +109,9 @@ namespace Infrastructure.Repositories.Birds
                     new UserBird { UserId = user.Id , BirdId = newbird.Id},
                 };
 
+                newbird.TypeOfAnimal = "Bird";
+                newbird.animalCanDo = "This animal can fly";
+
                 _dbContext.Birds.Add(newbird);
                 _dbContext.SaveChangesAsync(cancellationToken);
 

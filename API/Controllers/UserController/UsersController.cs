@@ -27,19 +27,16 @@ namespace API.Controllers.AuthController
         internal readonly UserValidator _userValidator;
         internal readonly AnimalValidator _animalValidation;
         internal readonly GuidValidator _guidValidator;
-        internal readonly UnAuthorizedException _unAuthorizedException;
 
         public UsersController(IMediator mediator,
                                UserValidator userValidator,
                                GuidValidator validationRules,
-                               AnimalValidator animalValidation,
-                               UnAuthorizedException unAuthorizedException)
+                               AnimalValidator animalValidation)
         {
             _mediator = mediator;
             _userValidator = userValidator;
             _guidValidator = validationRules;
             _animalValidation = animalValidation;
-            _unAuthorizedException = unAuthorizedException;
         }
 
         [HttpPost("register")]
@@ -60,8 +57,6 @@ namespace API.Controllers.AuthController
             }
             catch (ArgumentException e)
             {
-                //// Log the error and return an error response
-                //_logger.LogError(e, "Error registering user");
                 return BadRequest(e.Message);
             }
         }

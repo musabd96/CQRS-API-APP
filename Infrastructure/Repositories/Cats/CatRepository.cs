@@ -108,6 +108,9 @@ namespace Infrastructure.Repositories.Cats
                     new UserCat { UserId = user.Id , CatId = newcat.Id},
                 };
 
+                newcat.TypeOfAnimal = "Cat";
+                newcat.animalCanDo = "This animal can meow";
+
                 _dbContext.Cats.Add(newcat);
                 _dbContext.SaveChangesAsync(cancellationToken);
 
