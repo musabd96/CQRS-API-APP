@@ -33,6 +33,10 @@ namespace Domain.Models
                 new Dog { Id = Guid.NewGuid(), Name = "Riley", TypeOfAnimal = "Dog", animalCanDo = "This animal can bark", LikesToPlay = true, Breed = "Golden Retriever", Weight = (int)30.5 }
             );
 
+            // Seed an admin user to Db.
+            modelBuilder.Entity<User>().HasData(
+                new User { Id = Guid.NewGuid(), Username = "admin", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123!") }
+                );
         }
     }
 }
