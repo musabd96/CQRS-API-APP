@@ -51,7 +51,7 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0abfd852-25f9-4bbb-84a3-8842e5ee0475"),
+                            Id = new Guid("54097f99-9f1e-4cf1-9426-28c17cea3d8d"),
                             Color = "Green",
                             LikesToPlay = true,
                             Name = "Kiwi",
@@ -60,7 +60,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("12223ef9-03b8-44d5-9801-5570fc79b5b4"),
+                            Id = new Guid("6b8d1acc-a1b3-4d02-beb3-ad3a56ef0ca3"),
                             Color = "Yellow",
                             LikesToPlay = true,
                             Name = "Sunshine",
@@ -69,7 +69,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0cd93c3f-66e5-4392-8980-cccc07dda003"),
+                            Id = new Guid("08791458-cc5b-4ac8-84ff-506522eabab0"),
                             Color = "Blue",
                             LikesToPlay = true,
                             Name = "Sky",
@@ -78,7 +78,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("94572362-3c86-4777-b990-514f0ff85135"),
+                            Id = new Guid("8bafca12-b72d-43c1-a3d3-50f2780352fa"),
                             Color = "Red",
                             LikesToPlay = true,
                             Name = "Cherry",
@@ -87,7 +87,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7f10ba7d-d81b-445d-a1e9-0b4d1ba63441"),
+                            Id = new Guid("5fd24364-3717-4ec3-9f29-4f978f92b1ea"),
                             Color = "White",
                             LikesToPlay = true,
                             Name = "Snowflake",
@@ -131,7 +131,7 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("afb9ffa5-dd75-4114-a237-5a8c4b36cd65"),
+                            Id = new Guid("598f503e-d116-4095-bbfb-fd9ed23ddc10"),
                             Breed = "Siamese",
                             LikesToPlay = true,
                             Name = "Whiskers",
@@ -141,7 +141,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("30f2d255-cedc-491f-b7e0-d48f3e36504f"),
+                            Id = new Guid("3c53d2f5-d8ea-4a87-83c0-c0dc467f914c"),
                             Breed = "Persian",
                             LikesToPlay = true,
                             Name = "Mittens",
@@ -151,7 +151,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2f55c8c0-7cc0-4d28-b666-fce48b2ec835"),
+                            Id = new Guid("dc606026-5ad3-49a7-b7cb-1e6c39cb8ba7"),
                             Breed = "Maine Coon",
                             LikesToPlay = true,
                             Name = "Shadow",
@@ -161,7 +161,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a0c15204-7700-4d23-816a-a0d8081ee01f"),
+                            Id = new Guid("76c94b8f-b193-4286-9fc9-7e805a127a57"),
                             Breed = "Ragdoll",
                             LikesToPlay = true,
                             Name = "Smokey",
@@ -171,7 +171,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d7b5f156-4159-4cba-a632-aedfe31980cd"),
+                            Id = new Guid("25e28904-58fc-4e75-a96a-30243ec0edf6"),
                             Breed = "Bengal",
                             LikesToPlay = true,
                             Name = "Tiger",
@@ -216,7 +216,7 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("40dc7260-e136-4f4c-980b-970057c3ab8e"),
+                            Id = new Guid("94327f69-ab69-4ff8-9e4b-e1ceeaffbe5b"),
                             Breed = "Labrador",
                             LikesToPlay = true,
                             Name = "Luna",
@@ -226,7 +226,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a4c56d9e-f867-4297-aae7-5d13eb4d404f"),
+                            Id = new Guid("fbef7972-936d-49e7-83a5-c4babfd88320"),
                             Breed = "Golden Retriever",
                             LikesToPlay = true,
                             Name = "Max",
@@ -236,7 +236,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0c3ce72e-dcad-4622-be37-211105d3787c"),
+                            Id = new Guid("edd86ee3-07c3-4604-83af-1bd5d8b298d7"),
                             Breed = "German Shepherd",
                             LikesToPlay = true,
                             Name = "Bella",
@@ -246,7 +246,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fa5429f9-f296-4170-aec1-4be61529b967"),
+                            Id = new Guid("c8cb8a74-1ebc-409f-b4e9-a9fc8be871b1"),
                             Breed = "Poodle",
                             LikesToPlay = true,
                             Name = "Rocky",
@@ -256,7 +256,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5e9ecac1-d1d4-4742-8fa0-d770cd866285"),
+                            Id = new Guid("9d191bfb-a6a8-4ad7-9439-bf16d806f81b"),
                             Breed = "Beagle",
                             LikesToPlay = true,
                             Name = "Daisy",
@@ -266,7 +266,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f851acbe-935c-4137-a020-7aea7b7a7539"),
+                            Id = new Guid("1dad1320-01bb-472a-a7da-d738bd6853ad"),
                             Breed = "Golden Retriever",
                             LikesToPlay = true,
                             Name = "Riley",
@@ -297,8 +297,8 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("33175bd8-2840-4d6e-aad6-7be16c28ebd3"),
-                            PasswordHash = "$2a$11$LdZPvw/kxCMauiYsjWi8r.WItTaSCtNjNn3CI7oBpCqvDhxpdav5m",
+                            Id = new Guid("852a120a-942e-4dd7-9cfb-36b0ae3dce54"),
+                            PasswordHash = "$2a$11$ZsrpBR751ruSt690a/M0j.1mNU.G9xPh/ideUXK.YAziDR3VUPjZC",
                             Username = "admin"
                         });
                 });

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class SeadAnimalUpdate : Migration
+    public partial class SeedDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -177,11 +177,11 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "Color", "LikesToPlay", "Name", "TypeOfAnimal", "animalCanDo" },
                 values: new object[,]
                 {
-                    { new Guid("24cc2a8d-4c11-4216-b6eb-8508a35d5262"), "White", true, "Snowflake", "Bird", "This animal can fly" },
-                    { new Guid("3bf8699a-cff9-4231-9cc6-a2669418a10c"), "Yellow", true, "Sunshine", "Bird", "This animal can fly" },
-                    { new Guid("755efddb-afec-48d8-8977-0494741aaa9e"), "Red", true, "Cherry", "Bird", "This animal can fly" },
-                    { new Guid("c7b66443-e962-4ffc-93e6-91995023b16f"), "Blue", true, "Sky", "Bird", "This animal can fly" },
-                    { new Guid("db156db9-9253-412a-bb8f-a2e44c3e2d7f"), "Green", true, "Kiwi", "Bird", "This animal can fly" }
+                    { new Guid("08791458-cc5b-4ac8-84ff-506522eabab0"), "Blue", true, "Sky", "Bird", "This animal can fly" },
+                    { new Guid("54097f99-9f1e-4cf1-9426-28c17cea3d8d"), "Green", true, "Kiwi", "Bird", "This animal can fly" },
+                    { new Guid("5fd24364-3717-4ec3-9f29-4f978f92b1ea"), "White", true, "Snowflake", "Bird", "This animal can fly" },
+                    { new Guid("6b8d1acc-a1b3-4d02-beb3-ad3a56ef0ca3"), "Yellow", true, "Sunshine", "Bird", "This animal can fly" },
+                    { new Guid("8bafca12-b72d-43c1-a3d3-50f2780352fa"), "Red", true, "Cherry", "Bird", "This animal can fly" }
                 });
 
             migrationBuilder.InsertData(
@@ -189,11 +189,11 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "Breed", "LikesToPlay", "Name", "TypeOfAnimal", "Weight", "animalCanDo" },
                 values: new object[,]
                 {
-                    { new Guid("13537654-700b-47ca-98d0-e31e22bf6bb6"), "Ragdoll", true, "Smokey", "Cat", 12, "This animal can meow" },
-                    { new Guid("7279e1c1-9dc9-4787-93d7-e2572f7811eb"), "Persian", true, "Mittens", "Cat", 10, "This animal can meow" },
-                    { new Guid("9d53e078-f54b-48a9-ad15-4dd456f56079"), "Bengal", true, "Tiger", "Cat", 11, "This animal can meow" },
-                    { new Guid("c197b233-3249-48eb-b016-74ba090ba989"), "Maine Coon", true, "Shadow", "Cat", 15, "This animal can meow" },
-                    { new Guid("c2acbc1b-7fdc-4e2e-92be-8a2a2336168e"), "Siamese", true, "Whiskers", "Cat", 8, "This animal can meow" }
+                    { new Guid("25e28904-58fc-4e75-a96a-30243ec0edf6"), "Bengal", true, "Tiger", "Cat", 11, "This animal can meow" },
+                    { new Guid("3c53d2f5-d8ea-4a87-83c0-c0dc467f914c"), "Persian", true, "Mittens", "Cat", 10, "This animal can meow" },
+                    { new Guid("598f503e-d116-4095-bbfb-fd9ed23ddc10"), "Siamese", true, "Whiskers", "Cat", 8, "This animal can meow" },
+                    { new Guid("76c94b8f-b193-4286-9fc9-7e805a127a57"), "Ragdoll", true, "Smokey", "Cat", 12, "This animal can meow" },
+                    { new Guid("dc606026-5ad3-49a7-b7cb-1e6c39cb8ba7"), "Maine Coon", true, "Shadow", "Cat", 15, "This animal can meow" }
                 });
 
             migrationBuilder.InsertData(
@@ -201,13 +201,18 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "Breed", "LikesToPlay", "Name", "TypeOfAnimal", "Weight", "animalCanDo" },
                 values: new object[,]
                 {
-                    { new Guid("4779a5c5-9ede-4d35-ae98-bf552a650d3b"), "Beagle", true, "Daisy", "Dog", 18, "This animal can bark" },
-                    { new Guid("4a843d7a-1eca-449c-8d7c-ba5f168ebf35"), "German Shepherd", true, "Bella", "Dog", 30, "This animal can bark" },
-                    { new Guid("a79ab4c5-a5e8-4404-87f9-bf3c15cce925"), "Golden Retriever", true, "Riley", "Dog", 30, "This animal can bark" },
-                    { new Guid("c48537b3-3aab-4503-bf67-1c197c076ac3"), "Labrador", true, "Luna", "Dog", 25, "This animal can bark" },
-                    { new Guid("cc756eca-7302-4ffa-9c5a-d354b9f76ca1"), "Golden Retriever", true, "Max", "Dog", 28, "This animal can bark" },
-                    { new Guid("e59de086-1975-4c19-9efe-f38c075bb74b"), "Poodle", true, "Rocky", "Dog", 15, "This animal can bark" }
+                    { new Guid("1dad1320-01bb-472a-a7da-d738bd6853ad"), "Golden Retriever", true, "Riley", "Dog", 30, "This animal can bark" },
+                    { new Guid("94327f69-ab69-4ff8-9e4b-e1ceeaffbe5b"), "Labrador", true, "Luna", "Dog", 25, "This animal can bark" },
+                    { new Guid("9d191bfb-a6a8-4ad7-9439-bf16d806f81b"), "Beagle", true, "Daisy", "Dog", 18, "This animal can bark" },
+                    { new Guid("c8cb8a74-1ebc-409f-b4e9-a9fc8be871b1"), "Poodle", true, "Rocky", "Dog", 15, "This animal can bark" },
+                    { new Guid("edd86ee3-07c3-4604-83af-1bd5d8b298d7"), "German Shepherd", true, "Bella", "Dog", 30, "This animal can bark" },
+                    { new Guid("fbef7972-936d-49e7-83a5-c4babfd88320"), "Golden Retriever", true, "Max", "Dog", 28, "This animal can bark" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "PasswordHash", "Username" },
+                values: new object[] { new Guid("852a120a-942e-4dd7-9cfb-36b0ae3dce54"), "$2a$11$ZsrpBR751ruSt690a/M0j.1mNU.G9xPh/ideUXK.YAziDR3VUPjZC", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserBird_UserId",
