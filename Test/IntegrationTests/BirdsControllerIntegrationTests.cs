@@ -1,19 +1,26 @@
 ﻿using Domain.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Test.IntegrationTests
 {
     public class BirdsControllerIntegrationTests : WebApplicationFactory<Program>
     {
-        private readonly WebApplicationFactory<Program> _factory;
-
-        public BirdsControllerIntegrationTests(WebApplicationFactory<Program> factory)
+        protected override IHostBuilder CreateHostBuilder()
         {
-            _factory = factory;
+            return base.CreateHostBuilder()
+                       .UseEnvironment("Testing") // Set the environment to "Testing" for integration tests
+                       .ConfigureAppConfiguration((context, config) =>
+                       {
+                           // Add any necessary test configurations
+                       });
         }
 
         [Fact]
@@ -38,12 +45,17 @@ namespace Test.IntegrationTests
 
             // Act
             var response = await client.GetAsync("/getAllBirds");
-            var content = await response.Content.ReadAsStringAsync();
-            var birds = JsonConvert.DeserializeObject<List<Bird>>(content);
 
             // Assert
             response.EnsureSuccessStatusCode();
-            Xunit.Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            // Read the response content
+            var content = await response.Content.ReadAsStringAsync();
+
+            // Deserialize the content to a list of Bird objects
+            var birds = JsonConvert.DeserializeObject<List<Bird>>(content);
+
+            // Assert
             Xunit.Assert.NotNull(birds);
         }
     }
