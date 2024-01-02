@@ -16,10 +16,10 @@ namespace Test.IntegrationTests
         protected override IHostBuilder CreateHostBuilder()
         {
             return base.CreateHostBuilder()
-                       .UseEnvironment("Testing") // Set the environment to "Testing" for integration tests
+                       .UseEnvironment("Testing") 
                        .ConfigureAppConfiguration((context, config) =>
                        {
-                           // Add any necessary test configurations
+                           
                        });
         }
 
