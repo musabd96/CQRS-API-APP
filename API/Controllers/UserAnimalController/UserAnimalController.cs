@@ -1,15 +1,10 @@
 ﻿using Application.Commands.Birds.DeleteBird;
 using Application.Commands.Users.AddAnimal;
 using Application.Commands.Users.DeketeAnimal;
-using Application.Commands.Users.Register;
 using Application.Commands.Users.UpdateAnimal;
 using Application.Dtos.Animals;
-using Application.Dtos.Users;
-using Application.Dtos.Validation;
-using Application.Exceptions.Authorize;
 using Application.Queries.Users.GetAll;
 using Application.Queries.Users.GetById;
-using Application.Queries.Users.Login;
 using Application.Validators;
 using Application.Validators.User;
 using Domain.Models.Animal;
@@ -21,69 +16,19 @@ namespace API.Controllers.AuthController
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserAnimalController : ControllerBase
     {
         internal readonly IMediator _mediator;
-        internal readonly UserValidator _userValidator;
         internal readonly AnimalValidator _animalValidation;
         internal readonly GuidValidator _guidValidator;
 
-        public UsersController(IMediator mediator,
-                               UserValidator userValidator,
+        public UserAnimalController(IMediator mediator,
                                GuidValidator validationRules,
                                AnimalValidator animalValidation)
         {
             _mediator = mediator;
-            _userValidator = userValidator;
             _guidValidator = validationRules;
             _animalValidation = animalValidation;
-        }
-
-        [HttpPost("register")]
-        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Errors), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody] UserDto userToRegister)
-        {
-            var inputValidation = _userValidator.Validate(userToRegister);
-
-            if (!inputValidation.IsValid)
-            {
-                return BadRequest(inputValidation.Errors.ConvertAll(errors => errors.ErrorMessage));
-            }
-
-            try
-            {
-                return Ok(await _mediator.Send(new RegisterUserCommand(userToRegister)));
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpPost("login")]
-        [ProducesResponseType(typeof(TokenDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Errors), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Login([FromBody] UserDto userToLogin)
-        {
-            var inputValidation = _userValidator.Validate(userToLogin);
-
-            if (!inputValidation.IsValid)
-            {
-                return BadRequest(inputValidation.Errors.ConvertAll(errors => errors.ErrorMessage));
-            }
-
-            try
-            {
-                string token = await _mediator.Send(new LoginUserQuery(userToLogin));
-
-                return Ok(new TokenDto { TokenValue = token });
-            }
-            catch (UnAuthorizedException ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
         // Get all animals from database by user authorize
@@ -98,8 +43,6 @@ namespace API.Controllers.AuthController
             return Ok(await _mediator.Send(new GetAllAnimalsQuery(username)));
 
         }
-
-
 
         // Get animals from database by animalId and user authorize
         [HttpGet]
@@ -121,7 +64,6 @@ namespace API.Controllers.AuthController
             }
         }
 
-
         // Create a new animal 
         [HttpPost]
         [Route("addNewAnimal")]
@@ -142,8 +84,6 @@ namespace API.Controllers.AuthController
                 return Ok(newAnimals);
             }
         }
-
-
 
         // Update a specific user's pet
         [HttpPut]
