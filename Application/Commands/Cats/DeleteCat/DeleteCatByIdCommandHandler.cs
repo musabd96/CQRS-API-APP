@@ -1,35 +1,23 @@
 ﻿using Domain.Models;
-using Infrastructure.Database;
+using Infrastructure.Repositories.Cats;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Commands.Cats.DeleteCat
 {
     public class DeleteCatByIdCommandHandler : IRequestHandler<DeleteCatByIdCommand, Cat>
     {
-        private readonly MockDatabase _mockDatabase;
+        private readonly ICatRepository _catRepository;
 
-        public DeleteCatByIdCommandHandler(MockDatabase mockDatabase)
+        public DeleteCatByIdCommandHandler(ICatRepository catRepository)
         {
-            _mockDatabase = mockDatabase;
+            _catRepository = catRepository;
         }
 
         public Task<Cat> Handle(DeleteCatByIdCommand request, CancellationToken cancellationToken)
         {
-            var catToDelete = _mockDatabase.Cats.FirstOrDefault(cat => cat.Id == request.Id);
+            var catToDelete = _catRepository.DeleteCat(request.Id, cancellationToken);
 
-            if (catToDelete != null)
-            {
-                _mockDatabase.Cats.Remove(catToDelete);
-                return Task.FromResult(catToDelete);
-            }
-
-            // Cat not found
-            return Task.FromResult(catToDelete);
+            return catToDelete;
         }
     }
 }
