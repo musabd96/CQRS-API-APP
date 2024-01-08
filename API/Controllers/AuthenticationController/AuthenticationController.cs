@@ -7,7 +7,7 @@ using Application.Validators.User;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers.AuthController
+namespace API.Controllers.Auth
 {
     [Route("api/[controller]")]
     [ApiController]
